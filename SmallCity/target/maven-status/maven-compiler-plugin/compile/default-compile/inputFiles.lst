@@ -1,0 +1,8 @@
+/home/abakir/Abakir-sSTEP/portfolio/src/main/java/com/google/sps/servlets/BlobstoreUploadUrlServlet.java
+/home/abakir/Abakir-sSTEP/portfolio/src/main/java/com/google/sps/servlets/ImageFormHandlerServlet.java
+/home/abakir/Abakir-sSTEP/portfolio/src/main/java/com/google/sps/servlets/ListContactsServlet.java
+/home/abakir/Abakir-sSTEP/portfolio/src/main/java/com/google/sps/servlets/DeleteContactServlet.java
+/home/abakir/Abakir-sSTEP/portfolio/src/main/java/com/google/sps/servlets/NewContactServlet.java
+/home/abakir/Abakir-sSTEP/portfolio/src/main/java/com/google/sps/data/Contact.java
+/home/abakir/Abakir-sSTEP/portfolio/src/main/java/com/google/sps/servlets/DataServlet.java
+/home/abakir/Abakir-sSTEP/portfolio/src/main/java/com/google/sps/servlets/CommentServlet.java

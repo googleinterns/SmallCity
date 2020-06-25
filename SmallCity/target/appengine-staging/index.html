@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Abakir's Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    
+  </head>
+  <body onload="getComment(); loadContacts(); fetchBlobstoreUrlAndShowImage();">
+    <!--nav-->
+    <div id="nav">
+        <a href="#home">Home</a>
+        <a href="#aboutMe">About Me</a>
+        <a href="#projects">Projetcs</a>
+        <a href="#contact">Contact</a>
+    </div>
+    
+    <div id="aboutMe">
+        <div id="column1">
+            <img src="./images/Abakir.jpeg">
+        </div>
+        <div id="column2">
+            <h1>Abakir Hanna</h1> 
+            <h2 id="position">
+                Robotics Builder
+            </h2> 
+            <div id="contact-links">
+                <a class="button1" href="mailto:abakirhanna@gmail.com?">
+                    <i class="fa fa-envelope fa-5x pad"></i>
+                </a>
+                <a class="button1" href="https://www.linkedin.com/in/abakir-hanna/">
+                    <i class="fa fa-linkedin fa-5x pad" aria-hidden="true"></i>
+                </a>
+                <a class="button1" href="https://github.com/AbakirH">
+                    <i class="fa fa-github fa-5x pad" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+        
+    <div id="projects">
+        <h1>Projects</h1>
+        <div id='project1' >
+            <img class='projectIMG' src="images/pokemonGame1.png">
+            
+            <div id='section1'>
+              <h2>Pokemon:
+                  <span>Developed in All Star Code</span>
+              </h2>
+              <p class='lead1'>This is a simple Pokemon simulator battle game
+              </p>
+              <div class='link'>
+                    <button class=' button' onclick="viewGame()">View the Code</button>                
+                    <button class='button' onclick="playGame()">Play the Game</button>
+              </div>
+            </div>
+          </div>
+    </div>
+    <div id="greeting"></div>
+    <button onclick="getGreeting()">Fetch a greeting </button>
+
+    <div id="messages"></div>
+    <button onclick="getJSONData()">Fetch 3 messages </button>
+
+
+    <form action="/comment" method="POST">
+        <p>Comment:</p>
+        <input type="text" name="comment">
+        <br/><br/>
+        <input type="submit" />
+    </form>
+    
+    <div>
+        <h1>Comments posted by the user!</h1>
+        <ul id="comments"></ul>
+    </div>
+
+    <form method="POST" id="contact-form" action="/new-contact">
+        <h1> Contact Form</h1>
+        <input class ="input" type="text" name="name" placeholder="Please enter your name" required="required" data-error="Name is required."/>
+        <input class ="input" type="email" name="email" placeholder="Please enter your email" required="required" data-error="Valid email is required." />
+        <input class ="input" type="text" name="number" placeholder="Please enter your number" required="required" data-error="Valid number is required." />
+        <br/>
+        <button id="submitButton">Submit</button>
+        <button onclick="deleteAll()" id="deleteButton">Delete all</button>
+    </form>
+    <ul id="contact-list"></ul>
+
+    <h1>Blobstore Fetch Test</h1>
+    <p>Upload a Image and click submit:</p>
+    <form id="my-form" method="POST" enctype="multipart/form-data">
+        <p>Upload an image:</p>
+        <input type="file" name="image">
+        <br/><br/>
+        <button>Submit</button>
+    </form>
+    <div id="myImg">
+    </div>
+
+  </body>
+
+  <script src="script.js"></script>
+</html>
