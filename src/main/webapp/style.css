@@ -1,0 +1,63 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Raleway', sans-serif;
+  color: #353535;
+}
+
+header {
+  align-items: center;
+  background-color: #b3ffb3;
+  display: flex;
+  justify-content: space-between;
+  padding: 50px 5%;
+}
+
+/*
+  Main Content Container Styling
+*/
+.main-container {
+  display: grid;
+  column-gap: 2%;
+  grid-template-columns: [map] .5fr [results] .35fr [filters] .15fr;
+  grid-template-rows: 75vh;
+  justify-content: space-around;
+  margin: 2%;
+}
+
+/*
+  Map Content Container Styling
+*/
+.map-container {
+  background-color: #e5e5e5;
+  border-radius: 30px;
+}
+
+/*
+  Results Content Container Styling
+*/
+.results-container {
+  background-color: #e5e5e5;
+  border-radius: 30px;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: [top] .33fr [middle] .33fr [bottom] .33fr;
+  row-gap: 10px;
+}
+
+.results-card {
+  display: grid;
+  grid-template-columns: [left] .5fr [right] .5fr;
+  grid-template-rows: [top] .85fr [bottom] .15fr;
+}
+
+/*
+  Filters Content Container Styling
+*/
+.filters-container {
+  background-color: #e5e5e5;
+  border-radius: 30px;
+}
