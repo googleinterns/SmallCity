@@ -1,0 +1,139 @@
+*{
+  margin:0%;
+  padding:0%;
+}
+
+a{
+    text-decoration:none;
+    outline:none;
+}
+
+#nav {
+  width:100vw;
+  height:50px;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  
+  display:flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  position:fixed;
+  background-color: #5597b4;  
+  box-shadow: 0 1px 1px #ccc;
+  border-radius: 2px;
+  
+}
+#nav a{
+    color:#fff;
+    text-transform: uppercase;
+
+}
+
+#aboutMe{
+  display: flex;
+  justify-content : space-between;
+  align-items: center;
+  max-width: 110%;
+  width: 100%;
+  height:  30vh;
+  z-index: 2;
+}
+.pic1{
+  width: 75%;
+  background-blend-mode: darken;
+  border-radius: 40%;
+}
+#column1{
+  width: 40%;
+}
+#column2{
+ display: flex;
+ flex-direction: column;
+ align-content: center;
+ justify-content: center;
+ width: 60%;
+}
+#column2>h1{
+  min-width: 50%;
+  font-size: 60px;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+}
+#column2>h2{
+  font-size: 40px;
+  color: rgb(0, 0, 0);
+}
+#contact1{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+#contact-links{
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+}
+#contact-links>.button1{
+   color: #5a5af6 ;
+}
+#contact-links>.button1:hover {
+   color: #fa19db;
+   }
+#contact-links>.button:active{
+    color: black;
+}
+
+#projects{
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  padding-top: 2%;
+}
+#project1{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 3%;
+  height: 100%;
+}
+
+.projectIMG{
+  width:45%;
+  height: 45%;
+}
+
+#contact-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+}
+#contact-list {
+  width: 100vw;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  
+}
+.contact {
+  display: flex;
+  flex-direction: row;
+  border: thin solid black;
+  width: 50vw;
+  height: 30px;
+}
+.input{
+  width: 50vw;
+}
+#submitContact{
+  width: 30vw;
+}
+.contact span {
+  flex-grow: 1;
+}
