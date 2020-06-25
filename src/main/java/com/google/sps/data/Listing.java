@@ -1,12 +1,13 @@
 package com.google.sps.data;
 
 /** Class for Listing object with the specified attributes returned from the places API **/
-public class Listing{
+public class Listing {
     private String name;
     private MapLocation mapLocation;
     private int rating;
     private String image;
     private String url;
+    private String businessType;
 
   /**
   * Creates a new Listing
@@ -15,6 +16,7 @@ public class Listing{
   * @param rating Numerical rating of business (1-5)
   * @param image Image
   * @param url Url to business' site
+  * @param businessType specifies business type from Places API (establishment, food, etc.)
   * @return Listing object
   **/
 
@@ -24,6 +26,7 @@ public class Listing{
     this.rating = rating;
     this.image = image;
     this.url = url;
+    this.businessType = businessType;
   }
 
   public String getName() {
@@ -44,5 +47,9 @@ public class Listing{
 
   public String getUrl() {
     return url;
+  }
+
+  public String getBusinessType() {
+    return businessType;
   }
 }
