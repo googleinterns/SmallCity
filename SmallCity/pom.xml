@@ -45,7 +45,7 @@
         <version>2.2.0</version>
         <configuration>
           <!-- TODO: set project ID. -->
-          <deploy.projectId>abakir-step-apis</deploy.projectId>
+          <deploy.projectId>step2020-smallCity</deploy.projectId>
           <deploy.version>1</deploy.version>
         </configuration>
       </plugin>
