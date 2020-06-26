@@ -26,24 +26,19 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  private ArrayList<String> messages = new ArrayList<String>();
-
   
-  @Override
-  public void init() {
-    messages.add("Hello, how are you?");
-    messages.add("Hello, what is your name?");
-    messages.add("Hello, what is your age?");
-  }
+  SmallCityService smallCityService;
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String name = "Abakir";
+    // TODO: Return businessList from smallCityService as JSON
+  }
+
+    @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // TODO: Create smallCityService instance from User inputted location
     
-    response.getWriter().println(convertToJsonUsingGson(messages));
+    smallCityService = new SmallCityService(User user);
   }
-  private String convertToJsonUsingGson(ArrayList<String> temp) {
-    Gson gson = new Gson();
-    String json = gson.toJson(temp);
-    return json;
-  }
+
 }
