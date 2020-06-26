@@ -4,7 +4,7 @@ package com.google.sps.data;
 public class SmallCityService {
   
   private User user;
-  private List<Listing> businessList;
+  private List<Listing> businessesList;
   
   /** Create a new Small City Service instance
   * @param user User of webapp with mapLocation

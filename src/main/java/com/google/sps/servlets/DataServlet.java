@@ -35,7 +35,7 @@ public class DataServlet extends HttpServlet {
 
     @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // TODO: Create smallCityService instance from User inputted location
+    // TODO: Create smallCityService instance from User inputted location communicated through JSON
     
     smallCityService = new SmallCityService(User user);
   }
