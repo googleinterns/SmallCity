@@ -1,6 +1,6 @@
 package com.google.sps.data;
 
-/** Class for Listing object with the specified attributes returned from the places API **/
+/** Listing object with the specified attributes returned from the places API **/
 public class Listing {
     private String name;
     private MapLocation mapLocation;

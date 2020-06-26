@@ -1,6 +1,6 @@
 package com.google.sps.data;
 
-/** Class representing a MapLocation as a coordinate **/
+/** MapLocation representing coordinate values **/
 public class MapLocation {
   public double lat;
   public double lng;

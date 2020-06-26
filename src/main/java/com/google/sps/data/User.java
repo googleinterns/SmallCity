@@ -1,6 +1,6 @@
 package com.google.sps.data;
 
-/** Class representing a user with a location for v1 **/
+/** User representing a location **/
 public class User {
 
   private MapLocation geolocation;
