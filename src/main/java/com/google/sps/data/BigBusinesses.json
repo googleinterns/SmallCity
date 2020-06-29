@@ -1,0 +1,63 @@
+{
+    "NamesOfBigBusinesses": [
+        {
+            "name": "LA Fitness"
+        },
+        {
+            "name": "McDonalds"
+        },
+        {
+            "name": "Giant Eagle"
+        },
+        {
+            "name": "Trader Joe's"
+        },
+        {
+            "name": "west elm"
+        },
+        {
+            "name": "Target"
+        },
+        {
+            "name": "Rite Aid"
+        },
+        {
+            "name": "Walgreens"
+        }
+        ,
+        {
+            "name": "Shell"
+        },
+        {
+            "name": "Whole Foods Market"
+        },
+        {
+            "name": "CVS"
+        },
+        {
+            "name":"Wendy's"
+        },
+        {
+            "name": "Panera Bread"
+        },
+        {
+            "name":"Arby's"
+        },
+        {
+            "name": "Apple"
+        },
+        {
+            "name":"francesca's"
+        },
+        {
+            "name":"The Home Depot"
+        }
+        ,
+        {
+            "name":"Family Dollar"
+        },
+        {
+            "name":"Chipotle Mexican Grill"
+        }
+    ] 
+}
