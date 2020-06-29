@@ -37,7 +37,6 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // TODO: Create smallCityService instance from mapLocation inputted location communicated through JSON
     // TODO: Convert lat and long maps variable to a mapLocation object
-    smallCityService = new SmallCityService(geolocation);
   }
 
 }
