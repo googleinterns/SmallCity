@@ -4,14 +4,14 @@ package com.google.sps.data;
 public class SmallCityService {
   
   private User user;
-  private List<Listing> businessesList;
+  private List<Listing> businesses;
   
   /** Create a new Small City Service instance
-  * @param user User of webapp with mapLocation
+  * @param mapLocation geolocation of user
   * @return List of small local businesses
   **/
-  public SmallCityService(User user) {
-    this.user = user;
+  public SmallCityService(MapLocation mapLocation) {
+    this.user = new User(mapLocation);
     getAllBusinesses();
     eliminateBigBusinesses();
   }
