@@ -18,14 +18,16 @@ public class User {
   * @return User with zipCode
   **/
   public User(int zipCode) {
-    this.geolocation = zipToMapLocation(zipCode);
+    //this.geolocation = zipToMapLocation(zipCode);
   }
 
   public MapLocation getGeolocation() {
     return geolocation;
   }
-
-  private MapLocation zipToMapLocation(int zipCode) [
+/*
+  private MapLocation zipToMapLocation(int zipCode) {
     // TODO: Implement algorithm with Geocoding API
-  ]
+    ;
+  }
+*/
 }
