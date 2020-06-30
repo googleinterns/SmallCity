@@ -24,8 +24,9 @@ function getGeolocation() {
 function displayLocation(position) {
   var lat = position.coords.latitude;
   var lng = position.coords.longitude;
-  var displayText = lat + ", " + lng;
-  document.getElementById("location").innerHTML = displayText;
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("POST", "/data?lat=" + lat + "&lng=" + lng, true);
+  xhttp.send();
 }
 
 function displayError() {

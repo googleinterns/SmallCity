@@ -14,6 +14,8 @@
 
 package com.google.sps.servlets;
 
+import com.google.sps.data.SmallCityService;
+
 import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.Gson;
@@ -37,6 +39,11 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // TODO: Create smallCityService instance from mapLocation inputted location communicated through JSON
     // TODO: Convert lat and long maps variable to a mapLocation object
+    String latString = request.getParameter("lat");
+    String lngString = request.getParameter("lng");
+    double lat = Double.parseDouble(latString);
+    double lng = Double.parseDouble(lngString);
+    System.out.println(lat + ", " + lng);
   }
 
 }
