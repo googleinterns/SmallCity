@@ -4,7 +4,6 @@ package com.google.sps.data;
 public class User {
 
   private MapLocation geolocation;
-  private int zipCode;
 
   /** Creates a user with a geolocation
   * @param geolocation lat/lng coordinate
@@ -19,14 +18,14 @@ public class User {
   * @return User with zipCode
   **/
   public User(int zipCode) {
-    this.zipCode = zipCode;
+    this.geolocation = zipToMapLocation(zipCode);
   }
 
   public MapLocation getGeolocation() {
     return geolocation;
   }
 
-  public int getZipCode() {
-    return zipCode;
-  }
+  private MapLocation zipToMapLocation(int zipCode) [
+    // TODO: Implement algorithm with Geocoding API
+  ]
 }
