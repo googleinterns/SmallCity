@@ -12,3 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+function getGeolocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(displayLocation, displayError);
+  }
+  else {
+    document.getElementById("location").innerHTML = "Your browser doesn't support geolocation - please enter zipcode";
+  }
+}
+
+function displayLocation(position) {
+  var lat = position.coords.latitude;
+  var lng = position.coords.longitude;
+  var displayText = lat + ", " + lng;
+  document.getElementById("location").innerHTML = displayText;
+}
+
+function displayError() {
+  document.getElementById("location").innerHTML = "please enter your zipcode";
+}
