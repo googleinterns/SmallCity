@@ -20,6 +20,12 @@ public class SmallCityService {
     // TODO: Get businesses from Place API given user location
     
   }
+  
+  // Function is only here until the places API is implemented,
+  // and for test purposes
+  public void setAllBusinesses(LinkedList<Listing> allBusinesses){
+    business = allBusinesses;
+  }
 
   public void eliminateBigBusinesses() {
     // TODO: Parse big business list and remove big businesses from businessList
