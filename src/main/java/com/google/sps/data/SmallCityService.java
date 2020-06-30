@@ -1,4 +1,5 @@
 package com.google.sps.data;
+import java.util.List;
 
 /** SmallCityService object representing all components of the webapp **/
 public class SmallCityService {
