@@ -23,27 +23,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  private ArrayList<String> messages = new ArrayList<String>();
-
   
-  @Override
-  public void init() {
-    messages.add("Hello, how are you?");
-    messages.add("Hello, what is your name?");
-    messages.add("Hello, what is your age?");
-  }
+  SmallCityService smallCityService;
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String name = "Abakir";
-    
-    response.getWriter().println(convertToJsonUsingGson(messages));
+    // TODO: Return businessList from smallCityService as JSON
   }
-  private String convertToJsonUsingGson(ArrayList<String> temp) {
-    Gson gson = new Gson();
-    String json = gson.toJson(temp);
-    return json;
+
+    @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // TODO: Create smallCityService instance from mapLocation inputted location communicated through JSON
+    // TODO: Convert lat and long maps variable to a mapLocation object
   }
+
 }
