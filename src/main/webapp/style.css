@@ -1,3 +1,10 @@
+:root {
+  --main-color: #b3ffb3;
+  --light-gray: #e5e5e5;
+  --dark-gray: #353535;
+  --white: #fff;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -5,149 +12,192 @@
 
 body {
   font-family: 'Raleway', sans-serif;
-  color: #353535;
+  color: var(--dark-gray);
 }
 
+header {
+  align-items: center;
+  background-color: var(--main-color);
+  display: flex;
+  justify-content: space-between;
+  padding: 50px 5%;
+}
+
+.logo {
+  background-color: var(--white);
+  border-radius: 50px;
+  padding: 20px;
+}
+
+.zipcode-container {
+  background-color: var(--white);
+  border-radius: 50px;
+  font-weight: bold;
+  padding: 20px;
+}
+
+/*
+Main Content Container Styling
+*/
+.main-container {
+  display: grid;
+  column-gap: 2%;
+  grid-template-columns: [map] .5fr [results] .5fr;
+  grid-template-rows: 75vh;
+  justify-content: space-around;
+  margin: 2%;
+}
+
+/*
+  Map Content Container Styling
+*/
+.map-container {
+  background-color: var(--light-gray);
+  border-radius: 30px;
+}
+
+/*
+  Results Content Container Styling
+*/
+.results-container {
+  background-color: var(--light-gray);
+  border-radius: 30px;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: [top] .3fr [middle] .3fr [bottom] .3fr [buttons] .1fr;
+  padding: 15px 15px 15px 15px;
+  row-gap: 15px;
+}
+
+.results-card {
+  background-color: white;
+  border-radius: 30px;
+  column-gap: 15px;
+  display: grid;
+  grid-template-columns: [left] .5fr [right] .5fr;
+  grid-template-rows: [top] .85fr [bottom] .15fr;
+  padding: 15px;
+  row-gap: 15px;
+}
+
+.results-image {
+  background-color: var(--dark-gray);
+  border-radius: 30px;
+  color: var(--white);
+  text-align: center;
+}
+
+.results-rating {
+  background-color: var(--light-gray);
+  border-radius: 30px;
+}
+
+.results-website-button {
+  background-color: var(--main-color);
+  border: none;
+  border-radius: 30px;
+  font-family: 'Raleway', sans-serif;
+  font-size: large;
+  font-weight: bold;
+}
+
+.results-website-button:hover {
+  background-color: var(--dark-gray);
+  border: none;
+  border-radius: 30px;
+  color: var(--white);
+}
+
+/*
+  Results List Pagination Buttons Container Styling
+*/
+.pagination-container {
+  display: grid;
+  column-gap: 10px;
+  grid-template-columns: [back] .5fr [forward] .5fr;
+  grid-template-rows: auto;
+}
+
+.pagination-buttons {
+  background-color: var(--dark-gray);
+  border: none;
+  border-radius: 30px;
+  color: var(--white);
+  font-family: 'Raleway', sans-serif;
+  font-size: large;
+  font-weight: bold;
+}
+
+.pagination-buttons:hover {
+  background-color: var(--main-color);
+  border: none;
+  border-radius: 30px;
+  color: var(--dark-gray);
+  font-family: 'Raleway', sans-serif;
+  font-size: large;
+  font-weight: bold;
+}
+
+@media screen 
+  and (max-device-width: 768px) 
+  and (-webkit-min-device-pixel-ratio: 1) { 
+
+    h1 {
+      font-size: 16pt;
+    }
+    
+    h2 {
+      font-size: 14pt;
+    }
+    
+    .zipcode-container {
+      font-size: 16pt;
+    }
+    
+    .main-container {
+      display: grid;
+      column-gap: 2%;
+      grid-template-columns: [map] 1fr;
+      grid-template-rows: 100vh;
+      justify-content: space-around;
+      margin: 2%;
+    }
+
+    .map-container {
+      display: none;
+    }
+    
+    .results-card {
+      column-gap: 10px;
+      row-gap: 10px;
+    }
+}
 
 @media screen 
   and (min-device-width: 768px) 
   and (max-device-width: 1200px) 
   and (-webkit-min-device-pixel-ratio: 1) { 
 
-    header {
-      align-items: center;
-      background-color: #b3ffb3;
-      display: flex;
-      justify-content: space-between;
-      padding: 25px 5%;
-    }
-
     h1 {
       font-size: 18pt;
     }
-
+    
     h2 {
       font-size: 16pt;
     }
-
-    .logo {
-      background-color: #fff;
-      border-radius: 50px;
-      padding: 15px;
-    }
-
+    
     .zipcode-container {
-      background-color: #fff;
-      border-radius: 50px;
       font-size: 16pt;
-      font-weight: bold;
-      padding: 15px;
     }
-
-    /*
-    Main Content Container Styling
-    */
+    
     .main-container {
-      display: grid;
-      column-gap: 2%;
-      grid-template-columns: [map] .5fr [results] .4fr [filters] .1fr;
       grid-template-rows: 80vh;
-      justify-content: space-around;
-      margin: 2%;
-    }
-
-    /*
-      Map Content Container Styling
-    */
-    .map-container {
-      background-color: #e5e5e5;
-      border-radius: 30px;
-    }
-
-    .results-container {
-      background-color: #e5e5e5;
-      border-radius: 30px;
-      display: grid;
-      grid-template-columns: auto;
-      grid-template-rows: [top] .3fr [middle] .3fr [bottom] .3fr [buttons] .1fr;
-      padding: 15px 15px 15px 15px;
-      row-gap: 15px;
     }
     
     .results-card {
-      background-color: white;
-      border-radius: 30px;
       column-gap: 10px;
-      display: grid;
-      grid-template-columns: [left] .5fr [right] .5fr;
-      grid-template-rows: [top] .85fr [bottom] .15fr;
-      padding: 15px;
       row-gap: 10px;
     }
-    
-    .results-image {
-      background-color: #353535;
-      border-radius: 20px;
-      color: #fff;
-      text-align: center;
-    }
-    
-    .results-rating {
-      background-color: #e5e5e5;
-      border-radius: 30px;
-    }
-    
-    .results-website-button {
-      background-color: #b3ffb3;
-      border: none;
-      border-radius: 30px;
-      font-family: 'Raleway', sans-serif;
-      font-size: small;
-      font-weight: bold;
-    }
-    
-    .results-website-button:hover {
-      background-color: #353535;
-      border: none;
-      border-radius: 30px;
-      color: #fff;
-    }
-
-    .pagination-container {
-      display: grid;
-      column-gap: 10px;
-      grid-template-columns: [back] .5fr [forward] .5fr;
-      grid-template-rows: auto;
-    }
-
-    .pagination-buttons {
-      background-color: #353535;
-      border: none;
-      border-radius: 30px;
-      color: #fff;
-      font-family: 'Raleway', sans-serif;
-      font-size: large;
-      font-weight: bold;
-    }
-
-    .pagination-buttons:hover {
-      background-color: #b3ffb3;
-      border: none;
-      border-radius: 30px;
-      color: #353535;
-      font-family: 'Raleway', sans-serif;
-      font-size: large;
-      font-weight: bold;
-    }
-
-    /*
-      Filters Content Container Styling
-    */
-    .filters-container {
-      background-color: #e5e5e5;
-      border-radius: 30px;
-    }
-
 }
 
 @media screen 
@@ -155,154 +205,32 @@ body {
   and (max-device-width: 1500px) 
   and (-webkit-min-device-pixel-ratio: 1) { 
 
-    header {
-      align-items: center;
-      background-color: #b3ffb3;
-      display: flex;
-      justify-content: space-between;
-      padding: 25px 5%;
-    }
-
     h1 {
       font-size: 18pt;
     }
-
+    
     h2 {
       font-size: 16pt;
     }
-
-    .logo {
-      background-color: #fff;
-      border-radius: 50px;
-      padding: 15px;
-    }
-
+    
     .zipcode-container {
-      background-color: #fff;
-      border-radius: 50px;
       font-size: 16pt;
-      font-weight: bold;
-      padding: 15px;
     }
-
-    /*
-    Main Content Container Styling
-    */
+    
     .main-container {
-      display: grid;
-      column-gap: 2%;
-      grid-template-columns: [map] .5fr [results] .4fr [filters] .1fr;
       grid-template-rows: 80vh;
-      justify-content: space-around;
-      margin: 2%;
-    }
-
-    /*
-      Map Content Container Styling
-    */
-    .map-container {
-      background-color: #e5e5e5;
-      border-radius: 30px;
-    }
-
-    .results-container {
-      background-color: #e5e5e5;
-      border-radius: 30px;
-      display: grid;
-      grid-template-columns: auto;
-      grid-template-rows: [top] .3fr [middle] .3fr [bottom] .3fr [buttons] .1fr;
-      padding: 15px 15px 15px 15px;
-      row-gap: 15px;
     }
     
     .results-card {
-      background-color: white;
-      border-radius: 30px;
       column-gap: 10px;
-      display: grid;
-      grid-template-columns: [left] .5fr [right] .5fr;
-      grid-template-rows: [top] .85fr [bottom] .15fr;
-      padding: 15px;
       row-gap: 10px;
     }
-    
-    .results-image {
-      background-color: #353535;
-      border-radius: 20px;
-      color: #fff;
-      text-align: center;
-    }
-    
-    .results-rating {
-      background-color: #e5e5e5;
-      border-radius: 30px;
-    }
-    
-    .results-website-button {
-      background-color: #b3ffb3;
-      border: none;
-      border-radius: 30px;
-      font-family: 'Raleway', sans-serif;
-      font-size: small;
-      font-weight: bold;
-    }
-    
-    .results-website-button:hover {
-      background-color: #353535;
-      border: none;
-      border-radius: 30px;
-      color: #fff;
-    }
-
-    .pagination-container {
-      display: grid;
-      column-gap: 10px;
-      grid-template-columns: [back] .5fr [forward] .5fr;
-      grid-template-rows: auto;
-    }
-
-    .pagination-buttons {
-      background-color: #353535;
-      border: none;
-      border-radius: 30px;
-      color: #fff;
-      font-family: 'Raleway', sans-serif;
-      font-size: large;
-      font-weight: bold;
-    }
-
-    .pagination-buttons:hover {
-      background-color: #b3ffb3;
-      border: none;
-      border-radius: 30px;
-      color: #353535;
-      font-family: 'Raleway', sans-serif;
-      font-size: large;
-      font-weight: bold;
-    }
-
-    /*
-      Filters Content Container Styling
-    */
-    .filters-container {
-      background-color: #e5e5e5;
-      border-radius: 30px;
-    }
-
 }
 
 @media screen 
   and (min-device-width: 1500px) 
   and (max-device-width: 1600px) 
   and (-webkit-min-device-pixel-ratio: 1) { 
-
-    header {
-      align-items: center;
-      background-color: #b3ffb3;
-      display: flex;
-      justify-content: space-between;
-      padding: 50px 5%;
-    }
 
     h1 {
       font-size: 22pt;
@@ -312,126 +240,13 @@ body {
       font-size: 20pt;
     }
 
-    .logo {
-      background-color: #fff;
-      border-radius: 50px;
-      padding: 20px;
-    }
-
     .zipcode-container {
-      background-color: #fff;
-      border-radius: 50px;
-      font-size: 24pt;
-      font-weight: bold;
-      padding: 20px;
+      font-size: 16pt;
     }
 
-    /*
-    Main Content Container Styling
-    */
-    .main-container {
-      display: grid;
-      column-gap: 2%;
-      grid-template-columns: [map] .5fr [results] .38fr [filters] .12fr;
-      grid-template-rows: 75vh;
-      justify-content: space-around;
-      margin: 2%;
-    }
-
-    /*
-      Map Content Container Styling
-    */
-    .map-container {
-      background-color: #e5e5e5;
-      border-radius: 30px;
-    }
-
-    /*
-      Results Content Container Styling
-    */
-
-    .results-container {
-      background-color: #e5e5e5;
-      border-radius: 30px;
-      display: grid;
-      grid-template-columns: auto;
-      grid-template-rows: [top] .3fr [middle] .3fr [bottom] .3fr [buttons] .1fr;
-      padding: 15px 15px 15px 15px;
-      row-gap: 15px;
-    }
-    
     .results-card {
-      background-color: white;
-      border-radius: 30px;
       column-gap: 10px;
-      display: grid;
-      grid-template-columns: [left] .5fr [right] .5fr;
-      grid-template-rows: [top] .85fr [bottom] .15fr;
-      padding: 15px;
       row-gap: 10px;
-    }
-    
-    .results-image {
-      background-color: #353535;
-      border-radius: 30px;
-      color: #fff;
-      text-align: center;
-    }
-    
-    .results-rating {
-      background-color: #e5e5e5;
-      border-radius: 30px;
-    }
-    
-    .results-website-button {
-      background-color: #b3ffb3;
-      border: none;
-      border-radius: 30px;
-      font-family: 'Raleway', sans-serif;
-      font-size: large;
-      font-weight: bold;
-    }
-    
-    .results-website-button:hover {
-      background-color: #353535;
-      border: none;
-      border-radius: 30px;
-      color: #fff;
-    }
-
-    .pagination-container {
-      display: grid;
-      column-gap: 10px;
-      grid-template-columns: [back] .5fr [forward] .5fr;
-      grid-template-rows: auto;
-    }
-
-    .pagination-buttons {
-      background-color: #353535;
-      border: none;
-      border-radius: 30px;
-      color: #fff;
-      font-family: 'Raleway', sans-serif;
-      font-size: large;
-      font-weight: bold;
-    }
-
-    .pagination-buttons:hover {
-      background-color: #b3ffb3;
-      border: none;
-      border-radius: 30px;
-      color: #353535;
-      font-family: 'Raleway', sans-serif;
-      font-size: large;
-      font-weight: bold;
-    }
-
-    /*
-      Filters Content Container Styling
-    */
-    .filters-container {
-      background-color: #e5e5e5;
-      border-radius: 30px;
     }
 
 }
@@ -443,135 +258,17 @@ body {
     h1 {
       font-size: 30pt;
     }
-
+    
     h2 {
       font-size: 24pt;
     }
 
-    header {
-      align-items: center;
-      background-color: #b3ffb3;
-      display: flex;
-      justify-content: space-between;
-      padding: 50px 5%;
-    }
-
-    .logo {
-      background-color: #fff;
-      border-radius: 50px;
-      padding: 20px;
-    }
-
     .zipcode-container {
-      background-color: #fff;
-      border-radius: 50px;
       font-size: 24pt;
-      font-weight: bold;
-      padding: 20px;
     }
 
-    /*
-    Main Content Container Styling
-    */
-    .main-container {
-      display: grid;
-      column-gap: 2%;
-      grid-template-columns: [map] .5fr [results] .4fr [filters] .1fr;
-      grid-template-rows: 75vh;
-      justify-content: space-around;
-      margin: 2%;
-    }
-
-    /*
-      Map Content Container Styling
-    */
-    .map-container {
-      background-color: #e5e5e5;
-      border-radius: 30px;
-    }
-
-    .results-container {
-      background-color: #e5e5e5;
-      border-radius: 30px;
-      display: grid;
-      grid-template-columns: auto;
-      grid-template-rows: [top] .3fr [middle] .3fr [bottom] .3fr [buttons] .1fr;
-      padding: 15px 15px 15px 15px;
-      row-gap: 15px;
-    }
-    
     .results-card {
-      background-color: white;
-      border-radius: 30px;
       column-gap: 15px;
-      display: grid;
-      grid-template-columns: [left] .5fr [right] .5fr;
-      grid-template-rows: [top] .85fr [bottom] .15fr;
-      padding: 15px;
       row-gap: 15px;
     }
-    
-    .results-image {
-      background-color: #353535;
-      border-radius: 30px;
-      color: #fff;
-      text-align: center;
-    }
-    
-    .results-rating {
-      background-color: #e5e5e5;
-      border-radius: 30px;
-    }
-    
-    .results-website-button {
-      background-color: #b3ffb3;
-      border: none;
-      border-radius: 30px;
-      font-family: 'Raleway', sans-serif;
-      font-size: large;
-      font-weight: bold;
-    }
-    
-    .results-website-button:hover {
-      background-color: #353535;
-      border: none;
-      border-radius: 30px;
-      color: #fff;
-    }
-
-    .pagination-container {
-      display: grid;
-      column-gap: 10px;
-      grid-template-columns: [back] .5fr [forward] .5fr;
-      grid-template-rows: auto;
-    }
-
-    .pagination-buttons {
-      background-color: #353535;
-      border: none;
-      border-radius: 30px;
-      color: #fff;
-      font-family: 'Raleway', sans-serif;
-      font-size: large;
-      font-weight: bold;
-    }
-
-    .pagination-buttons:hover {
-      background-color: #b3ffb3;
-      border: none;
-      border-radius: 30px;
-      color: #353535;
-      font-family: 'Raleway', sans-serif;
-      font-size: large;
-      font-weight: bold;
-    }
-
-    /*
-      Filters Content Container Styling
-    */
-    .filters-container {
-      background-color: #e5e5e5;
-      border-radius: 30px;
-    }
-
 }
