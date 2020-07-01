@@ -17,8 +17,8 @@ function getGeolocation() {
     navigator.geolocation.getCurrentPosition(displayLocation, displayError);
   }
   else {
-    // TODO: Write error to user interface
     console.log("Browser doesn't support geolocation");
+    alert("Sorry! Your browser does not support geolocation. Please enter a zipcode");
   }
 }
 
@@ -33,4 +33,5 @@ function displayLocation(position) {
 function displayError() {
   // TODO: Write error to user interface
   console.log("Geolocation not allowed");
+  alert("Sorry! We can't geolocate you. Please enter a zipcode");
 }
