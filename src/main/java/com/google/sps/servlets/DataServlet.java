@@ -33,7 +33,7 @@ import java.util.logging.Logger;
 public class DataServlet extends HttpServlet {
   
   SmallCityService smallCityService;
-  private Logger logger = Logger.getLogger(DataServlet.class.getName());
+  private final static Logger LOGGER = Logger.getLogger(DataServlet.class.getName());
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -65,7 +65,7 @@ public class DataServlet extends HttpServlet {
     try {
       doubleAsDouble = Double.parseDouble(doubleAsString);
     } catch(NumberFormatException e) {
-      logger.warning("Location services failure - default set");
+      LOGGER.warning("Location services failure - default set");
       return 0; // Null Island
     }
     return doubleAsDouble;
