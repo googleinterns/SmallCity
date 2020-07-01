@@ -51,7 +51,7 @@ public class DataServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json;");
     response.setCharacterEncoding("UTF-8");
-    response.getWriter().println(convertToJson(smallCityService.businesses()));
+    response.getWriter().println(convertToJson(smallCityService.getBusinesses()));
   }
 
   private String convertToJson(List<Listing> businesses) {

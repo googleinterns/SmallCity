@@ -14,11 +14,11 @@ public class SmallCityService {
   **/
   public SmallCityService(MapLocation mapLocation) {
     this.user = new User(mapLocation);
-    getAllBusinesses();
+    findAllBusinesses();
     eliminateBigBusinesses();
   }
 
-  public void getAllBusinesses() {
+  public void findAllBusinesses() {
     // TODO: Get businesses from Place API given user location
     businesses = new LinkedList<Listing>();
     businesses.add(new Listing("LA Fitness", new MapLocation(40.457091, -79.915331), 3.9, null, "https://www.lafitness.com/Pages/Default.aspx"));
@@ -34,7 +34,7 @@ public class SmallCityService {
 
   }
 
-  public List<Listing> businesses() {
+  public List<Listing> getBusinesses() {
     return businesses;
   }
 }
