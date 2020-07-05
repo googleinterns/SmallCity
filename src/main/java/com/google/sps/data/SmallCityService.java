@@ -1,4 +1,6 @@
 package com.google.sps.data;
+import java.util.List;
+import java.util.LinkedList;
 
 /** SmallCityService object representing all components of the webapp **/
 public class SmallCityService {
@@ -23,12 +25,11 @@ public class SmallCityService {
   
   // Function is only here until the places API is implemented,
   // and for test purposes
-  public void setAllBusinesses(LinkedList<Listing> allBusinesses){
-    business = allBusinesses;
+  public void setAllBusinesses(List<Listing> allBusinesses){
+    businesses = allBusinesses;
   }
 
   public void eliminateBigBusinesses() {
     // TODO: Parse big business list and remove big businesses from businessList
-
   }
 }
