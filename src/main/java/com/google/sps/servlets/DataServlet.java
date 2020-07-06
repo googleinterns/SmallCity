@@ -33,7 +33,7 @@ public class DataServlet extends HttpServlet {
     // TODO: Return businessList from smallCityService as JSON
   }
 
-    @Override
+  @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // TODO: Create smallCityService instance from mapLocation inputted location communicated through JSON
     // TODO: Convert lat and long maps variable to a mapLocation object
