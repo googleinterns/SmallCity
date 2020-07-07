@@ -43,12 +43,12 @@ public class SmallCityService {
     Query query = new Query("BigBusinesses").addSort("business", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
     Iterator<Listing> businessesList =  businesses.iterator();
-    Listing tempListing;
+    Listing currentListing;
     while (businessesList.hasNext()){
-      tempListing = businessesList.next();
+      currentListing = businessesList.next();
       for (Entity entity : results.asIterable()) {
         String businessName = (String) entity.getProperty("business");
-        if(businessName.equals(tempListing.getName())){
+        if(businessName.equals(currentListing.getName())){
           businessesList.remove();
           break;
         }
