@@ -80,7 +80,7 @@ public final class BigBusinessesTest {
   }
 
   @Test
-  public void testBusinesses() {
+  public void testEliminateBigBusinessesMethod() {
     setUpSampleDatabase();
 
     sampleListOfBusinesses.add(new Listing("LA Fitness", new MapLocation(40.457091, -79.915331), 3.9, null, "https://www.lafitness.com/Pages/Default.aspx"));
