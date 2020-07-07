@@ -18,7 +18,7 @@ public class User {
   * @return User with zipCode
   **/
   public User(int zipCode) {
-    this.geolocation = zipToMapLocation(zipCode);
+
   }
 
   public MapLocation getGeolocation() {
@@ -29,4 +29,5 @@ public class User {
     // TODO: Implement algorithm with Geocoding API
     return geolocation;
   }
+
 }

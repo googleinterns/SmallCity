@@ -12,3 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+var alertMessage = 'Sorry! We cannot geolocate you. Please enter a zipcode';
+
+function getGeolocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(displayLocation, displayError);
+  }
+  else {
+    console.log('Browser does not support geolocation');
+    alert(alertMessage);
+  }
+}
+
+function displayLocation(position) {
+  var lat = position.coords.latitude;
+  var lng = position.coords.longitude;
+  var xhttp = new XMLHttpRequest();
+  xhttp.open('POST', '/data?lat=' + lat + '&lng=' + lng, true);
+  xhttp.send();
+}
+
+function displayError() {
+  // TODO: Write error to user interface
+  console.log('Geolocation not enabled');
+  alert(alertMessage);
+}
