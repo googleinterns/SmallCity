@@ -9,15 +9,38 @@
   <!-- TODO: Move getGeolocation() function call to sensical location -->
   <body onload="getGeolocation()">
     <header>
-      <h1>smallcity</h1>
+      <h1 class="logo">smallcity</h1>
+      <div class="zipcode-container">
+        your zipcode: 
+      </div>
     </header>
 
     <div class="main-container">
       <div class="map-container">
       </div>
       <div class="results-container">
-      </div>
-      <div class="filters-container">
+        <div class="results-card">
+          <div class="results-image">
+            <!-- Image of buisiness goes here via JS-->
+          </div>
+          <div class="results-business-description">
+            <h2>Business Name</h2>
+            <p>Business address</p>
+            <p>Vicinity</p>
+          </div>
+          <div class="results-rating"></div>
+          <button class="results-website-button">Visit Website</button>
+        </div>
+        <div class="results-card">
+          
+        </div>
+        <div class="results-card">
+          
+        </div>
+        <div class="pagination-container">
+          <button class="pagination-buttons">Previous</button>
+          <button class="pagination-buttons">Next</button>
+        </div>
       </div>
     </div>
 
