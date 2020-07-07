@@ -46,7 +46,7 @@ public class SmallCityService {
    businesses = allBusinesses;
   }
 
-  public List<Listing> eliminateBigBusinesses() {
+  public void eliminateBigBusinesses() {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("BigBusinesses").addSort("business", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
@@ -62,7 +62,6 @@ public class SmallCityService {
         }
       }
     }
-    return businesses;
   }
 
   public List<Listing> getBusinesses() {
