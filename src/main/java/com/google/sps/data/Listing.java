@@ -4,7 +4,7 @@ package com.google.sps.data;
 public class Listing {
     private String name;
     private MapLocation mapLocation;
-    private int rating;
+    private double rating;
     private String image;
     private String url;
     private String businessType;
@@ -20,7 +20,7 @@ public class Listing {
   * @return Listing object
   **/
 
-  public Listing(String name, MapLocation mapLocation, int rating, String image, String url) {
+  public Listing(String name, MapLocation mapLocation, double rating, String image, String url) {
     this.name = name;
     this.mapLocation = mapLocation;
     this.rating = rating;
@@ -37,7 +37,7 @@ public class Listing {
     return mapLocation;
   }
 
-  public int getRating() {
+  public double getRating() {
     return rating;
   }
 

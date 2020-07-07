@@ -14,29 +14,60 @@
 
 package com.google.sps.servlets;
 
+import com.google.sps.data.SmallCityService;
+import com.google.sps.data.Listing;
+import com.google.sps.data.MapLocation;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedList;
 import com.google.gson.Gson;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.logging.Logger;
 
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   
   SmallCityService smallCityService;
+  private final static Logger LOGGER = Logger.getLogger(DataServlet.class.getName());
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String latString = request.getParameter("lat");
+    String lngString = request.getParameter("lng");
+    double lat = convertToDouble(latString);
+    double lng = convertToDouble(lngString);
+    // Google Pittsburgh Office Location (hardcoded prototype)
+    // Will be populated with lat and lng doubles
+    MapLocation userLocation = new MapLocation(40.457410, -79.916573);
+    smallCityService = new SmallCityService(userLocation);
+  }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // TODO: Return businessList from smallCityService as JSON
+    response.setContentType("application/json;");
+    response.setCharacterEncoding("UTF-8");
+    response.getWriter().println(convertToJson(smallCityService.getBusinesses()));
   }
 
-    @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // TODO: Create smallCityService instance from mapLocation inputted location communicated through JSON
-    // TODO: Convert lat and long maps variable to a mapLocation object
+  private String convertToJson(List<Listing> businesses) {
+    Gson gson = new Gson();
+    String json = gson.toJson(businesses);
+    return json;
   }
 
+  private double convertToDouble(String doubleAsString) {
+    double doubleAsDouble;
+    try {
+      doubleAsDouble = Double.parseDouble(doubleAsString);
+    } catch(NumberFormatException e) {
+      LOGGER.warning("Location services failure - default set");
+      return 0; // Null Island
+    }
+    return doubleAsDouble;
+  }
 }
