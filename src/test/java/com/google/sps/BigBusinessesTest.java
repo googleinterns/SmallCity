@@ -93,7 +93,8 @@ public final class BigBusinessesTest {
     sampleListOfBusinesses.remove(0);
     sampleListOfBusinesses.remove(1);
     sampleListOfBusinesses.remove(2);
+    testServiceUser.eliminateBigBusinesses();
 
-    Assert.assertEquals(sampleListOfBusinesses, testServiceUser.eliminateBigBusinesses());
+    Assert.assertEquals(sampleListOfBusinesses, testServiceUser.getBusinesses());
   }
 }
