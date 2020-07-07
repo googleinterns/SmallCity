@@ -21,7 +21,6 @@ import org.junit.runners.JUnit4;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Iterator;
-
 import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
@@ -55,13 +54,10 @@ public final class BigBusinessesTest {
     helper.tearDown();
   }
 
-  
   private void setUpSampleDatabase() {
     String title = "business";
     Entity taskEntity = new Entity("BigBusinesses");
     String[] businesses = {"McDonalds","west elm","LA Fitness"};
-
-   
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     for(String business: businesses){
       taskEntity = new Entity("BigBusinesses");
@@ -69,7 +65,6 @@ public final class BigBusinessesTest {
       datastore.put(taskEntity);
     }
     assertEquals(3, datastore.prepare(new Query("BigBusinesses")).countEntities(withLimit(10)));
-   
   }
 
   // To be used to see if the sample database is able to create a 
@@ -93,11 +88,12 @@ public final class BigBusinessesTest {
     SmallCityService testServiceUser = new SmallCityService(googlesOffice);
     testServiceUser.setAllBusinesses(sampleListOfBusinesses);
     
+    // These are the listings that should be removed from the sample list 
+    // when the elimnateBigBusinesses method is called 
     sampleListOfBusinesses.remove(0);
     sampleListOfBusinesses.remove(1);
     sampleListOfBusinesses.remove(2);
 
     Assert.assertEquals(sampleListOfBusinesses, testServiceUser.eliminateBigBusinesses());
   }
-  
 }
