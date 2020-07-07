@@ -54,15 +54,6 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println(convertToJson(smallCityService.getBusinesses()));
   }
 
-<<<<<<< HEAD
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // TODO: Create smallCityService instance from mapLocation inputted location communicated through JSON
-    // TODO: Convert lat and long maps variable to a mapLocation object
-  }
-
-}
-=======
   private String convertToJson(List<Listing> businesses) {
     Gson gson = new Gson();
     String json = gson.toJson(businesses);
@@ -80,4 +71,3 @@ public class DataServlet extends HttpServlet {
     return doubleAsDouble;
   }
 }
->>>>>>> 4e6378e8a7b8eefbcab1989b03651d5d7cc00a76
