@@ -35,11 +35,15 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 @RunWith(JUnit4.class)
 public final class BigBusinessesTest {
   private MapLocation googlesOffice = new MapLocation(40.457177, -79.916696);
-  private List<Listing> sampleListOfBusinesses = new LinkedList<>();  
+  private List<Listing> sampleListOfBusinesses = new LinkedList<>();
+  private List<Listing> expectedListOfBusinesses = new LinkedList<>();  
+  
   
   private final LocalServiceTestHelper helper =
     new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
@@ -87,14 +91,13 @@ public final class BigBusinessesTest {
  
     SmallCityService testServiceUser = new SmallCityService(googlesOffice);
     testServiceUser.setAllBusinesses(sampleListOfBusinesses);
-    
+    expectedListOfBusinesses.add(sampleListOfBusinesses.get(3));
+    expectedListOfBusinesses.add(sampleListOfBusinesses.get(4));
+    expectedListOfBusinesses.add(sampleListOfBusinesses.get(5));
     // These are the listings that should be removed from the sample list 
     // when the elimnateBigBusinesses method is called 
-    sampleListOfBusinesses.remove(0);
-    sampleListOfBusinesses.remove(1);
-    sampleListOfBusinesses.remove(2);
     testServiceUser.eliminateBigBusinesses();
-
-    Assert.assertEquals(sampleListOfBusinesses, testServiceUser.getBusinesses());
+    
+    Assert.assertEquals(expectedListOfBusinesses, testServiceUser.getBusinesses());
   }
 }
