@@ -8,16 +8,31 @@ public class SmallCityService {
   private User user;
   private List<Listing> businesses;
   
-  /** Create a new Small City Service instance
-  * @param mapLocation geolocation of user
-  * @return List of small local businesses
+  /** Create a new Small City Service instance from with no information **/
+  public SmallCityService() {
+
+  }
+  
+  /** 
+  * Create User instance from zipCode and get businesses list
+  * @param zipCode inputted zipcode of user
   **/
-  public SmallCityService(MapLocation mapLocation) {
+  public void createWithZip(String zipCode) {
+    this.user = new User(zipCode);
+    findAllBusinesses();
+    eliminateBigBusinesses();
+  }
+  
+  /** 
+  * Create User instance from geolocation and get businesses list
+  * @param mapLocation found geolocation of user
+  **/
+  public void createWithGeolocation(MapLocation mapLocation) {
     this.user = new User(mapLocation);
     findAllBusinesses();
     eliminateBigBusinesses();
   }
-
+  
   public void findAllBusinesses() {
     // TODO: Get businesses from Place API given user location
     businesses = new LinkedList<Listing>();
