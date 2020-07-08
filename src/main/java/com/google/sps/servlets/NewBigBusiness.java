@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet responsible for creating new tasks. */
+/** Servlet responsible for adding new bussiness to the google datastore system*/
 @WebServlet("/new-bigBusiness")
 public class NewBigBusiness extends HttpServlet {
 
