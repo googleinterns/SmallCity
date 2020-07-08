@@ -17,7 +17,7 @@ public class SmallCityService {
   * Create User instance from zipCode and get businesses list
   * @param zipCode inputted zipcode of user
   **/
-  public void createWithZip(String zipCode) {
+  public void createUserWithZip(String zipCode) {
     this.user = new User(zipCode);
     findAllBusinesses();
     eliminateBigBusinesses();
@@ -27,7 +27,7 @@ public class SmallCityService {
   * Create User instance from geolocation and get businesses list
   * @param mapLocation found geolocation of user
   **/
-  public void createWithGeolocation(MapLocation mapLocation) {
+  public void createUserWithGeolocation(MapLocation mapLocation) {
     this.user = new User(mapLocation);
     findAllBusinesses();
     eliminateBigBusinesses();

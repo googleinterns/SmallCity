@@ -43,10 +43,10 @@ public class DataServlet extends HttpServlet {
     double lat = convertToDouble(latString);
     double lng = convertToDouble(lngString);
     MapLocation userLocation = new MapLocation(lat, lng);
-    smallCityService.createWithGeolocation(userLocation);
+    smallCityService.createUserWithGeolocation(userLocation);
     } catch(NullPointerException e) {
       String zip = request.getParameter("zipCode");
-      smallCityService.createWithZip(zip);
+      smallCityService.createUserWithZip(zip);
     }
   }
 
