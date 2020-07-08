@@ -42,7 +42,7 @@ public class SmallCityService {
   // Function is only here until the places API is implemented,
   // and for test file to be able to set any static business LinkedList we want
   // to try to use
-  public void setAllBusinesses(List<Listing> allBusinesses){
+  public void setAllBusinesses(List<Listing> allBusinesses) {
    businesses = allBusinesses;
   }
 
@@ -50,13 +50,13 @@ public class SmallCityService {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("BigBusinesses").addSort("business", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
-    Iterator<Listing> businessesList =  businesses.iterator();
+    Iterator <Listing> businessesList =  businesses.iterator();
     Listing currentListing;
-    while (businessesList.hasNext()){
+    while (businessesList.hasNext()) {
       currentListing = businessesList.next();
       for (Entity entity : results.asIterable()) {
         String businessName = (String) entity.getProperty("business");
-        if(businessName.equals(currentListing.getName())){
+        if(businessName.equals(currentListing.getName())) {
           businessesList.remove();
           break;
         }
