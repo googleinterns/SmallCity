@@ -46,6 +46,8 @@ public class SmallCityService {
    businesses = allBusinesses;
   }
 
+  // Function to remove the big businesses from the list 
+  // that will be returned from the use of the Places API 
   public void removeBigBusinessesFromResults() {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("BigBusinesses").addSort("business", SortDirection.DESCENDING);
