@@ -46,7 +46,7 @@ public class SmallCityService {
    businesses = allBusinesses;
   }
 
-  public void eliminateBigBusinesses() {
+  public void removeBigBusinessesFromResults() {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("BigBusinesses").addSort("business", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
