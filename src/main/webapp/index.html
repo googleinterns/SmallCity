@@ -7,11 +7,16 @@
     <title>smallcity</title>
   </head>
   <!-- TODO: Move getGeolocation() function call to sensical location -->
-  <body onload="getGeolocation()">
+  <body>
     <header>
       <h1 class="logo">smallcity</h1>
+      <button class="geolocate-button" onclick="getGeolocation()">Locate Me</button>
       <div class="zipcode-container">
         your zipcode: 
+        <form id="form">
+          <input type="text" id="zipCode" name="zipCode">
+          <input type="submit" onclick="getZip()"/>
+        </form>
       </div>
     </header>
 
