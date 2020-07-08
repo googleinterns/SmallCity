@@ -15,6 +15,7 @@
 var alertMessage = 'Sorry! We cannot geolocate you. Please enter a zipcode';
 
 function getGeolocation() {
+
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(displayLocation, displayError);
   }
@@ -33,7 +34,13 @@ function displayLocation(position) {
 }
 
 function displayError() {
-  // TODO: Write error to user interface
   console.log('Geolocation not enabled');
   alert(alertMessage);
+}
+
+function getZip() {
+  var zip = document.getElementById('zipCode').value;
+  var xhttp = new XMLHttpRequest();
+  xhttp.open('POST', '/data?zipCode=' + zip, true);
+  xhttp.send();
 }
