@@ -32,19 +32,22 @@ import java.util.logging.Logger;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   
-  SmallCityService smallCityService;
+  SmallCityService smallCityService = new SmallCityService();
   private final static Logger LOGGER = Logger.getLogger(DataServlet.class.getName());
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    try {
     String latString = request.getParameter("lat");
     String lngString = request.getParameter("lng");
     double lat = convertToDouble(latString);
     double lng = convertToDouble(lngString);
-    // Google Pittsburgh Office Location (hardcoded prototype)
-    // Will be populated with lat and lng doubles
-    MapLocation userLocation = new MapLocation(40.457410, -79.916573);
-    smallCityService = new SmallCityService(userLocation);
+    MapLocation userLocation = new MapLocation(lat, lng);
+    smallCityService.createWithGeolocation(userLocation);
+    } catch(NullPointerException e) {
+      String zip = request.getParameter("zipCode");
+      smallCityService.createWithZip(zip);
+    }
   }
 
   @Override
