@@ -91,11 +91,17 @@ public final class BigBusinessesTest {
  
     SmallCityService testServiceUser = new SmallCityService(googlesOffice);
     testServiceUser.setAllBusinesses(sampleListOfBusinesses);
+
+    // These are the listings that should be in the list 
+    // after the Bigbusinesses are removed from the List.
+    // Currently to make sure this test runs proberly, I made it so that 
+    // the refrences of the appropriate Listings are added to a seperate array, 
+    // so when eliminateBigBusinesses method is called, I am sure that the bigBusinesses 
+    // are being removed from the list variable in the SmallCityService class.
     expectedListOfBusinesses.add(sampleListOfBusinesses.get(3));
     expectedListOfBusinesses.add(sampleListOfBusinesses.get(4));
     expectedListOfBusinesses.add(sampleListOfBusinesses.get(5));
-    // These are the listings that should be removed from the sample list 
-    // when the elimnateBigBusinesses method is called 
+    
     testServiceUser.eliminateBigBusinesses();
     
     Assert.assertEquals(expectedListOfBusinesses, testServiceUser.getBusinesses());
