@@ -25,7 +25,7 @@ public class SmallCityService {
   public SmallCityService(MapLocation mapLocation) {
     this.user = new User(mapLocation);
     findAllBusinesses();
-    eliminateBigBusinesses();
+    removeBigBusinessesFromResults();
   }
 
   public void findAllBusinesses() {
@@ -50,7 +50,7 @@ public class SmallCityService {
   // that will be returned from the use of the Places API 
   public void removeBigBusinessesFromResults() {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query = new Query("BigBusinesses").addSort("business", SortDirection.DESCENDING);
+    Query query = new Query("BigBusinesses");
     PreparedQuery results = datastore.prepare(query);
     Iterator <Listing> businessesList =  businesses.iterator();
     Listing currentListing;
