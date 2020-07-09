@@ -39,14 +39,14 @@ public class SmallCityService {
     businesses.add(new Listing("Weisshouse", new MapLocation(40.456684, -79.925499), 4.3, "https://goo.gl/maps/7tuXn7QF2hh7ioGYA", "https://www.weisshouse.com/"));
   }
   
-  // Function is only here until the places API is implemented,
+  // Is only here until the places API is implemented,
   // and for test file to be able to set any static business LinkedList we want
   // to try to use
   public void setAllBusinesses(List<Listing> allBusinesses) {
    businesses = allBusinesses;
   }
 
-  // Function to remove the big businesses from the list 
+  // To remove the big businesses from the list 
   // that will be returned from the use of the Places API 
   public void removeBigBusinessesFromResults() {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
