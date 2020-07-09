@@ -69,7 +69,7 @@ public final class BigBusinessesTest {
       taskEntity.setProperty(title, business);
       datastore.put(taskEntity);
     }
-    assertEquals(3, datastore.prepare(new Query("BigBusinesses")).countEntities(withLimit(10)));
+    assertEquals(3, datastore.prepare(new Query("BigBusinesses")).countEntities());
   }
 
   // To be used to see if the sample database is able to create a 
