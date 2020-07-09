@@ -72,8 +72,7 @@ public final class BigBusinessesTest {
     assertEquals(3, datastore.prepare(new Query("BigBusinesses")).countEntities());
   }
 
-  // To be used to see if the sample database is able to create a 
-  // local one to be used when running the command mvn test
+  // To setup a sample database and see if it is created properly 
   @Test
   public void testSampleDatabase() {
     setUpSampleDatabase();
