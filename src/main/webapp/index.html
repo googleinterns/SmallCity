@@ -7,7 +7,7 @@
     <title>smallcity</title>
   </head>
   <!-- TODO: Move getGeolocation() function call to sensical location -->
-  <body onload="getGeolocation()">
+  <body onload="getGeolocation(); displayList()">
     <header>
       <h1 class="logo">smallcity</h1>
       <div class="zipcode-container">
@@ -16,30 +16,12 @@
     </header>
 
     <div class="main-container">
-      <div class="map-container">
-      </div>
-      <div class="results-container">
-        <div class="results-card">
-          <div class="results-image">
-            <!-- Image of buisiness goes here via JS-->
-          </div>
-          <div class="results-business-description">
-            <h2>Business Name</h2>
-            <p>Business address</p>
-            <p>Vicinity</p>
-          </div>
-          <div class="results-rating"></div>
-          <button class="results-website-button">Visit Website</button>
-        </div>
-        <div class="results-card">
-          
-        </div>
-        <div class="results-card">
-          
-        </div>
+      <div class="map-container"></div>
+      <div class="results-container" id="results-container">
+       <div class="results-content" id="results-content"></div>
         <div class="pagination-container">
-          <button class="pagination-buttons">Previous</button>
-          <button class="pagination-buttons">Next</button>
+          <input type="button" class="pagination-buttons" value="Previous" onclick="limitList('previous')">
+          <input type="button" class="pagination-buttons" value="Next" onclick="limitList('next')">
         </div>
       </div>
     </div>
