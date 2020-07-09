@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+	  <link rel="icon" href="/images/smallcity-favicon-16x.png">
     <title>smallcity</title>
   </head>
   <!-- TODO: Move getGeolocation() function call to sensical location -->
@@ -20,12 +21,13 @@
       <div class="results-container" id="results-container">
        <div class="results-content" id="results-content"></div>
         <div class="pagination-container">
-          <input type="button" class="pagination-buttons" value="Previous" onclick="limitList('previous')">
-          <input type="button" class="pagination-buttons" value="Next" onclick="limitList('next')">
+          <input type="button" class="pagination-buttons" value="Previous" onclick="navigatePrevious()">
+          <input type="button" class="pagination-buttons" value="Next" onclick="moveNext()">
         </div>
       </div>
     </div>
 
-    <script src="script.js" charset="utf-8"></script>
+    <script type="text/javascript" src="script.js" charset="utf-8"></script>
+    <script type="text/javascript" src="paginationScript.js" charset="utf-8"></script>
   </body>
 </html>

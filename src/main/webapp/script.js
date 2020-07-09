@@ -39,7 +39,9 @@ function displayError() {
 }
 
 //Array of the (currently 6 for this demo build) 15 listings gathered from the fetch request
-const listingsArray = [];
+let listingsArray = [];
+
+//Count of the total businesses in the fetch request, used to set a unique id for each card
 let count = 0;
 
 function displayList() {
@@ -48,49 +50,8 @@ function displayList() {
       listingsArray.push(createResultCard(listing.name, listing.address, listing.image, listing.rating, listing.website, count));
       count++;
     });
-    limitList('begin');
+    initialDisplay();
   });
-}
-
-//Variable keeping track of the card that is currently shown at the bottom of the list
-let currentEndCard;
-
-/**
- * @param {string} direction Contains which direction the list should iterate
- */
-function limitList(direction) {
-  const resultsContent = document.getElementById('results-content');
-  resultsContent.className = 'results-content';
-
-  // TODO: Add better checking for end / beginning of list and change/remove alert
-  // TODO: Also add changing nav buttons based on this checking
-  if((currentEndCard - 2) == 0 && direction == 'previous') {
-    alert('Already at beginning of list!');
-  }
-  else if ((currentEndCard + 1) == count && direction == 'next') {
-    alert('Already at end of list!');
-  }
-  else {
-    resultsContent.innerHTML = '';
-    if(direction == 'begin') {
-      for (i = 0; i < 3; i++) {
-        resultsContent.appendChild(listingsArray[i]);
-      }
-      currentEndCard = 2;
-    }
-    else if (direction == 'previous') {
-      for (i = (currentEndCard - 5); i < (currentEndCard - 2); i++) {
-        resultsContent.appendChild(listingsArray[i]);
-      }
-      currentEndCard -= 3;
-    }
-    else if (direction == 'next') {
-      for (i = (currentEndCard + 1); i < (currentEndCard + 4); i++) {
-        resultsContent.appendChild(listingsArray[i]);
-      }
-      currentEndCard += 3;
-    }
-  }
 }
 
 /**
