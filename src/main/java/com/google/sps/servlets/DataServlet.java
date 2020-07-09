@@ -48,6 +48,7 @@ public class DataServlet extends HttpServlet {
     } catch(NullPointerException e) {
       String zip = request.getParameter("zipCode");
       smallCityService.createUserWithZip(zip);
+      LOGGER.warning(e.getMessage());
     }
   }
 
