@@ -8,10 +8,7 @@ public class SmallCityService {
   private User user;
   private List<Listing> businesses;
   
-  /** Create a new Small City Service instance from with no information **/
-  public SmallCityService() {
-
-  }
+  public SmallCityService() { }
   
   /** 
   * Create User instance from zipCode and get businesses list
