@@ -25,9 +25,4 @@ public class User {
     return geolocation;
   }
 
-  private MapLocation zipToMapLocation(int zipCode) {
-    // TODO: Implement algorithm with Geocoding API
-    return geolocation;
-  }
-
 }
