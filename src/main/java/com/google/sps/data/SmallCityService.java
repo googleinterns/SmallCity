@@ -22,7 +22,7 @@ public class SmallCityService {
   
   private User user;
   private List<Listing> businesses;
-  private final String KEY = "REDACTED";
+  private final String KEY = "AIzaSyDDIsG-SJAZ69ZoOecmfbXOB7ZIS4pZkAw";
   private final static Logger LOGGER = Logger.getLogger(SmallCityService.class.getName());
   
   /** Create a new Small City Service instance
@@ -70,11 +70,12 @@ public class SmallCityService {
 
   private void addListingToBusinesses(PlacesSearchResult place) {
     String name = place.name;
+    String formattedAddress = place.vicinity;
     Geometry geometry = place.geometry;
     MapLocation placeLocation = new MapLocation(geometry.location.lat, geometry.location.lng);
     double rating = place.rating;
     Photo photos[] = place.photos;
     String types[] = place.types;
-    businesses.add(new Listing(name, placeLocation, rating, photos, types));
+    businesses.add(new Listing(name, formattedAddress, placeLocation, rating, photos, types));
   }
 }
