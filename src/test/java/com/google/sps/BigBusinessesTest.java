@@ -90,8 +90,8 @@ public final class BigBusinessesTest {
     sampleListOfBusinesses.add(new Listing("The Shiny Bean Coffee & Tea", new MapLocation(40.496328, -79.944862), 4.9, "https://goo.gl/maps/AYH2QCL7pkoMBxHA8", "https://theshinybean.com/"));
     sampleListOfBusinesses.add(new Listing("Weisshouse", new MapLocation(40.456684, -79.925499), 4.3, "https://goo.gl/maps/7tuXn7QF2hh7ioGYA", "https://www.weisshouse.com/"));
  
-    SmallCityService testServiceUser = new SmallCityService(googlesOffice);
-    testServiceUser.setAllBusinesses(sampleListOfBusinesses);
+    SmallCityService testSmallCityService = new SmallCityService(googlesOffice);
+    testSmallCityService.setAllBusinesses(sampleListOfBusinesses);
 
     // These are the listings that should be in the list 
     // after the Bigbusinesses are removed from the List.
@@ -103,8 +103,8 @@ public final class BigBusinessesTest {
     expectedListOfBusinesses.add(sampleListOfBusinesses.get(4));
     expectedListOfBusinesses.add(sampleListOfBusinesses.get(5));
     
-    testServiceUser.eliminateBigBusinesses();
+    testSmallCityService.removeBigBusinessesFromResults();
     
-    Assert.assertEquals(expectedListOfBusinesses, testServiceUser.getBusinesses());
+    Assert.assertEquals(expectedListOfBusinesses, testSmallCityService.getBusinesses());
   }
 }
