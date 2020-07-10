@@ -95,7 +95,8 @@ public final class BigBusinessesTest {
     setUpSampleDatabase();
     populateListOfBusinesses(sampleListings);
 
-    SmallCityService testSmallCityService = new SmallCityService(googlesOffice);
+    SmallCityService testSmallCityService = 
+                                  new SmallCityService(googlesOffice);
     testSmallCityService.setAllBusinesses(sampleListOfBusinesses);
 
     // These are the listings that should be in the list 
