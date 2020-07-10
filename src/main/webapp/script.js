@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-let alertMessage = 'Sorry! We cannot geolocate you. Please enter a zipcode';
+const alertMessage = 'Sorry! We cannot geolocate you. Please enter a zipcode';
 
 function getGeolocation() {
   if (navigator.geolocation) {
