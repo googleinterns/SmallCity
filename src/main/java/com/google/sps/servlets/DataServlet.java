@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.logging.Logger;
 
-/** Servlet that recieves user location and sends small business output to the client **/
+/** Recieves user location and sends small business output to the client **/
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   
@@ -48,8 +48,8 @@ public class DataServlet extends HttpServlet {
     } catch(NullPointerException e) {
       String zip = request.getParameter("zipCode");
       smallCityService.createUserWithZip(zip);
-      LOGGER.warning(e.getMessage());
-      LOGGER.warning("Unable to geolocate user, zipCode entered instead.");
+      LOGGER.warning(e.getMessage() 
+            + "Unable to geolocate user, zipCode entered instead.");
     }
   }
 
