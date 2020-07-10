@@ -21,16 +21,19 @@ public final class UserTest {
   private final MapLocation USER_MAP_LOCATION = new MapLocation(40.45717, -79.91669);
   private final String USER_ZIPCODE = "15206";
   private final String USER_CITY = "Pittsburgh";
+  private final String USER_ADDRESS = "6425 Penn Ave, Pittsburgh, PA 15206";
   
   private User userWithMapLocation;
   private User userWithZipCode;
   private User userWithCity;
+  private User userWithAddress;
 
   @Before
   public void setUp() {
     userWithMapLocation = new User(USER_MAP_LOCATION);
     userWithZipCode = new User(USER_ZIPCODE);
     userWithCity = new User(USER_CITY);
+    userWithAddress = new User(USER_ADDRESS);
   }
 
   @Test
@@ -61,6 +64,19 @@ public final class UserTest {
     // Approximate range of lat and lng coordinates in Pittsburgh
     if ((Math.abs(actual.lat - expected.lat) <= 0.16) 
           && (Math.abs(actual.lng - expected.lng)) <= 0.2) {
+      inRange = true;
+    }   
+    Assert.assertTrue(inRange);
+  }
+
+  @Test
+  public void geolocationUserWithAddress() {
+    MapLocation actual = userWithAddress.getGeolocation();
+    MapLocation expected = USER_MAP_LOCATION;
+    boolean inRange = false;
+    // Small range of error allowed for address geolocation
+    if ((Math.abs(actual.lat - expected.lat) <= 0.001) 
+          && (Math.abs(actual.lng - expected.lng)) <= 0.001) {
       inRange = true;
     }   
     Assert.assertTrue(inRange);
