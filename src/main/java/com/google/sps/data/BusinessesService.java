@@ -23,7 +23,7 @@ public class BusinessesService {
     this.businesses = businesses;
   }
 
-  public PreparedQuery connectToBigBusinessDatabase(){
+  public PreparedQuery getBigBusinessFromDatabase(){
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("BigBusinesses");
     PreparedQuery dateabaseResults = datastore.prepare(query);
