@@ -19,12 +19,16 @@ import com.google.maps.model.PlacesSearchResponse;
 import com.google.maps.model.PlacesSearchResult;
 import java.util.logging.Logger;
 
-/** BusinessesService object representing all businesses components of the webapp **/
+/** BusinessesService object representing all businesses 
+* components of the webapp.
+ **/
 public class BusinessesService {
   
   private List<Listing> businesses;
   private final String KEY = "REDACTED";
-  private final static Logger LOGGER = Logger.getLogger(BusinessesService.class.getName());
+  private final static Logger LOGGER = 
+        Logger.getLogger(BusinessesService.class.getName());
+  private final int ALLOWED_SEARCH_REQUESTS = 3;
 
   /** Create a new Businesses instance
   * @param businesses businesses from SmallCityService
@@ -34,7 +38,8 @@ public class BusinessesService {
   }
 
   public List<Listing> getBusinessesFromPlacesApi(User user) {
-    LatLng latLng = new LatLng(user.getGeolocation().lat, user.getGeolocation().lng);
+    LatLng latLng = 
+          new LatLng(user.getGeolocation().lat, user.getGeolocation().lng);
     final GeoApiContext context = new GeoApiContext.Builder()
             .apiKey(KEY)
             .build();
@@ -43,13 +48,13 @@ public class BusinessesService {
       PlacesSearchResponse response = request.type(PlaceType.STORE)
               .rankby(RankBy.DISTANCE)
               .await();
-      final int allowedSearchRequests = 3;
-      for (int i=0; i<allowedSearchRequests; i++) {
+      for (int i=0; i<ALLOWED_SEARCH_REQUESTS; i++) {
         for(PlacesSearchResult place : response.results) {
           addListingToBusinesses(place);
         }
         Thread.sleep(2000); // Required delay before next API request
-	      response = PlacesApi.nearbySearchNextPage(context, response.nextPageToken).await();
+	      response = PlacesApi
+              .nearbySearchNextPage(context, response.nextPageToken).await();
       }
     } catch(Exception e) {
       LOGGER.warning(e.getMessage());
@@ -61,10 +66,12 @@ public class BusinessesService {
     String name = place.name;
     String formattedAddress = place.vicinity;
     Geometry geometry = place.geometry;
-    MapLocation placeLocation = new MapLocation(geometry.location.lat, geometry.location.lng);
+    MapLocation placeLocation = 
+          new MapLocation(geometry.location.lat, geometry.location.lng);
     double rating = place.rating;
     Photo photos[] = place.photos;
     String types[] = place.types;
-    businesses.add(new Listing(name, formattedAddress, placeLocation, rating, photos, types));
+    businesses.add(new Listing(name, formattedAddress, 
+          placeLocation, rating, photos, types));
   }
 }
