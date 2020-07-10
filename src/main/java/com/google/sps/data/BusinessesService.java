@@ -30,18 +30,24 @@ public class BusinessesService {
     return dateabaseResults;
   }
 
-  public List<Listing> removeBigBusinessesFromResults(PreparedQuery results){
-    Iterator <Listing> businessesList =  businesses.iterator();
-    Listing currentListing;
+  public List<Listing> removeBigBusinessesFromResults(PreparedQuery dateabaseResults){
+    Iterator<Listing> businessesList =  businesses.iterator();
+    Entity entity;
+    Boolean untilBigBusinessIsFoundInTheBusinessesList = true;
+    String businessName;
     while (businessesList.hasNext()) {
-      currentListing = businessesList.next();
-      for (Entity entity : results.asIterable()) {
-        String businessName = (String) entity.getProperty("business");
-        if(businessName.equals(currentListing.getName())) {
+      Listing currentListing = businessesList.next();
+      Iterator<Entity> bigBusinessesEntities =  dateabaseResults.asIterable().iterator();
+      while(bigBusinessesEntities.hasNext() && untilBigBusinessIsFoundInTheBusinessesList){
+        entity = bigBusinessesEntities.next();
+        businessName = (String) entity.getProperty("business");
+        System.out.println(businessName + " " + currentListing.getName());
+        if(businessName.equals(currentListing.getName()) ) {
           businessesList.remove();
-          break;
+          untilBigBusinessIsFoundInTheBusinessesList = false;
         }
       }
+      untilBigBusinessIsFoundInTheBusinessesList = true;
     }
     return businesses;
   }
