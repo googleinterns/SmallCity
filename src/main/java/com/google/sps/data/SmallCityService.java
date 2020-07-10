@@ -16,14 +16,17 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 public class SmallCityService {
   
   private User user;
+  private BusinessesService businessesService;
   private List<Listing> businesses = new LinkedList<>();
-  
+  private PreparedQuery databaseResults;
+
   /** Create a new Small City Service instance
   * @param mapLocation geolocation of user
   * @return List of small local businesses
   **/
   public SmallCityService(MapLocation mapLocation) {
     this.user = new User(mapLocation);
+    businessesService = new BusinessesService(businesses);
     findAllBusinesses();
     removeBigBusinessesFromResults();
   }
@@ -42,27 +45,14 @@ public class SmallCityService {
   // To be used for unit testing file to be able to 
   // set any static business LinkedList we want to try to use
   public void setAllBusinesses(List<Listing> allBusinesses) {
-   businesses = allBusinesses;
+   businessesService.setAllBusinesses(allBusinesses);
   }
 
   // To remove the big businesses from the list 
   // that will be returned from the use of the Places API 
   public void removeBigBusinessesFromResults() {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query = new Query("BigBusinesses");
-    PreparedQuery results = datastore.prepare(query);
-    Iterator <Listing> businessesList =  businesses.iterator();
-    Listing currentListing;
-    while (businessesList.hasNext()) {
-      currentListing = businessesList.next();
-      for (Entity entity : results.asIterable()) {
-        String businessName = (String) entity.getProperty("business");
-        if(businessName.equals(currentListing.getName())) {
-          businessesList.remove();
-          break;
-        }
-      }
-    }
+    databaseResults = businessesService.connectToBigBusinessDatabase();
+    businesses = businessesService.removeBigBusinessesFromResults(databaseResults);
   }
 
   public List<Listing> getBusinesses() {
