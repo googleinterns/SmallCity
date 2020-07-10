@@ -33,7 +33,7 @@ public class SmallCityService {
   **/
   public void createUserWithZip(String zipCode) {
     this.user = new User(zipCode);
-    createBusinessesService();
+    getSmallBusinesses();
   }
   
   /** 
@@ -42,7 +42,7 @@ public class SmallCityService {
   **/
   public void createUserWithGeolocation(MapLocation mapLocation) {
     this.user = new User(mapLocation);
-    createBusinessesService();
+    getSmallBusinesses();
   }
   
   public void findAllBusinesses() {
@@ -58,7 +58,7 @@ public class SmallCityService {
     return businesses;
   }
 
-  private void createBusinessesService() {
+  private void getSmallBusinesses() {
     businesses = new LinkedList<Listing>();
     businessesService = new BusinessesService(businesses);
     findAllBusinesses();
