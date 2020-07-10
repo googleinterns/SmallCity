@@ -21,6 +21,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Iterator;
 import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
 import static org.junit.Assert.assertEquals;
@@ -45,12 +46,37 @@ public final class BigBusinessesTest {
   private List<Listing> sampleListOfBusinesses = new LinkedList<>();
   private List<Listing> expectedListOfBusinesses = new LinkedList<>();  
   private Listing[] sampleListingsOfBusinesses = {
-                new Listing("LA Fitness", new MapLocation(40.457091, -79.915331), 3.9, null, "https://www.lafitness.com/Pages/Default.aspx"),
-                new Listing("west elm", new MapLocation(40.456279, -79.915015), 3.6, null, "https://www.westelm.com"),
-                new Listing("McDonalds", new MapLocation(40.459450, -79.918479), 2.6, null, "https://www.mcdonalds.com"),
-                new Listing("East End Brewing Company", new MapLocation(40.459391, -79.911782), 4.7, "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.eastendbrewing.com%2F&psig=AOvVaw0kX_SAlxhA09EN3cKpt5ik&ust=1593613487774000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLDA6oDfqeoCFQAAAAAdAAAAABAD", "http://www.eastendbrewing.com/"),
-                new Listing("The Shiny Bean Coffee & Tea", new MapLocation(40.496328, -79.944862), 4.9, "https://goo.gl/maps/AYH2QCL7pkoMBxHA8", "https://theshinybean.com/"),
-                new Listing("Weisshouse", new MapLocation(40.456684, -79.925499), 4.3, "https://goo.gl/maps/7tuXn7QF2hh7ioGYA", "https://www.weisshouse.com/")
+                new Listing("LA Fitness", 
+                  new MapLocation(40.457091, -79.915331), 
+                  3.9, 
+                  null, 
+                  "https://www.lafitness.com/Pages/Default.aspx"),
+                new Listing("west elm", 
+                  new MapLocation(40.456279, -79.915015), 
+                  3.6, 
+                  null, 
+                  "https://www.westelm.com"),
+                new Listing("McDonalds", 
+                  new MapLocation(40.459450, -79.918479), 
+                  2.6, 
+                  null, 
+                  "https://www.mcdonalds.com"),
+                new Listing("East End Brewing Company", 
+                  new MapLocation(40.459391, -79.911782), 
+                  4.7, 
+                  "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.eastendbrewing.com%2F&psig=AOvVa" + 
+                  "w0kX_SAlxhA09EN3cKpt5ik&ust=1593613487774000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLDA6oDfqeoCFQAAAAAdAAAAABAD", 
+                  "http://www.eastendbrewing.com/"),
+                new Listing("The Shiny Bean Coffee & Tea", 
+                  new MapLocation(40.496328, -79.944862), 
+                  4.9, 
+                  "https://goo.gl/maps/AYH2QCL7pkoMBxHA8", 
+                  "https://theshinybean.com/"),
+                new Listing("Weisshouse", 
+                  new MapLocation(40.456684, -79.925499), 
+                  4.3, 
+                  "https://goo.gl/maps/7tuXn7QF2hh7ioGYA", 
+                  "https://www.weisshouse.com/")
               };
 
   private void populateListOfBusinessesIntoLinkedList(Listing[] arrayOfBusiness) {
