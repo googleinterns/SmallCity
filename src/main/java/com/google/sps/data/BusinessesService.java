@@ -33,20 +33,20 @@ public class BusinessesService {
   public List<Listing> removeBigBusinessesFromResults(PreparedQuery dateabaseResults){
     Iterator<Listing> businessesList =  businesses.iterator();
     Entity entity;
-    Boolean untilBigBusinessIsFoundInTheBusinessesList = true;
+    Boolean bigBusinessIsFound = true;
     String businessName;
     while (businessesList.hasNext()) {
       Listing currentListing = businessesList.next();
       Iterator<Entity> bigBusinessesEntities =  dateabaseResults.asIterable().iterator();
-      while(bigBusinessesEntities.hasNext() && untilBigBusinessIsFoundInTheBusinessesList) {
+      while(bigBusinessesEntities.hasNext() && bigBusinessIsFound) {
         entity = bigBusinessesEntities.next();
         businessName = (String) entity.getProperty("business");
         if(businessName.equals(currentListing.getName())) {
           businessesList.remove();
-          untilBigBusinessIsFoundInTheBusinessesList = false;
+          bigBusinessIsFound = false;
         }
       }
-      untilBigBusinessIsFoundInTheBusinessesList = true;
+      bigBusinessIsFound = true;
     }
     return businesses;
   }
