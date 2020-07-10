@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-var alertMessage = 'Sorry! We cannot geolocate you. Please enter a zipcode';
+const alertMessage = 'Sorry! We cannot geolocate you. Please enter a zipcode';
 
 function getGeolocation() {
   if (navigator.geolocation) {
@@ -25,9 +25,9 @@ function getGeolocation() {
 }
 
 function displayLocation(position) {
-  var lat = position.coords.latitude;
-  var lng = position.coords.longitude;
-  var xhttp = new XMLHttpRequest();
+  let lat = position.coords.latitude;
+  let lng = position.coords.longitude;
+  let xhttp = new XMLHttpRequest();
   xhttp.open('POST', '/data?lat=' + lat + '&lng=' + lng, true);
   xhttp.send();
 }

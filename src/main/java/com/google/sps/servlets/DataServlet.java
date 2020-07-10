@@ -41,9 +41,7 @@ public class DataServlet extends HttpServlet {
     String lngString = request.getParameter("lng");
     double lat = convertToDouble(latString);
     double lng = convertToDouble(lngString);
-    // Google Pittsburgh Office Location (hardcoded prototype)
-    // Will be populated with lat and lng doubles
-    MapLocation userLocation = new MapLocation(40.457410, -79.916573);
+    MapLocation userLocation = new MapLocation(lat, lng);
     smallCityService = new SmallCityService(userLocation);
   }
 
