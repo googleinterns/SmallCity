@@ -49,6 +49,7 @@ public class DataServlet extends HttpServlet {
       String zip = request.getParameter("zipCode");
       smallCityService.createUserWithZip(zip);
       LOGGER.warning(e.getMessage());
+      LOGGER.warning("Unable to geolocate user, zipCode entered instead.");
     }
   }
 
