@@ -26,18 +26,30 @@ public class SmallCityService {
   private final String KEY = "AIzaSyDDIsG-SJAZ69ZoOecmfbXOB7ZIS4pZkAw";
   private final static Logger LOGGER = Logger.getLogger(SmallCityService.class.getName());
   
-  /** Create a new Small City Service instance
-  * @param mapLocation geolocation of user
-  * @return List of small local businesses
+  public SmallCityService() { }
+  
+  /** 
+  * Create User instance from zipCode and get businesses list
+  * @param zipCode inputted zipcode of user
   **/
-  public SmallCityService(MapLocation mapLocation) {
+  public void createUserWithZip(String zipCode) {
+    this.user = new User(zipCode);
+    findAllBusinesses();
+    eliminateBigBusinesses();
+  }
+  
+  /** 
+  * Create User instance from geolocation and get businesses list
+  * @param mapLocation found geolocation of user
+  **/
+  public void createUserWithGeolocation(MapLocation mapLocation) {
     this.user = new User(mapLocation);
     businesses = new LinkedList<Listing>();
     businessesService = new BusinessesService(businesses);
     findAllBusinesses();
     eliminateBigBusinesses();
   }
-
+  
   public void findAllBusinesses() {
     businesses = businessesService.getBusinessesFromPlacesApi(user);
   }
