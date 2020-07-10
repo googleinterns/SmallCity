@@ -23,7 +23,6 @@ public class SmallCityService {
   private User user;
   private BusinessesService businessesService;
   private List<Listing> businesses;
-  private final String KEY = "AIzaSyDDIsG-SJAZ69ZoOecmfbXOB7ZIS4pZkAw";
   private final static Logger LOGGER = Logger.getLogger(SmallCityService.class.getName());
   
   public SmallCityService() { }
@@ -34,8 +33,7 @@ public class SmallCityService {
   **/
   public void createUserWithZip(String zipCode) {
     this.user = new User(zipCode);
-    findAllBusinesses();
-    eliminateBigBusinesses();
+    getSmallBusinesses();
   }
   
   /** 
@@ -44,10 +42,7 @@ public class SmallCityService {
   **/
   public void createUserWithGeolocation(MapLocation mapLocation) {
     this.user = new User(mapLocation);
-    businesses = new LinkedList<Listing>();
-    businessesService = new BusinessesService(businesses);
-    findAllBusinesses();
-    eliminateBigBusinesses();
+    getSmallBusinesses();
   }
   
   public void findAllBusinesses() {
@@ -63,14 +58,10 @@ public class SmallCityService {
     return businesses;
   }
 
-  private void addListingToBusinesses(PlacesSearchResult place) {
-    String name = place.name;
-    String formattedAddress = place.vicinity;
-    Geometry geometry = place.geometry;
-    MapLocation placeLocation = new MapLocation(geometry.location.lat, geometry.location.lng);
-    double rating = place.rating;
-    Photo photos[] = place.photos;
-    String types[] = place.types;
-    businesses.add(new Listing(name, formattedAddress, placeLocation, rating, photos, types));
+  private void getSmallBusinesses() {
+    businesses = new LinkedList<Listing>();
+    businessesService = new BusinessesService(businesses);
+    findAllBusinesses();
+    eliminateBigBusinesses();
   }
 }
