@@ -42,16 +42,16 @@ function displayError() {
 let listingsArray = [];
 
 //Count of the total businesses in the fetch request, used to set a unique id for each card
-let count = 0;
+let listingCardCount = 0;
 
 function fetchList() {
   fetch('/data').then(response => response.json()).then((listings) => {
     listings.forEach((listing) => {
-      listingsArray.push(createResultCard(listing.name, listing.address, listing.image, listing.rating, listing.website, count));
-      count++;
+      listingsArray.push(createResultCard(listing.name, listing.address, listing.image, listing.rating, listing.website, listingCardCount));
+      listingCardCount++;
     });
-    initialDisplay();
   });
+  initialDisplay();
 }
 
 /**
@@ -60,12 +60,12 @@ function fetchList() {
  * @param {string} image The url of the business image
  * @param {double} rating The numerical rating of the business, passed to the createRating() function
  * @param {string} website The url of the business' website
- * @param {int} count The number of businesses in the list, used to set a specific id to each card
+ * @param {int} listingCardCount The number of businesses in the list, used to set a specific id to each card
  */
-function createResultCard(name, address, image, rating, website, count) {
+function createResultCard(name, address, image, rating, website, listingCardCount) {
   const resultsCard = document.createElement('div');
   resultsCard.className = 'results-card';
-  resultsCard.id = count;
+  resultsCard.id = listingCardCount;
 
   const imageDiv = document.createElement('div');
   imageDiv.className = 'results-image';

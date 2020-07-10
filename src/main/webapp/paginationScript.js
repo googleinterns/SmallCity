@@ -12,45 +12,40 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//Variable that keeps track of the last card being shown on the page
-let currentEndCard;
+//Div that contains the result cards
+const resultsContent = document.getElementById('results-content');
+resultsContent.className = 'results-content';
 
 //Display the initial 3 cards in the list
 function initialDisplay() {
-  displayCards(0, 3);
-  currentEndCard = 2;
+  displayCards(0);
 }
 
 //Navigate back one page (3 results) in the list view
 function navigatePrevious() {
-  if((currentEndCard - 2) == 0) {
+  if (resultsContent.children[0].id == 0) {
     alert('Already at beginning of list!');
   }
   else {
-    displayCards((currentEndCard - 5), (currentEndCard - 2));
-    currentEndCard -= 3;
+    displayCards((resultsContent.children[2].id - 5))
   }
 }
 
 //Move forward one page (3 results) in the list view
 function moveNext() {
-  if((currentEndCard + 1) == count) {
+  if ((resultsContent.children[2].id + 1) == listingCardCount) {
     alert('Already at end of list!');
   }
   else {
-    displayCards((currentEndCard + 1), (currentEndCard + 4));
-    currentEndCard += 3;
+    displayCards((resultsContent.children[2].id + 1))
   }
 }
 
 //Handles the actual loop through array and display of cards
-function displayCards(starting, ending) {
-  //Div that contains the result cards
-  const resultsContent = document.getElementById('results-content');
-  resultsContent.className = 'results-content';
+function displayCards(starting) {
   resultsContent.innerHTML = '';
 
-  for (let i = starting; i < ending; i++) {
+  for (let i = starting; i < (starting + 3); i++) {
     resultsContent.appendChild(listingsArray[i]);
   }
 }
