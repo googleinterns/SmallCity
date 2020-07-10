@@ -39,9 +39,8 @@ public class SmallCityService {
     businesses.add(new Listing("Weisshouse", new MapLocation(40.456684, -79.925499), 4.3, "https://goo.gl/maps/7tuXn7QF2hh7ioGYA", "https://www.weisshouse.com/"));
   }
   
-  // Is only here until the places API is implemented,
-  // and for test file to be able to set any static business LinkedList we want
-  // to try to use
+  // To be used for unit testing file to be able to 
+  // set any static business LinkedList we want to try to use
   public void setAllBusinesses(List<Listing> allBusinesses) {
    businesses = allBusinesses;
   }
