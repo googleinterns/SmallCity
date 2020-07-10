@@ -28,7 +28,7 @@ public class SmallCityService {
     this.user = new User(mapLocation);
     businessesService = new BusinessesService(businesses);
     findAllBusinesses();
-    parseThroughTheListOfBusinesses();
+    filterTheListOfBusinessesIntoSmallBusinesses();
   }
 
   public void findAllBusinesses() {
@@ -83,7 +83,7 @@ public class SmallCityService {
 
   // To remove the big businesses from the list 
   // that will be returned from the use of the Places API 
-  public void parseThroughTheListOfBusinesses() {
+  public void filterTheListOfBusinessesIntoSmallBusinesses() {
     databaseResults = businessesService.getBigBusinessFromDatabase();
     businesses = businessesService.removeBigBusinessesFromResults(databaseResults);
   }
