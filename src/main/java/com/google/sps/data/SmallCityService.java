@@ -56,8 +56,10 @@ public class SmallCityService {
       new Listing("East End Brewing Company", 
                   new MapLocation(40.459391, -79.911782), 
                   4.7, 
-                  "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.eastendbrewing.com%2F&psig=AOvVa" + 
-                  "w0kX_SAlxhA09EN3cKpt5ik&ust=1593613487774000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLDA6oDfqeoCFQAAAAAdAAAAABAD", 
+                  "https://www.google.com/url?sa=i&url=https%3A%2F%2F" +
+                  "www.eastendbrewing.com%2F&psig=AOvVa" + 
+                  "w0kX_SAlxhA09EN3cKpt5ik&ust=1593613487774000&source=" + 
+                  "images&cd=vfe&ved=0CAIQjRxqFwoTCLDA6oDfqeoCFQAAAAAdAAAAABAD", 
                   "http://www.eastendbrewing.com/"));
     businesses.add(
       new Listing("The Shiny Bean Coffee & Tea", 
@@ -76,13 +78,13 @@ public class SmallCityService {
   // To be used for unit testing file to be able to 
   // set any static business LinkedList we want to try to use
   public void setAllBusinesses(List<Listing> allBusinesses) {
-   businessesService.setAllBusinesses(allBusinesses);
+    businessesService.setAllBusinesses(allBusinesses);
   }
 
   // To remove the big businesses from the list 
   // that will be returned from the use of the Places API 
   public void parseThroughTheListOfBusinesses() {
-    databaseResults = businessesService.connectToBigBusinessDatabase();
+    databaseResults = businessesService.getBigBusinessFromDatabase();
     businesses = businessesService.removeBigBusinessesFromResults(databaseResults);
   }
 
