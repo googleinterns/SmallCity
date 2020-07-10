@@ -109,7 +109,7 @@ public final class BigBusinessesTest {
     expectedListOfBusinesses.add(sampleListOfBusinesses.get(4));
     expectedListOfBusinesses.add(sampleListOfBusinesses.get(5));
     
-    testSmallCityService.removeBigBusinessesFromResults();
+    testSmallCityService.parseThroughTheListOfBusinesses();
     
     Assert.assertEquals(expectedListOfBusinesses, testSmallCityService.getBusinesses());
   }
