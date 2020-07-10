@@ -86,6 +86,7 @@ public final class BigBusinessesTest {
       sampleListOfBusinesses.add(business);
     }
   }
+  
   private final LocalServiceTestHelper helper =
     new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
