@@ -21,6 +21,7 @@ import com.google.maps.model.PlacesSearchResult;
 public class SmallCityService {
   
   private User user;
+  private BusinessesService businessesService;
   private List<Listing> businesses;
   private final String KEY = "AIzaSyDDIsG-SJAZ69ZoOecmfbXOB7ZIS4pZkAw";
   private final static Logger LOGGER = Logger.getLogger(SmallCityService.class.getName());
@@ -31,32 +32,14 @@ public class SmallCityService {
   **/
   public SmallCityService(MapLocation mapLocation) {
     this.user = new User(mapLocation);
+    businesses = new LinkedList<Listing>();
+    businessesService = new BusinessesService(businesses);
     findAllBusinesses();
     eliminateBigBusinesses();
   }
 
   public void findAllBusinesses() {
-    businesses = new LinkedList<Listing>();
-    LatLng latLng = new LatLng(user.getGeolocation().lat, user.getGeolocation().lng);
-    final GeoApiContext context = new GeoApiContext.Builder()
-            .apiKey(KEY)
-            .build();
-    NearbySearchRequest request = PlacesApi.nearbySearchQuery(context, latLng);
-    try {
-      PlacesSearchResponse response = request.type(PlaceType.STORE)
-              .rankby(RankBy.DISTANCE)
-              .await();
-      final int allowedSearchRequests = 3;
-      for (int i=0; i<allowedSearchRequests; i++) {
-        for(PlacesSearchResult place : response.results) {
-          addListingToBusinesses(place);
-        }
-        Thread.sleep(2000); // Required delay before next API request
-	      response = PlacesApi.nearbySearchNextPage(context, response.nextPageToken).await();
-      }
-    } catch(Exception e) {
-      LOGGER.warning(e.getMessage());
-    }  
+    businesses = businessesService.getBusinessesFromPlacesApi(user);
   }
 
   public void eliminateBigBusinesses() {
