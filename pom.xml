@@ -58,10 +58,10 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-        <groupId>com.google.appengine</groupId>
-        <artifactId>appengine-testing</artifactId>
-        <version>1.9.80</version>
-        <scope>test</scope>
+      <groupId>com.google.appengine</groupId>
+      <artifactId>appengine-testing</artifactId>
+      <version>1.9.80</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
