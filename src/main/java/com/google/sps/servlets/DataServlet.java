@@ -29,20 +29,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.logging.Logger;
 
+/** Recieves user location and sends small business output to the client **/
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   
-  SmallCityService smallCityService;
+  SmallCityService smallCityService = new SmallCityService();
   private final static Logger LOGGER = Logger.getLogger(DataServlet.class.getName());
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    try {
     String latString = request.getParameter("lat");
     String lngString = request.getParameter("lng");
     double lat = convertToDouble(latString);
     double lng = convertToDouble(lngString);
     MapLocation userLocation = new MapLocation(lat, lng);
-    smallCityService = new SmallCityService(userLocation);
+    smallCityService.createUserWithGeolocation(userLocation);
+    } catch(NullPointerException e) {
+      String zip = request.getParameter("zipCode");
+      smallCityService.createUserWithZip(zip);
+      LOGGER.warning(e.getMessage() 
+            + "Unable to geolocate user, zipCode entered instead.");
+    }
   }
 
   @Override
