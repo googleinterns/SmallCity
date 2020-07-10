@@ -17,47 +17,40 @@ let currentEndCard;
 
 //Display the initial 3 cards in the list
 function initialDisplay() {
-  const resultsContent = document.getElementById('results-content');
-  resultsContent.className = 'results-content';
-
-  for (let i = 0; i < 3; i++) {
-    resultsContent.appendChild(listingsArray[i]);
-  }
+  displayCards(0, 3);
   currentEndCard = 2;
 }
 
 //Navigate back one page (3 results) in the list view
 function navigatePrevious() {
-  const resultsContent = document.getElementById('results-content');
-  resultsContent.className = 'results-content';
-
   if((currentEndCard - 2) == 0) {
     alert('Already at beginning of list!');
   }
   else {
-    resultsContent.innerHTML = '';
-
-    for (i = (currentEndCard - 5); i < (currentEndCard - 2); i++) {
-      resultsContent.appendChild(listingsArray[i]);
-    }
+    displayCards((currentEndCard - 5), (currentEndCard - 2));
     currentEndCard -= 3;
   }
 }
 
 //Move forward one page (3 results) in the list view
 function moveNext() {
-  const resultsContent = document.getElementById('results-content');
-  resultsContent.className = 'results-content';
-
   if((currentEndCard + 1) == count) {
     alert('Already at end of list!');
   }
   else {
-    resultsContent.innerHTML = '';
-
-    for (i = (currentEndCard + 1); i < (currentEndCard + 4); i++) {
-      resultsContent.appendChild(listingsArray[i]);
-    }
+    displayCards((currentEndCard + 1), (currentEndCard + 4));
     currentEndCard += 3;
+  }
+}
+
+//Handles the actual loop through array and display of cards
+function displayCards(starting, ending) {
+  //Div that contains the result cards
+  const resultsContent = document.getElementById('results-content');
+  resultsContent.className = 'results-content';
+  resultsContent.innerHTML = '';
+
+  for (let i = starting; i < ending; i++) {
+    resultsContent.appendChild(listingsArray[i]);
   }
 }
