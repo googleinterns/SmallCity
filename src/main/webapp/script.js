@@ -44,7 +44,7 @@ let listingsArray = [];
 //Count of the total businesses in the fetch request, used to set a unique id for each card
 let count = 0;
 
-function displayList() {
+function fetchList() {
   fetch('/data').then(response => response.json()).then((listings) => {
     listings.forEach((listing) => {
       listingsArray.push(createResultCard(listing.name, listing.address, listing.image, listing.rating, listing.website, count));
