@@ -3,16 +3,21 @@ package com.google.sps;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.lang.Math;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import com.google.sps.data.SmallCityService;
+import com.google.sps.data.Listing;
+import com.google.sps.data.MapLocation;
+import com.google.sps.data.User;
 
 @RunWith(JUnit4.class)
 public final class UserTest {
   // Pittsburgh Google Office Location
-  private final MapLocation USER_MAP_LOCATION = new MapLocation(40.457177, -79.916696);
+  private final MapLocation USER_MAP_LOCATION = new MapLocation(40.45717, -79.91669);
   private final String USER_ZIPCODE = "15206";
   private final String USER_CITY = "Pittsburgh";
   
@@ -30,20 +35,29 @@ public final class UserTest {
   @Test
   public void geolocationUserWithMapLocation() {
     MapLocation actual = userWithMapLocation.getGeolocation();
-    MapLocation expected = new MapLocation(USER_MAP_LOCATION);
+    MapLocation expected = USER_MAP_LOCATION;
     Assert.assertEquals(expected, actual);
   }
 
   @Test
   public void geolocationUserWithZipCode() {
     MapLocation actual = userWithZipCode.getGeolocation();
-    MapLocation expected = 
-    Assert.assertEquals(expected, actual);
+    MapLocation expected = USER_MAP_LOCATION;
+    boolean inRange = false;
+    if ((Math.abs(actual.lat - expected.lat) <= 0.06) && (Math.abs(actual.lng - expected.lng)) <= 0.05) {
+      inRange = true;
+    }
+    Assert.assertTrue(inRange);
   }
 
   @Test
   public void geolocationUserWithCity() {
     MapLocation actual = userWithCity.getGeolocation();
-    MapLocation expected = 
-    Assert.assertEquals(expected, actual);
+    MapLocation expected = USER_MAP_LOCATION;
+    boolean inRange = false;
+    if ((Math.abs(actual.lat - expected.lat) <= 0.16) && (Math.abs(actual.lng - expected.lng)) <= 0.2) {
+      inRange = true;
+    }   
+    Assert.assertTrue(inRange);
   }
+}
