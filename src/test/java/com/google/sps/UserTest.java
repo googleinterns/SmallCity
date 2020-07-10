@@ -21,7 +21,6 @@ public final class UserTest {
   private final MapLocation USER_MAP_LOCATION = new MapLocation(40.45717, -79.91669);
   private final String USER_ZIPCODE = "15206";
   private final String USER_CITY = "Pittsburgh";
-  private final MapLocation NULL_ISLAND = new MapLocation(0, 0);
   
   private User userWithMapLocation;
   private User userWithZipCode;
