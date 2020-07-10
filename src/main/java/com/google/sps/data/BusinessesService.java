@@ -38,11 +38,10 @@ public class BusinessesService {
     while (businessesList.hasNext()) {
       Listing currentListing = businessesList.next();
       Iterator<Entity> bigBusinessesEntities =  dateabaseResults.asIterable().iterator();
-      while(bigBusinessesEntities.hasNext() && untilBigBusinessIsFoundInTheBusinessesList){
+      while(bigBusinessesEntities.hasNext() && untilBigBusinessIsFoundInTheBusinessesList) {
         entity = bigBusinessesEntities.next();
         businessName = (String) entity.getProperty("business");
-        System.out.println(businessName + " " + currentListing.getName());
-        if(businessName.equals(currentListing.getName()) ) {
+        if(businessName.equals(currentListing.getName())) {
           businessesList.remove();
           untilBigBusinessIsFoundInTheBusinessesList = false;
         }
