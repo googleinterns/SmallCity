@@ -18,7 +18,6 @@ public class BusinessesService {
   /** Create a new Businesses instance
   * @param businesses businesses from SmallCityService
   **/
-  status
   
   public BusinessesService(List<Listing> businesses) {
     this.businesses = businesses;
