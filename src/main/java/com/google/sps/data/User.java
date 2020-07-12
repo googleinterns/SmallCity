@@ -1,9 +1,22 @@
 package com.google.sps.data;
 
+import com.google.maps.GeocodingApi;
+import com.google.maps.model.AddressComponentType;
+import com.google.maps.model.AddressType;
+import com.google.maps.model.ComponentFilter;
+import com.google.maps.model.GeocodingResult;
+import com.google.maps.GeoApiContext;
+import com.google.maps.model.LatLng;
+import com.google.maps.model.LocationType;
+import java.util.Arrays;
+import java.util.logging.Logger;
+
 /** User representing a location **/
 public class User {
 
   private MapLocation geolocation;
+  private final String KEY = "REDACTED";
+  private final static Logger LOGGER = Logger.getLogger(User.class.getName());
 
   /** Creates a user with a geolocation
   * @param geolocation lat/lng coordinate
@@ -17,12 +30,26 @@ public class User {
   * @param zipcode
   * @return User with zipCode
   **/
-  public User(int zipCode) {
-
+  public User(String zipCode) {
+    this.geolocation = zipCodeToMapLocation(zipCode);
   }
 
   public MapLocation getGeolocation() {
     return geolocation;
   }
 
+  private MapLocation zipCodeToMapLocation(String zipCode) {
+    final GeoApiContext context = new GeoApiContext.Builder()
+            .apiKey(KEY)
+            .build();
+    final GeocodingResult[] results;
+    try {
+        results = GeocodingApi.geocode(context, zipCode).await();
+        MapLocation geolocation = new MapLocation(results[0].geometry.location.lat, results[0].geometry.location.lng);
+        return geolocation;
+    } catch (final Exception e) {
+        LOGGER.warning(e.getMessage());
+    }
+    return new MapLocation(0,0);  // null Island
+  }
 }

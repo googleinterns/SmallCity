@@ -39,6 +39,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
+import com.google.maps.model.Photo;
 
 @RunWith(JUnit4.class)
 public final class BigBusinessesTest {
@@ -46,39 +47,42 @@ public final class BigBusinessesTest {
   private List<Listing> sampleListOfBusinesses = new LinkedList<>();
   private List<Listing> expectedListOfBusinesses = new LinkedList<>();  
   private Listing[] sampleListingsOfBusinesses = {
-                new Listing("LA Fitness", 
+                new Listing("LA Fitness",
+                  "Address", 
                   new MapLocation(40.457091, -79.915331), 
-                  3.9, 
+                  3.9,
                   null, 
-                  "https://www.lafitness.com/Pages/Default.aspx"),
+                  null),
                 new Listing("west elm", 
+                  "Address",
                   new MapLocation(40.456279, -79.915015), 
                   3.6, 
-                  null, 
-                  "https://www.westelm.com"),
-                new Listing("McDonalds", 
+                  null,
+                  null),
+                new Listing("McDonalds",
+                  "Address", 
                   new MapLocation(40.459450, -79.918479), 
                   2.6, 
-                  null, 
-                  "https://www.mcdonalds.com"),
+                  null,
+                  null),
                 new Listing("East End Brewing Company", 
+                  "Address",
                   new MapLocation(40.459391, -79.911782), 
-                  4.7, 
-                  "https://www.google.com/url?sa=i&url=https%3A%2F%2F" +
-                  "www.eastendbrewing.com%2F&psig=AOvVa" + 
-                  "w0kX_SAlxhA09EN3cKpt5ik&ust=1593613487774000&source=" + 
-                  "images&cd=vfe&ved=0CAIQjRxqFwoTCLDA6oDfqeoCFQAAAAAdAAAAABAD",  
-                   "http://www.eastendbrewing.com/"),
+                  4.7,
+                  null, 
+                  null),
               new Listing("The Shiny Bean Coffee & Tea", 
+                  "Address",
                   new MapLocation(40.496328, -79.944862), 
                   4.9, 
-                  "https://goo.gl/maps/AYH2QCL7pkoMBxHA8", 
-                  "https://theshinybean.com/"),
+                  null,
+                  null),
                 new Listing("Weisshouse", 
+                  "Address",
                   new MapLocation(40.456684, -79.925499), 
-                  4.3, 
-                  "https://goo.gl/maps/7tuXn7QF2hh7ioGYA", 
-                  "https://www.weisshouse.com/")
+                  4.3,
+                  null, 
+                  null)
               };
 
   private void populateListOfBusinessesIntoLinkedList(Listing[] arrayOfBusiness) {
@@ -124,8 +128,8 @@ public final class BigBusinessesTest {
     setUpSampleDatabase();
     populateListOfBusinessesIntoLinkedList(sampleListingsOfBusinesses);
 
-    SmallCityService testSmallCityService = 
-                                  new SmallCityService(googlesOffice);
+    SmallCityService testSmallCityService = new SmallCityService();
+    testSmallCityService.createUserWithGeolocation(googlesOffice);
     testSmallCityService.setAllBusinesses(sampleListOfBusinesses);
 
     // These are the listings that should be in the list 
