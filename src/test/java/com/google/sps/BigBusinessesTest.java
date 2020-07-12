@@ -114,7 +114,8 @@ public final class BigBusinessesTest {
       taskEntity.setProperty(title, business);
       datastore.put(taskEntity);
     }
-    assertEquals(3, datastore.prepare(new Query("BigBusinesses")).countEntities());
+    assertEquals(
+        3, datastore.prepare(new Query("BigBusinesses")).countEntities());
   }
 
   // To setup a sample database and see if it is created properly 
@@ -134,8 +135,8 @@ public final class BigBusinessesTest {
 
     // These are the listings that should be in the list 
     // after the Bigbusinesses are removed from the List.
-    // Currently to make sure this test runs proberly, I made it so that 
-    // the refrences of the appropriate Listings are added to a seperate array, 
+    // Currently to make sure this test runs proberly, I made it so that the
+    // refrences of the appropriate Listings are added to a seperate array, 
     // so when eliminateBigBusinesses method is called, I am sure that the bigBusinesses 
     // are being removed from the list variable in the SmallCityService class.
     expectedListOfBusinesses.add(sampleListOfBusinesses.get(3));
@@ -144,7 +145,8 @@ public final class BigBusinessesTest {
     
     testSmallCityService.filterTheListOfBusinessesIntoSmallBusinesses();
     
-    Assert.assertEquals(expectedListOfBusinesses, testSmallCityService.getBusinesses());
+    Assert.assertEquals(
+        expectedListOfBusinesses, testSmallCityService.getBusinesses());
   }
   
 }
