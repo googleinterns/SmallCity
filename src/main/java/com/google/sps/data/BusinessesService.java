@@ -55,27 +55,28 @@ public class BusinessesService {
   public List<Listing> removeBigBusinessesFromResults(PreparedQuery dateabaseResults){
     Iterator<Listing> businessesList =  businesses.iterator();
     Entity entity;
-    Boolean bigBusinessIsFound = true;
+    Boolean untilBigBusinessIsFound = true;
     String businessName;
     while (businessesList.hasNext()) {
       Listing currentListing = businessesList.next();
       Iterator<Entity> bigBusinessesEntities =  dateabaseResults.asIterable().iterator();
-      while(bigBusinessesEntities.hasNext() && bigBusinessIsFound) {
+      while(bigBusinessesEntities.hasNext() && untilBigBusinessIsFound) {
         entity = bigBusinessesEntities.next();
         businessName = (String) entity.getProperty("business");
         if(businessName.equals(currentListing.getName())) {
           businessesList.remove();
-          bigBusinessIsFound = false;
+          untilBigBusinessIsFound = false;
         }
       }
-      bigBusinessIsFound = true;
+      untilBigBusinessIsFound = true;
     }
     return businesses;
   }
 
- public void setAllBusinesses(List<Listing> allBusinesses) {
+  public void setAllBusinesses(List<Listing> allBusinesses) {
    businesses = allBusinesses;
   }
+
   public List<Listing> getBusinessesFromPlacesApi(User user) {
     LatLng latLng = 
           new LatLng(user.getGeolocation().lat, user.getGeolocation().lng);
