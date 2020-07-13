@@ -56,7 +56,7 @@ public class SmallCityService {
   }
   
   public void findAllBusinesses() {
-    businesses = businessesService.removeBigBusinessesFromResults(databaseResults);
+    businesses = businessesService.getBusinessesFromPlacesApi(user);
   }
   
   // To be used for unit testing file to be able to 
