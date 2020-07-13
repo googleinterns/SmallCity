@@ -60,15 +60,15 @@ public class BusinessesService {
     while (businessesList.hasNext()) {
       Listing currentListing = businessesList.next();
       Iterator<Entity> bigBusinessesEntities =  queryOfDatabase.asIterable().iterator();
-      while(bigBusinessesEntities.hasNext() && untilBigBusinessIsFound) {
+      while(bigBusinessesEntities.hasNext() && BigBusinessIsFound) {
         entity = bigBusinessesEntities.next();
         businessName = (String) entity.getProperty("business");
         if(businessName.equals(currentListing.getName())) {
           businessesList.remove();
-          untilBigBusinessIsFound = false;
+          BigBusinessIsFound = false;
         }
       }
-      untilBigBusinessIsFound = true;
+      BigBusinessIsFound = true;
     }
     return businesses;
   }
