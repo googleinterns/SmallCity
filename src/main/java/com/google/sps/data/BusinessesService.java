@@ -57,13 +57,13 @@ public class BusinessesService {
     Entity entity;
     String businessName;
     while (businessesList.hasNext()) {
-      Listing currentListing = businessesList.next();
+      Listing currentBusiness = businessesList.next();
       Iterator<Entity> bigBusinessEntities =  queryOfDatabase.asIterable()
                                                               .iterator();
       while(bigBusinessEntities.hasNext()) {
         entity = bigBusinessEntities.next();
         businessName = (String) entity.getProperty("business");
-        if(businessName.equals(currentListing.getName())) {
+        if(businessName.equals(currentBusiness.getName())) {
           businessesList.remove();
         }
       }
