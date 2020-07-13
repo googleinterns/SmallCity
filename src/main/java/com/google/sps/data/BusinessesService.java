@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 public class BusinessesService {
   
   private List<Listing> businesses;
-  private final String KEY = "AIzaSyDDIsG-SJAZ69ZoOecmfbXOB7ZIS4pZkAw";
+  private final String KEY = "REDACTED";
   private final static Logger LOGGER = 
         Logger.getLogger(BusinessesService.class.getName());
   private final int ALLOWED_SEARCH_REQUESTS = 3;

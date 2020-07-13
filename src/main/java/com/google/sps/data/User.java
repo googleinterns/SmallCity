@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class User {
 
   private MapLocation geolocation;
-  private final String KEY = "AIzaSyDDIsG-SJAZ69ZoOecmfbXOB7ZIS4pZkAw";
+  private final String KEY = "REDACTED";
   private final static Logger LOGGER = Logger.getLogger(User.class.getName());
 
   /** Creates a user with a geolocation
