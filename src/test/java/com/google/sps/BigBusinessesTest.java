@@ -47,6 +47,7 @@ public final class BigBusinessesTest {
   private Photo[] samplePhotos = new Photo[0];
   private String[] sampleBusinessTypes = new String[0];
   private MapLocation googlesOffice = new MapLocation(40.457177, -79.916696);
+  private DatastoreService datastore;
   private List<Listing> sampleListOfBusinesses = new LinkedList<Listing>(Arrays.asList(
                 new Listing("LA Fitness",
                   "Address", 
@@ -93,6 +94,7 @@ public final class BigBusinessesTest {
   @Before
   public void setUp() {
     helper.setUp();
+    setUpSampleDatabase();
   }
 
   @After
@@ -102,27 +104,26 @@ public final class BigBusinessesTest {
 
   private void setUpSampleDatabase() {
     String title = "business";
+    datastore = DatastoreServiceFactory.getDatastoreService();
     Entity taskEntity = new Entity("BigBusinesses");
     String[] businesses = {"McDonalds","west elm","LA Fitness"};
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    for(String business: businesses){
+    for(String business: businesses) {
       taskEntity = new Entity("BigBusinesses");
       taskEntity.setProperty(title, business);
       datastore.put(taskEntity);
     }
-    assertEquals(
-        3, datastore.prepare(new Query("BigBusinesses")).countEntities());
   }
 
   // To setup a sample database and see if it is created properly 
   @Test
   public void testSampleDatabase() {
-    setUpSampleDatabase();
+    assertEquals(
+        3, datastore.prepare(new Query("BigBusinesses")).countEntities());
   }
 
   @Test
   public void testEliminateBigBusinessesMethod() {
-    setUpSampleDatabase();
+    // setUpSampleDatabase();
 
     SmallCityService testSmallCityService = new SmallCityService();
     testSmallCityService.createUserWithGeolocation(googlesOffice);
