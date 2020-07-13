@@ -55,7 +55,7 @@ public class BusinessesService {
   public List<Listing> removeBigBusinessesFromResults(PreparedQuery queryOfDatabase){
     Iterator<Listing> businessesList =  businesses.iterator();
     Entity entity;
-    Boolean untilBigBusinessIsFound = true;
+    Boolean BigBusinessIsFound = true;
     String businessName;
     while (businessesList.hasNext()) {
       Listing currentListing = businessesList.next();
