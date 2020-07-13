@@ -46,7 +46,7 @@ import com.google.maps.model.Photo;
 public final class BigBusinessesTest {
   private Photo[] samplePhotos = new Photo[0];
   private String[] sampleBusinessTypes = new String[0];
-  private MapLocation googlesOffice = new MapLocation(40.457177, -79.916696);
+  private MapLocation testLocation = new MapLocation(40.457177, -79.916696);
   private DatastoreService datastore;
   private List<Listing> sampleListOfBusinesses = new LinkedList<Listing>(Arrays.asList(
                 new Listing("LA Fitness",
@@ -86,6 +86,7 @@ public final class BigBusinessesTest {
                   samplePhotos, 
                   sampleBusinessTypes)
   ));  
+
   private List<Listing> expectedListOfBusinesses = new LinkedList<>();  
          
   private final LocalServiceTestHelper helper =
@@ -105,12 +106,12 @@ public final class BigBusinessesTest {
   private void setUpSampleDatabase() {
     String title = "business";
     datastore = DatastoreServiceFactory.getDatastoreService();
-    Entity taskEntity = new Entity("BigBusinesses");
+    Entity businessEntity = new Entity("BigBusinesses");
     String[] businesses = {"McDonalds","west elm","LA Fitness"};
     for(String business: businesses) {
-      taskEntity = new Entity("BigBusinesses");
-      taskEntity.setProperty(title, business);
-      datastore.put(taskEntity);
+      businessEntity = new Entity("BigBusinesses");
+      businessEntity.setProperty(title, business);
+      datastore.put(businessEntity);
     }
   }
 
@@ -124,7 +125,7 @@ public final class BigBusinessesTest {
   @Test
   public void testEliminateBigBusinessesMethod() {
     SmallCityService testSmallCityService = new SmallCityService();
-    testSmallCityService.createUserWithGeolocation(googlesOffice);
+    testSmallCityService.createUserWithGeolocation(testLocation);
     testSmallCityService.setAllBusinesses(sampleListOfBusinesses);
 
     // These are the listings that should be in the list 
