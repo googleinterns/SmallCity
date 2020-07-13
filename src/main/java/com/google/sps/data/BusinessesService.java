@@ -48,18 +48,18 @@ public class BusinessesService {
   public PreparedQuery getBigBusinessFromDatabase(){
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("BigBusinesses");
-    PreparedQuery dateabaseResults = datastore.prepare(query);
-    return dateabaseResults;
+    PreparedQuery queryOfDatabase = datastore.prepare(query);
+    return queryOfDatabase;
   }
 
-  public List<Listing> removeBigBusinessesFromResults(PreparedQuery dateabaseResults){
+  public List<Listing> removeBigBusinessesFromResults(PreparedQuery queryOfDatabase){
     Iterator<Listing> businessesList =  businesses.iterator();
     Entity entity;
     Boolean untilBigBusinessIsFound = true;
     String businessName;
     while (businessesList.hasNext()) {
       Listing currentListing = businessesList.next();
-      Iterator<Entity> bigBusinessesEntities =  dateabaseResults.asIterable().iterator();
+      Iterator<Entity> bigBusinessesEntities =  queryOfDatabase.asIterable().iterator();
       while(bigBusinessesEntities.hasNext() && untilBigBusinessIsFound) {
         entity = bigBusinessesEntities.next();
         businessName = (String) entity.getProperty("business");
