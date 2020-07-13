@@ -20,6 +20,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import java.util.List;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -43,54 +44,49 @@ import com.google.maps.model.Photo;
 
 @RunWith(JUnit4.class)
 public final class BigBusinessesTest {
+  private Photo[] samplePhotos = new Photo[0];
+  private String[] sampleBusinessTypes = new String[0];
   private MapLocation googlesOffice = new MapLocation(40.457177, -79.916696);
-  private List<Listing> sampleListOfBusinesses = new LinkedList<>();
-  private List<Listing> expectedListOfBusinesses = new LinkedList<>();  
-  private Listing[] sampleListingsOfBusinesses = {
+  private List<Listing> sampleListOfBusinesses = new LinkedList<Listing>(Arrays.asList(
                 new Listing("LA Fitness",
                   "Address", 
                   new MapLocation(40.457091, -79.915331), 
                   3.9,
-                  null, 
-                  null),
+                  samplePhotos, 
+                  sampleBusinessTypes),
                 new Listing("west elm", 
                   "Address",
                   new MapLocation(40.456279, -79.915015), 
                   3.6, 
-                  null,
-                  null),
+                  samplePhotos,
+                  sampleBusinessTypes),
                 new Listing("McDonalds",
                   "Address", 
                   new MapLocation(40.459450, -79.918479), 
                   2.6, 
-                  null,
-                  null),
+                  samplePhotos,
+                  sampleBusinessTypes),
                 new Listing("East End Brewing Company", 
                   "Address",
                   new MapLocation(40.459391, -79.911782), 
                   4.7,
-                  null, 
-                  null),
+                  samplePhotos, 
+                  sampleBusinessTypes),
               new Listing("The Shiny Bean Coffee & Tea", 
                   "Address",
                   new MapLocation(40.496328, -79.944862), 
                   4.9, 
-                  null,
-                  null),
+                  samplePhotos,
+                  sampleBusinessTypes),
                 new Listing("Weisshouse", 
                   "Address",
                   new MapLocation(40.456684, -79.925499), 
                   4.3,
-                  null, 
-                  null)
-              };
-
-  private void populateListOfBusinessesIntoLinkedList(Listing[] arrayOfBusiness) {
-    for(Listing business: sampleListingsOfBusinesses){
-      sampleListOfBusinesses.add(business);
-    }
-  }
-  
+                  samplePhotos, 
+                  sampleBusinessTypes)
+  ));  
+  private List<Listing> expectedListOfBusinesses = new LinkedList<>();  
+         
   private final LocalServiceTestHelper helper =
     new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
@@ -127,7 +123,6 @@ public final class BigBusinessesTest {
   @Test
   public void testEliminateBigBusinessesMethod() {
     setUpSampleDatabase();
-    populateListOfBusinessesIntoLinkedList(sampleListingsOfBusinesses);
 
     SmallCityService testSmallCityService = new SmallCityService();
     testSmallCityService.createUserWithGeolocation(googlesOffice);
