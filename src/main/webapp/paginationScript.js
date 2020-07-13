@@ -23,29 +23,38 @@ function initialDisplay() {
 
 //Navigate back one page (3 results) in the list view
 function navigatePrevious() {
-  if (resultsContent.children[0].id == 0) {
-    alert('Already at beginning of list!');
-  }
-  else {
-    displayCards((resultsContent.children[2].id - 5))
-  }
+  displayCards((-3));
 }
 
 //Move forward one page (3 results) in the list view
 function moveNext() {
-  if ((resultsContent.children[2].id + 1) == listingCardCount) {
-    alert('Already at end of list!');
-  }
-  else {
-    displayCards((resultsContent.children[2].id + 1))
-  }
+  displayCards(3);
 }
 
 //Handles the actual loop through array and display of cards
-function displayCards(starting) {
-  resultsContent.innerHTML = '';
+function displayCards(listAugment) {
+  const totalCardsToDisplay = 3;
+  const maxListViewNumber = 15;
 
-  for (let i = starting; i < (starting + 3); i++) {
-    resultsContent.appendChild(listingsArray[i]);
+  let resultsChildren = resultsContent.childNodes;
+  let currentFirstCardIndex = 0;
+
+  if (resultsChildren.length != 0) {
+    currentFirstCardIndex = parseInt(resultsChildren[0].id);
   }
-}
+
+  if ((currentFirstCardIndex == 0) && (listAugment < 0)) {
+    alert('Already at beginning of list!');
+  }
+  else if (currentFirstCardIndex == (maxListViewNumber - totalCardsToDisplay) && (listAugment > 0)) {
+    alert('Already at end of list!');
+  }
+  else {
+    currentFirstCardIndex += listAugment; 
+
+    resultsContent.innerHTML = '';
+    for (let i = currentFirstCardIndex; i < (currentFirstCardIndex + totalCardsToDisplay); i++) {
+      resultsContent.appendChild(listingsArray[i]);
+    }
+  }
+}  

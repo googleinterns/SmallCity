@@ -31,6 +31,8 @@ function displayLocation(position) {
   let xhttp = new XMLHttpRequest();
   xhttp.open('POST', '/data?lat=' + lat + '&lng=' + lng, true);
   xhttp.send();
+
+  setTimeout(fetchList, 4000);
 }
 
 function displayError() {
@@ -42,16 +44,17 @@ function displayError() {
 let listingsArray = [];
 
 //Count of the total businesses in the fetch request, used to set a unique id for each card
-let listingCardCount = 0;
+let totalCardCount = 0;
 
 function fetchList() {
   fetch('/data').then(response => response.json()).then((listings) => {
+    listingsArray = [];
     listings.forEach((listing) => {
-      listingsArray.push(createResultCard(listing.name, listing.address, listing.image, listing.rating, listing.website, listingCardCount));
-      listingCardCount++;
+      listingsArray.push(createResultCard(listing.name, listing.formattedAddress, listing.photos, listing.rating, totalCardCount));
+      totalCardCount++;
     });
+    initialDisplay();
   });
-  initialDisplay();
 }
 
 /**
@@ -60,12 +63,12 @@ function fetchList() {
  * @param {string} image The url of the business image
  * @param {double} rating The numerical rating of the business, passed to the createRating() function
  * @param {string} website The url of the business' website
- * @param {int} listingCardCount The number of businesses in the list, used to set a specific id to each card
+ * @param {int} totalCardCount The number of businesses in the list, used to set a specific id to each card
  */
-function createResultCard(name, address, image, rating, website, listingCardCount) {
+function createResultCard(name, address, photos, rating, totalCardCount) {
   const resultsCard = document.createElement('div');
   resultsCard.className = 'results-card';
-  resultsCard.id = listingCardCount;
+  resultsCard.id = totalCardCount;
 
   const imageDiv = document.createElement('div');
   imageDiv.className = 'results-image';
@@ -114,7 +117,7 @@ function createRating(rating) {
     ratingDiv.innerText += '☆';
   }
 
-  ratingDiv.innerText += (' ' + rating);
+  ratingDiv.innerText += (' ' + rating.toFixed(1));
   
   return ratingDiv;
 }
@@ -124,4 +127,6 @@ function getZipCode() {
   let xhttp = new XMLHttpRequest();
   xhttp.open('POST', '/data?zipCode=' + zip, true);
   xhttp.send();
+
+  setTimeout(fetchList, 4000);
 }

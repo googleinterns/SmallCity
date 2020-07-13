@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 public class BusinessesService {
   
   private List<Listing> businesses;
-  private final String KEY = "REDACTED";
+  private final String KEY = "AIzaSyDDIsG-SJAZ69ZoOecmfbXOB7ZIS4pZkAw";
   private final static Logger LOGGER = 
         Logger.getLogger(BusinessesService.class.getName());
   private final int ALLOWED_SEARCH_REQUESTS = 3;
@@ -52,9 +52,12 @@ public class BusinessesService {
         for(PlacesSearchResult place : response.results) {
           addListingToBusinesses(place);
         }
-        Thread.sleep(2000); // Required delay before next API request
-	      response = PlacesApi
-              .nearbySearchNextPage(context, response.nextPageToken).await();
+        //Maximum of 2 next token requests allowed
+        if (i != 2) {
+          Thread.sleep(2000); // Required delay before next API request
+          response = PlacesApi
+                .nearbySearchNextPage(context, response.nextPageToken).await();
+        }
       }
     } catch(Exception e) {
       LOGGER.warning(e.getMessage());

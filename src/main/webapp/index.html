@@ -13,10 +13,10 @@
       <button class="geolocate-button" onclick="getGeolocation()">Locate Me</button>
       <div class="zipcode-container">
         your zipcode: 
-        <form id="form">
-          <input type="text" id="zipCode" name="zipCode">
-          <input type="submit" onclick="getZipCode()"/>
-        </form>
+        <input type="text" id="zipCode" name="zipCode" value="">
+
+        <input type="button" onclick="getZipCode()" value="Submit"/>
+
       </div>
     </header>
 
