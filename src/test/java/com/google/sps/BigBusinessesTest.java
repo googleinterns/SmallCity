@@ -73,7 +73,7 @@ public final class BigBusinessesTest {
                   4.7,
                   samplePhotos, 
                   sampleBusinessTypes),
-              new Listing("The Shiny Bean Coffee & Tea", 
+                new Listing("The Shiny Bean Coffee & Tea", 
                   "Address",
                   new MapLocation(40.496328, -79.944862), 
                   4.9, 
@@ -129,8 +129,8 @@ public final class BigBusinessesTest {
 
     // These are the listings that should be in the list 
     // after the Bigbusinesses are removed from the List.
-    // Currently to make sure this test runs proberly, I made it so that the
-    // refrences of the appropriate Listings are added to a seperate array, 
+    // Currently to make sure this test runs properly, I made it so that the
+    // references of the appropriate Listings are added to a seperate array, 
     // so when eliminateBigBusinesses method is called, I am sure that the bigBusinesses 
     // are being removed from the list variable in the SmallCityService class.
     expectedListOfBusinesses.add(sampleListOfBusinesses.get(3));
