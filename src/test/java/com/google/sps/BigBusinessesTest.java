@@ -123,8 +123,6 @@ public final class BigBusinessesTest {
 
   @Test
   public void testEliminateBigBusinessesMethod() {
-    // setUpSampleDatabase();
-
     SmallCityService testSmallCityService = new SmallCityService();
     testSmallCityService.createUserWithGeolocation(googlesOffice);
     testSmallCityService.setAllBusinesses(sampleListOfBusinesses);
