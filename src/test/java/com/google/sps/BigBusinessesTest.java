@@ -137,7 +137,7 @@ public final class BigBusinessesTest {
     expectedListOfBusinesses.add(sampleListOfBusinesses.get(4));
     expectedListOfBusinesses.add(sampleListOfBusinesses.get(5));
     
-    testSmallCityService.filterTheListOfBusinessesIntoSmallBusinesses();
+    testSmallCityService.filterBySmallBusinesses();
     
     Assert.assertEquals(
         expectedListOfBusinesses, testSmallCityService.getBusinesses());

@@ -67,7 +67,7 @@ public class SmallCityService {
 
   // To remove the big businesses from the list 
   // that will be returned from the use of the Places API 
-  public void filterTheListOfBusinessesIntoSmallBusinesses() {
+  public void filterBySmallBusinesses() {
     queryOfDatabase = businessesService.getBigBusinessFromDatabase();
     businesses = businessesService.removeBigBusinessesFromResults(queryOfDatabase);
   }
@@ -80,6 +80,6 @@ public class SmallCityService {
     businesses = new LinkedList<Listing>();
     businessesService = new BusinessesService(businesses);
     findAllBusinesses();
-    filterTheListOfBusinessesIntoSmallBusinesses();
+    filterBySmallBusinesses();
   }
 }
