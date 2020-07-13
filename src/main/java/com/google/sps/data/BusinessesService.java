@@ -55,20 +55,17 @@ public class BusinessesService {
   public List<Listing> removeBigBusinessesFromResults(PreparedQuery queryOfDatabase){
     Iterator<Listing> businessesList =  businesses.iterator();
     Entity entity;
-    Boolean BigBusinessIsFound = true;
     String businessName;
     while (businessesList.hasNext()) {
       Listing currentListing = businessesList.next();
       Iterator<Entity> bigBusinessesEntities =  queryOfDatabase.asIterable().iterator();
-      while(bigBusinessesEntities.hasNext() && BigBusinessIsFound) {
+      while(bigBusinessesEntities.hasNext()) {
         entity = bigBusinessesEntities.next();
         businessName = (String) entity.getProperty("business");
         if(businessName.equals(currentListing.getName())) {
           businessesList.remove();
-          BigBusinessIsFound = false;
         }
       }
-      BigBusinessIsFound = true;
     }
     return businesses;
   }
