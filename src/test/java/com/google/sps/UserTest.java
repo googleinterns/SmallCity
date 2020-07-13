@@ -13,6 +13,15 @@ import com.google.sps.data.SmallCityService;
 import com.google.sps.data.Listing;
 import com.google.sps.data.MapLocation;
 import com.google.sps.data.User;
+import com.google.maps.GeocodingApi;
+import com.google.maps.model.AddressComponentType;
+import com.google.maps.model.AddressType;
+import com.google.maps.model.ComponentFilter;
+import com.google.maps.model.GeocodingResult;
+import com.google.maps.GeoApiContext;
+import com.google.maps.model.LatLng;
+import com.google.maps.model.LocationType;
+import java.util.logging.Logger;
 
 /** Test class for User Object **/
 @RunWith(JUnit4.class)
@@ -28,6 +37,9 @@ public final class UserTest {
   private User test_userWithCity;
   private User test_userWithAddress;
 
+  private final String KEY = "REDACTED";
+  private final static Logger LOGGER = Logger.getLogger(UserTest.class.getName());
+
   @Test
   public void geolocationUserWithMapLocation() {
     test_userWithMapLocation = new User(TEST_USER_MAP_LOCATION);
@@ -40,41 +52,39 @@ public final class UserTest {
   public void geolocationUserWithZipCode() {
     test_userWithZipCode = new User(TEST_USER_ZIPCODE);
     MapLocation actual = test_userWithZipCode.getGeolocation();
-    MapLocation expected = TEST_USER_MAP_LOCATION;
-    boolean inRange = false;
-    // Approximate range of lat and lng coordinate difference of corners in 15206 ZipCode
-    if ((Math.abs(actual.lat - expected.lat) <= 0.06) 
-          && (Math.abs(actual.lng - expected.lng)) <= 0.05) {
-      inRange = true;
-    }
-    Assert.assertTrue(inRange);
+    String address = reverseGeocode(actual);
+    Assert.assertTrue(address.contains(TEST_USER_ZIPCODE));
   }
 
   @Test
   public void geolocationUserWithCity() {
     test_userWithCity = new User(TEST_USER_CITY);
     MapLocation actual = test_userWithCity.getGeolocation();
-    MapLocation expected = TEST_USER_MAP_LOCATION;
-    boolean inRange = false;
-    // Approximate range of lat and lng coordinate difference of corners in Pittsburgh
-    if ((Math.abs(actual.lat - expected.lat) <= 0.16) 
-          && (Math.abs(actual.lng - expected.lng)) <= 0.2) {
-      inRange = true;
-    }   
-    Assert.assertTrue(inRange);
+    String address = reverseGeocode(actual);  
+    Assert.assertTrue(address.contains(TEST_USER_CITY));
   }
 
   @Test
   public void geolocationUserWithAddress() {
     test_userWithAddress = new User(TEST_USER_ADDRESS);
     MapLocation actual = test_userWithAddress.getGeolocation();
-    MapLocation expected = TEST_USER_MAP_LOCATION;
-    boolean inRange = false;
-    // Small range of error allowed for address geolocation
-    if ((Math.abs(actual.lat - expected.lat) <= 0.001) 
-          && (Math.abs(actual.lng - expected.lng)) <= 0.001) {
-      inRange = true;
-    }   
-    Assert.assertTrue(inRange);
+    String address = reverseGeocode(actual); 
+    Assert.assertTrue(address.contains(TEST_USER_ADDRESS));
+  }
+
+  public String reverseGeocode(MapLocation mapLocation) {
+    final GeoApiContext context = new GeoApiContext.Builder()
+            .apiKey(KEY)
+            .build();
+    final GeocodingResult[] results;
+    final LatLng latLng = new LatLng(mapLocation.lat, mapLocation.lng);
+    try {
+        results = GeocodingApi.reverseGeocode(context, latLng).await();
+        String address = results[0].formattedAddress;
+        return address;
+    } catch (final Exception e) {
+        LOGGER.warning(e.getMessage());
+    }
+    return "";
   }
 }
