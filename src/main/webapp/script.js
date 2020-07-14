@@ -13,6 +13,7 @@
 // limitations under the License.
 
 const alertMessage = 'Sorry! We cannot geolocate you. Please enter a zipcode';
+let map;
 
 function getGeolocation() {
 
@@ -49,11 +50,14 @@ let totalCardCount = 0;
 function fetchList() {
   fetch('/data').then(response => response.json()).then((listings) => {
     listingsArray = [];
+    initMap(listings[0].mapLocation);
     listings.forEach((listing) => {
       listingsArray.push(createResultCard(listing.name, listing.formattedAddress, listing.photos, listing.rating, totalCardCount));
       totalCardCount++;
+      createMarker(listing);
     });
     initialDisplay();
+    
   });
 }
 
@@ -129,4 +133,20 @@ function getZipCode() {
   xhttp.send();
 
   setTimeout(fetchList, 4000);
+}
+
+function initMap(mapLocation) {
+  let myLatLng = {lat: mapLocation.lat, lng: mapLocation.lng};
+  map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 13,
+    center: myLatLng,
+    mapTypeControl: false
+  });
+}
+
+function createMarker(listing) {
+  let marker = new google.maps.Marker({
+    position: {lat: listing.mapLocation.lat, lng: listing.mapLocation.lng},
+  });
+  marker.setMap(map);
 }
