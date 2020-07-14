@@ -128,12 +128,20 @@ public final class BigBusinessesTest {
   }
 
   private void setUpSampleDatabase() {
-    String title = "business";
+    String title = "Business";
+    String businessTypes = "BusinessTypes";
+    String address = "Address";
+    String rating = "Rating";
+    String photos = "Photos";
     datastore = DatastoreServiceFactory.getDatastoreService();
     Entity businessEntity = new Entity("BigBusinesses");
     for(Listing business: sampleDatabaseOfBigBusinesses) {
       businessEntity = new Entity("BigBusinesses");
       businessEntity.setProperty(title, business.getName());
+      businessEntity.setProperty(address, business.getFormattedAddress());
+      businessEntity.setProperty(rating, business.getRating());
+      businessEntity.setProperty(photos, Arrays.asList(business.getPhotos()));
+      businessEntity.setProperty(businessTypes, Arrays.asList(business.getBusinessTypes()));
       datastore.put(businessEntity);
     }
   }
