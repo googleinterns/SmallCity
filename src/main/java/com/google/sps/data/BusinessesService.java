@@ -53,7 +53,7 @@ public class BusinessesService {
           addListingToBusinesses(place);
         }
         //Maximum of 2 next token requests allowed
-        if (i != 2) {
+        if (i < 2) {
           Thread.sleep(2000); // Required delay before next API request
           response = PlacesApi
                 .nearbySearchNextPage(context, response.nextPageToken).await();
