@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+	  <link rel="icon" href="/images/smallcity-favicon-16x.png">
     <title>smallcity</title>
   </head>
   <body>
@@ -12,42 +13,25 @@
       <button class="geolocate-button" onclick="getGeolocation()">Locate Me</button>
       <div class="zipcode-container">
         your zipcode: 
-        <form id="form">
-          <input type="text" id="zipCode" name="zipCode">
-          <input type="submit" onclick="getZipCode()"/>
-        </form>
+        <input type="text" id="zipCode" name="zipCode" value="">
+
+        <input type="button" onclick="getZipCode()" value="Submit"/>
+
       </div>
     </header>
 
     <div class="main-container">
-      <div class="map-container">
-      </div>
-      <div class="results-container">
-        <div class="results-card">
-          <div class="results-image">
-            <!-- Image of buisiness goes here via JS-->
-          </div>
-          <div class="results-business-description">
-            <h2>Business Name</h2>
-            <p>Business address</p>
-            <p>Vicinity</p>
-          </div>
-          <div class="results-rating"></div>
-          <button class="results-website-button">Visit Website</button>
-        </div>
-        <div class="results-card">
-          
-        </div>
-        <div class="results-card">
-          
-        </div>
+      <div class="map-container"></div>
+      <div class="results-container" id="results-container">
+       <div class="results-content" id="results-content"></div>
         <div class="pagination-container">
-          <button class="pagination-buttons">Previous</button>
-          <button class="pagination-buttons">Next</button>
+          <input type="button" class="pagination-buttons" value="Previous" onclick="navigatePrevious()">
+          <input type="button" class="pagination-buttons" value="Next" onclick="moveNext()">
         </div>
       </div>
     </div>
 
-    <script src="script.js" charset="utf-8"></script>
+    <script type="text/javascript" src="script.js" charset="utf-8"></script>
+    <script type="text/javascript" src="paginationScript.js" charset="utf-8"></script>
   </body>
 </html>
