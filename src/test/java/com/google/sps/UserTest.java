@@ -27,10 +27,12 @@ import java.util.logging.Logger;
 @RunWith(JUnit4.class)
 public final class UserTest {
   // Pittsburgh Google Office Location
-  private final MapLocation TEST_USER_MAP_LOCATION = new MapLocation(40.45717, -79.91669);
+  private final MapLocation TEST_USER_MAP_LOCATION 
+        = new MapLocation(40.45717, -79.91669);
   private final String TEST_USER_ZIPCODE = "15206";
   private final String TEST_USER_CITY = "Pittsburgh";
-  private final String TEST_USER_ADDRESS = "6425 Penn Ave, Pittsburgh, PA 15206";
+  private final String TEST_USER_ADDRESS 
+        = "6425 Penn Ave, Pittsburgh, PA 15206";
   
   private User test_userWithMapLocation;
   private User test_userWithZipCode;
@@ -38,7 +40,8 @@ public final class UserTest {
   private User test_userWithAddress;
 
   private final String KEY = "REDACTED";
-  private final static Logger LOGGER = Logger.getLogger(UserTest.class.getName());
+  private final static Logger LOGGER 
+        = Logger.getLogger(UserTest.class.getName());
 
   @Test
   public void geolocationUserWithMapLocation() {
@@ -71,8 +74,9 @@ public final class UserTest {
     String address = reverseGeocode(actual); 
     Assert.assertTrue(address.contains(TEST_USER_ADDRESS));
   }
-
-  public String reverseGeocode(MapLocation mapLocation) {
+  
+  /** Returns formatted address from coordinate using Geocoding API **/
+  private String reverseGeocode(MapLocation mapLocation) {
     final GeoApiContext context = new GeoApiContext.Builder()
             .apiKey(KEY)
             .build();
@@ -85,6 +89,6 @@ public final class UserTest {
     } catch (final Exception e) {
         LOGGER.warning(e.getMessage());
     }
-    return "";
+    return "FAILURE";
   }
 }
