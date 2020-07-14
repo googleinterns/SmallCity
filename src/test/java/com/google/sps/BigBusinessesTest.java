@@ -49,7 +49,8 @@ public final class BigBusinessesTest {
   private MapLocation testLocation = new MapLocation(40.457177, -79.916696);
   private DatastoreService datastore;
   
-  private List<Listing> sampleListOfBusinesses = new LinkedList<Listing>(Arrays.asList(
+  private List<Listing> sampleListOfBusinesses = new LinkedList<Listing>(
+              Arrays.asList(
                 new Listing("LA Fitness",
                   "Address", 
                   new MapLocation(40.457091, -79.915331), 
@@ -88,7 +89,8 @@ public final class BigBusinessesTest {
                   sampleBusinessTypes)
   ));  
 
-  private List<Listing> sampleDatabaseOfBigBusinesses = new LinkedList<Listing>(Arrays.asList(
+  private List<Listing> sampleDatabaseOfBigBusinesses = new LinkedList<Listing>(
+              Arrays.asList(
                 new Listing("LA Fitness",
                   "Address", 
                   new MapLocation(40.457091, -79.915331), 
