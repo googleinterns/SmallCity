@@ -141,7 +141,8 @@ public final class BigBusinessesTest {
       businessEntity.setProperty(address, business.getFormattedAddress());
       businessEntity.setProperty(rating, business.getRating());
       businessEntity.setProperty(photos, Arrays.asList(business.getPhotos()));
-      businessEntity.setProperty(businessTypes, Arrays.asList(business.getBusinessTypes()));
+      businessEntity.setProperty(businessTypes, Arrays.asList(
+                                                    business.getBusinessTypes()));
       datastore.put(businessEntity);
     }
   }
