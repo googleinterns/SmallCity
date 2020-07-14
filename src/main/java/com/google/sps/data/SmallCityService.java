@@ -1,4 +1,6 @@
 package com.google.sps.data;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Arrays;
@@ -16,6 +18,13 @@ import com.google.maps.model.RankBy;
 import com.google.maps.model.Geometry;
 import com.google.maps.model.PlacesSearchResponse;
 import com.google.maps.model.PlacesSearchResult;
+import java.util.Iterator;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 
 /** SmallCityService object representing all components of the webapp **/
 public class SmallCityService {
@@ -24,7 +33,8 @@ public class SmallCityService {
   private BusinessesService businessesService;
   private List<Listing> businesses;
   private final static Logger LOGGER = Logger.getLogger(SmallCityService.class.getName());
-  
+  private PreparedQuery queryOfDatabase;
+
   public SmallCityService() { }
   
   /** 
@@ -48,10 +58,18 @@ public class SmallCityService {
   public void findAllBusinesses() {
     businesses = businessesService.getBusinessesFromPlacesApi(user);
   }
+  
+  // To be used for unit testing file to be able to 
+  // set any static business LinkedList we want to try to use
+  public void setAllBusinesses(List<Listing> allBusinesses) {
+    businessesService = new BusinessesService(allBusinesses);
+  }
 
-  public void eliminateBigBusinesses() {
-    // TODO: Parse big business list and remove big businesses from businessList
-
+  // To remove the big businesses from the list 
+  // that will be returned from the use of the Places API 
+  public void filterBySmallBusinesses() {
+    queryOfDatabase = businessesService.getBigBusinessFromDatabase();
+    businesses = businessesService.removeBigBusinessesFromResults(queryOfDatabase);
   }
 
   public List<Listing> getBusinesses() {
@@ -62,6 +80,6 @@ public class SmallCityService {
     businesses = new LinkedList<Listing>();
     businessesService = new BusinessesService(businesses);
     findAllBusinesses();
-    eliminateBigBusinesses();
+    filterBySmallBusinesses();
   }
 }

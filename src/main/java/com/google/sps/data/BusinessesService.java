@@ -18,25 +18,58 @@ import com.google.maps.model.Geometry;
 import com.google.maps.model.PlacesSearchResponse;
 import com.google.maps.model.PlacesSearchResult;
 import java.util.logging.Logger;
+import java.util.Iterator;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 
 /** BusinessesService object representing all businesses 
 * components of the webapp.
  **/
 public class BusinessesService {
   
-  private List<Listing> businesses;
+  private List<Listing> allBusinesses;
   private final String KEY = "REDACTED";
   private final static Logger LOGGER = 
         Logger.getLogger(BusinessesService.class.getName());
   private final int ALLOWED_SEARCH_REQUESTS = 3;
 
   /** Create a new Businesses instance
-  * @param businesses businesses from SmallCityService
+  * @param allBusinesses businesses from SmallCityService
   **/
-  public BusinessesService(List<Listing> businesses) {
-    this.businesses = businesses;
+  
+  public BusinessesService(List<Listing> allBusinesses) {
+    this.allBusinesses = allBusinesses;
   }
 
+  public PreparedQuery getBigBusinessFromDatabase(){
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query query = new Query("BigBusinesses");
+    PreparedQuery queryOfDatabase = datastore.prepare(query);
+    return queryOfDatabase;
+  }
+
+  public List<Listing> removeBigBusinessesFromResults(PreparedQuery queryOfDatabase){
+    Iterator<Listing> businesses =  allBusinesses.iterator();
+    Entity entity;
+    String businessName;
+    while (businesses.hasNext()) {
+      Listing currentBusiness = businesses.next();
+      Iterator<Entity> bigBusinessEntities = queryOfDatabase.asIterator();
+      while(bigBusinessEntities.hasNext()) {
+        businessName = 
+              (String) bigBusinessEntities.next().getProperty("Business");
+        if(businessName.equals(currentBusiness.getName())) {
+          businesses.remove();
+        }
+      }
+    }
+    return allBusinesses;
+  }
+  
   public List<Listing> getBusinessesFromPlacesApi(User user) {
     LatLng latLng = 
           new LatLng(user.getGeolocation().lat, user.getGeolocation().lng);
@@ -62,7 +95,7 @@ public class BusinessesService {
     } catch(Exception e) {
       LOGGER.warning(e.getMessage());
     }  
-    return businesses;
+    return allBusinesses;
   }
 
   private void addListingToBusinesses(PlacesSearchResult place) {
@@ -74,7 +107,7 @@ public class BusinessesService {
     double rating = place.rating;
     Photo photos[] = place.photos;
     String types[] = place.types;
-    businesses.add(new Listing(name, formattedAddress, 
+    allBusinesses.add(new Listing(name, formattedAddress, 
           placeLocation, rating, photos, types));
   }
 }
