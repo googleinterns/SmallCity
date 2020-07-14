@@ -58,8 +58,7 @@ public class BusinessesService {
     String businessName;
     while (businesses.hasNext()) {
       Listing currentBusiness = businesses.next();
-      Iterator<Entity> bigBusinessEntities =  queryOfDatabase.asIterable()
-                                                              .iterator();
+      Iterator<Entity> bigBusinessEntities =  queryOfDatabase.asIterator();
       while(bigBusinessEntities.hasNext()) {
         entity = bigBusinessEntities.next();
         businessName = (String) entity.getProperty("business");
