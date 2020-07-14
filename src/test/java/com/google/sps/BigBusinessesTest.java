@@ -48,6 +48,7 @@ public final class BigBusinessesTest {
   private String[] sampleBusinessTypes = new String[0];
   private MapLocation testLocation = new MapLocation(40.457177, -79.916696);
   private DatastoreService datastore;
+  
   private List<Listing> sampleListOfBusinesses = new LinkedList<Listing>(Arrays.asList(
                 new Listing("LA Fitness",
                   "Address", 
@@ -87,6 +88,27 @@ public final class BigBusinessesTest {
                   sampleBusinessTypes)
   ));  
 
+  private List<Listing> sampleDatabaseOfBigBusinesses = new LinkedList<Listing>(Arrays.asList(
+                new Listing("LA Fitness",
+                  "Address", 
+                  new MapLocation(40.457091, -79.915331), 
+                  3.9,
+                  samplePhotos, 
+                  sampleBusinessTypes),
+                new Listing("west elm", 
+                  "Address",
+                  new MapLocation(40.456279, -79.915015), 
+                  3.6, 
+                  samplePhotos,
+                  sampleBusinessTypes),
+                new Listing("McDonalds",
+                  "Address", 
+                  new MapLocation(40.459450, -79.918479), 
+                  2.6, 
+                  samplePhotos,
+                  sampleBusinessTypes)
+  ));
+
   private List<Listing> expectedListOfBusinesses = new LinkedList<>();  
          
   private final LocalServiceTestHelper helper =
@@ -107,10 +129,9 @@ public final class BigBusinessesTest {
     String title = "business";
     datastore = DatastoreServiceFactory.getDatastoreService();
     Entity businessEntity = new Entity("BigBusinesses");
-    String[] businesses = {"McDonalds","west elm","LA Fitness"};
-    for(String business: businesses) {
+    for(Listing business: sampleDatabaseOfBigBusinesses) {
       businessEntity = new Entity("BigBusinesses");
-      businessEntity.setProperty(title, business);
+      businessEntity.setProperty(title, business.getName());
       datastore.put(businessEntity);
     }
   }
