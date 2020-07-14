@@ -57,7 +57,6 @@ function fetchList() {
       createMarker(listing);
     });
     initialDisplay();
-    
   });
 }
 
