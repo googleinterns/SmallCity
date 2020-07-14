@@ -62,7 +62,7 @@ public class SmallCityService {
   // To be used for unit testing file to be able to 
   // set any static business LinkedList we want to try to use
   public void setAllBusinesses(List<Listing> allBusinesses) {
-    businessesService.setAllBusinesses(allBusinesses);
+    businessesService = new BusinessesService(allBusinesses);
   }
 
   // To remove the big businesses from the list 

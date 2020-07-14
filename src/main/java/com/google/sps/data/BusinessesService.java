@@ -53,27 +53,23 @@ public class BusinessesService {
   }
 
   public List<Listing> removeBigBusinessesFromResults(PreparedQuery queryOfDatabase){
-    Iterator<Listing> smallBusinesses =  allBusinesses.iterator();
+    Iterator<Listing> businesses =  allBusinesses.iterator();
     Entity entity;
     String businessName;
-    while (smallBusinesses.hasNext()) {
-      Listing currentBusiness = smallBusinesses.next();
+    while (businesses.hasNext()) {
+      Listing currentBusiness = businesses.next();
       Iterator<Entity> bigBusinessEntities = queryOfDatabase.asIterator();
       while(bigBusinessEntities.hasNext()) {
         businessName = 
               (String) bigBusinessEntities.next().getProperty("Business");
         if(businessName.equals(currentBusiness.getName())) {
-          smallBusinesses.remove();
+          businesses.remove();
         }
       }
     }
     return allBusinesses;
   }
-
-  public void setAllBusinesses(List<Listing> allBusinesses) {
-   this.allBusinesses = allBusinesses;
-  }
-
+  
   public List<Listing> getBusinessesFromPlacesApi(User user) {
     LatLng latLng = 
           new LatLng(user.getGeolocation().lat, user.getGeolocation().lng);
