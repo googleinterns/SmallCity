@@ -31,18 +31,18 @@ import com.google.appengine.api.datastore.Query.SortDirection;
  **/
 public class BusinessesService {
   
-  private List<Listing> smallBusinesses;
+  private List<Listing> allBusinesses;
   private final String KEY = "REDACTED";
   private final static Logger LOGGER = 
         Logger.getLogger(BusinessesService.class.getName());
   private final int ALLOWED_SEARCH_REQUESTS = 3;
 
   /** Create a new Businesses instance
-  * @param smallBusinesses businesses from SmallCityService
+  * @param allBusinesses businesses from SmallCityService
   **/
   
-  public BusinessesService(List<Listing> smallBusinesses) {
-    this.smallBusinesses = smallBusinesses;
+  public BusinessesService(List<Listing> allBusinesses) {
+    this.allBusinesses = allBusinesses;
   }
 
   public PreparedQuery getBigBusinessFromDatabase(){
@@ -53,25 +53,25 @@ public class BusinessesService {
   }
 
   public List<Listing> removeBigBusinessesFromResults(PreparedQuery queryOfDatabase){
-    Iterator<Listing> businesses =  smallBusinesses.iterator();
+    Iterator<Listing> smallBusinesses =  allBusinesses.iterator();
     Entity entity;
     String businessName;
-    while (businesses.hasNext()) {
-      Listing currentBusiness = businesses.next();
+    while (smallBusinesses.hasNext()) {
+      Listing currentBusiness = smallBusinesses.next();
       Iterator<Entity> bigBusinessEntities = queryOfDatabase.asIterator();
       while(bigBusinessEntities.hasNext()) {
         businessName = 
               (String) bigBusinessEntities.next().getProperty("Business");
         if(businessName.equals(currentBusiness.getName())) {
-          businesses.remove();
+          smallBusinesses.remove();
         }
       }
     }
-    return smallBusinesses;
+    return allBusinesses;
   }
 
   public void setAllBusinesses(List<Listing> allBusinesses) {
-   smallBusinesses = allBusinesses;
+   this.allBusinesses = allBusinesses;
   }
 
   public List<Listing> getBusinessesFromPlacesApi(User user) {
@@ -96,7 +96,7 @@ public class BusinessesService {
     } catch(Exception e) {
       LOGGER.warning(e.getMessage());
     }  
-    return smallBusinesses;
+    return allBusinesses;
   }
 
   private void addListingToBusinesses(PlacesSearchResult place) {
@@ -108,7 +108,7 @@ public class BusinessesService {
     double rating = place.rating;
     Photo photos[] = place.photos;
     String types[] = place.types;
-    smallBusinesses.add(new Listing(name, formattedAddress, 
+    allBusinesses.add(new Listing(name, formattedAddress, 
           placeLocation, rating, photos, types));
   }
 }
