@@ -76,13 +76,13 @@ function createResultCard(name, address, photos, rating, totalCardCount) {
 
   const nameHeader = document.createElement('h2');
   nameHeader.innerText = name;
+
   const addressParagraph = document.createElement('p');
   addressParagraph.innerText = address;
 
   const nameAndAddressDiv = document.createElement('div');
   nameAndAddressDiv.className = 'results-business-description';
   nameAndAddressDiv.appendChild(nameHeader);
-  // TODO: Actually add address once lweiskopf@ pr is approved, is just 'undefined' for now
   nameAndAddressDiv.appendChild(addressParagraph);
 
   const ratingDiv = createRating(rating);

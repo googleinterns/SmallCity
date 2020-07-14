@@ -16,6 +16,11 @@
 const resultsContent = document.getElementById('results-content');
 resultsContent.className = 'results-content';
 
+const resultsChildren = resultsContent.childNodes;
+
+const TOTAL_CARDS_TO_DISPLAY = 3;
+const MAX_LIST_VIEW_NUMBER = 15;
+
 //Display the initial 3 cards in the list
 function initialDisplay() {
   displayCards(0);
@@ -23,20 +28,16 @@ function initialDisplay() {
 
 //Navigate back one page (3 results) in the list view
 function navigatePrevious() {
-  displayCards((-3));
+  displayCards((-TOTAL_CARDS_TO_DISPLAY));
 }
 
 //Move forward one page (3 results) in the list view
 function moveNext() {
-  displayCards(3);
+  displayCards(TOTAL_CARDS_TO_DISPLAY);
 }
 
 //Handles the actual loop through array and display of cards
 function displayCards(listAugment) {
-  const totalCardsToDisplay = 3;
-  const maxListViewNumber = 15;
-
-  let resultsChildren = resultsContent.childNodes;
   let currentFirstCardIndex = 0;
 
   if (resultsChildren.length != 0) {
@@ -46,14 +47,14 @@ function displayCards(listAugment) {
   if ((currentFirstCardIndex == 0) && (listAugment < 0)) {
     alert('Already at beginning of list!');
   }
-  else if (currentFirstCardIndex == (maxListViewNumber - totalCardsToDisplay) && (listAugment > 0)) {
+  else if (currentFirstCardIndex == (MAX_LIST_VIEW_NUMBER - TOTAL_CARDS_TO_DISPLAY) && (listAugment > 0)) {
     alert('Already at end of list!');
   }
   else {
     currentFirstCardIndex += listAugment; 
 
     resultsContent.innerHTML = '';
-    for (let i = currentFirstCardIndex; i < (currentFirstCardIndex + totalCardsToDisplay); i++) {
+    for (let i = currentFirstCardIndex; i < (currentFirstCardIndex + TOTAL_CARDS_TO_DISPLAY); i++) {
       resultsContent.appendChild(listingsArray[i]);
     }
   }
