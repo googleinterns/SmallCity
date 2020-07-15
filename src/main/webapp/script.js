@@ -53,7 +53,6 @@ function fetchList() {
     listings.forEach((listing) => {
       listingsArray.push(createResultCard(listing.name, listing.formattedAddress, listing.photos, listing.rating, totalCardCount));
       totalCardCount++;
-      console.log(listing);
     });
     initialDisplay();
   });
