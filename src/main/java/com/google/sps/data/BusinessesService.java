@@ -34,7 +34,7 @@ public class BusinessesService {
   private Dotenv dotenv = Dotenv.configure().load();
 
   private List<Listing> allBusinesses;
-  private final String KEY = dotenv.get("MapsAPI");
+  private final String KEY = dotenv.get("PlacesAPI");
   private final static Logger LOGGER = 
         Logger.getLogger(BusinessesService.class.getName());
   private final int ALLOWED_SEARCH_REQUESTS = 3;
