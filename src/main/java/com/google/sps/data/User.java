@@ -17,7 +17,7 @@ public class User {
   private Dotenv dotenv = Dotenv.configure().load();
 
   private MapLocation geolocation;
-  private final String KEY = dotenv.get("PlacesAPI");
+  private final String KEY = dotenv.get("APIKey");
   private final static Logger LOGGER = Logger.getLogger(User.class.getName());
 
   /** Creates a user with a geolocation

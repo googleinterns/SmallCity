@@ -42,7 +42,7 @@ public final class UserTest {
   private User test_userWithCity;
   private User test_userWithAddress;
 
-  private final String KEY = dotenv.get("PlacesAPI");
+  private final String KEY = dotenv.get("APIKey");
   private final static Logger LOGGER 
         = Logger.getLogger(UserTest.class.getName());
 
