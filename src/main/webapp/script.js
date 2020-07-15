@@ -53,7 +53,6 @@ function fetchList() {
     totalCardCount = 0;
     initMap(listings[0].mapLocation);
     listings.forEach((listing) => {
-      console.log(totalCardCount);
       listingsArray.push(createResultCard(listing.name, listing.formattedAddress, listing.photos, listing.rating, totalCardCount));
       totalCardCount++;
       if (totalCardCount < 15) createMarker(listing);
