@@ -29,16 +29,17 @@ function getGeolocation() {
 function displayLocation(position) {
   let lat = position.coords.latitude;
   let lng = position.coords.longitude;
-  let xhttp = new XMLHttpRequest();
-  xhttp.open('POST', '/data?lat=' + lat + '&lng=' + lng, false);
-  xhttp.setRequestHeader("Cache-Control", "no-cache");
-  xhttp.send();
-  setTimeout(fetchList, 5000);
+  fetchList('/data?lat=' + lat + "&lng=" + lng);
 }
 
 function displayError() {
   console.log('Geolocation not enabled');
   alert(alertMessage);
+}
+
+function getZipCode() {
+  let zip = document.getElementById('zipCode').value;
+  fetchList('/data?zipCode=' + zip);
 }
 
 //Array of the (currently 6 for this demo build) 15 listings gathered from the fetch request
@@ -47,8 +48,8 @@ let listingsArray = [];
 //Count of the total businesses in the fetch request, used to set a unique id for each card
 let totalCardCount = 0;
 
-function fetchList() {
-  fetch('/data').then(response => response.json()).then((listings) => {
+function fetchList(queryString) {
+  fetch(queryString).then(response => response.json()).then((listings) => {
     listingsArray = [];
     totalCardCount = 0;
     initMap(listings[0].mapLocation);
@@ -124,14 +125,4 @@ function createRating(rating) {
   ratingDiv.innerText += (' ' + rating.toFixed(1));
   
   return ratingDiv;
-}
-
-function getZipCode() {
-  let zip = document.getElementById('zipCode').value;
-  console.log(zip);
-  let xhttp = new XMLHttpRequest();
-  xhttp.open('POST', '/data?zipCode=' + zip, false);
-  xhttp.setRequestHeader("Cache-Control", "no-cache");
-  xhttp.send();
-  setTimeout(fetchList(), 5000);
 }
