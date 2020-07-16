@@ -37,7 +37,7 @@ public class DataServlet extends HttpServlet {
   private final static Logger LOGGER = Logger.getLogger(DataServlet.class.getName());
 
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     try {
     String latString = request.getParameter("lat");
     String lngString = request.getParameter("lng");
@@ -51,11 +51,7 @@ public class DataServlet extends HttpServlet {
       LOGGER.warning(e.getMessage() 
            + "Unable to geolocate user, zipCode entered instead.");
     }
-    LOGGER.info("SERVLET: " + smallCityService.user.getGeolocation().lat + ", " + smallCityService.user.getGeolocation().lng);
-  }
-
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  
     response.setContentType("application/json;");
     response.setCharacterEncoding("UTF-8");
     response.getWriter().println(convertToJson(smallCityService.getSmallBusinesses()));
