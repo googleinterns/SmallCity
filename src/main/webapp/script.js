@@ -78,7 +78,7 @@ function createResultCard(name, address, photos, rating, totalCardCount) {
   
   if ((photos != null) && (photos.length > 0)) {
     let photoReference = photos[0].photoReference;
-    const KEY = 'AIzaSyDDIsG-SJAZ69ZoOecmfbXOB7ZIS4pZkAw';
+    const KEY = 'REDACTED';
     let maxwidth = 400;
     
     imageElement.src = "https://maps.googleapis.com/maps/api/place/photo?photoreference=" + photoReference + "&key=" + KEY + "&maxwidth=" + maxwidth;
