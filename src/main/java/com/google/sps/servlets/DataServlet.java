@@ -49,15 +49,16 @@ public class DataServlet extends HttpServlet {
       String zip = request.getParameter("zipCode");
       smallCityService.createUserWithZip(zip);
       LOGGER.warning(e.getMessage() 
-            + "Unable to geolocate user, zipCode entered instead.");
+           + "Unable to geolocate user, zipCode entered instead.");
     }
+    LOGGER.info("SERVLET: " + smallCityService.user.getGeolocation().lat + ", " + smallCityService.user.getGeolocation().lng);
   }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json;");
     response.setCharacterEncoding("UTF-8");
-    response.getWriter().println(convertToJson(smallCityService.getBusinesses()));
+    response.getWriter().println(convertToJson(smallCityService.getSmallBusinesses()));
   }
 
   private String convertToJson(List<Listing> businesses) {

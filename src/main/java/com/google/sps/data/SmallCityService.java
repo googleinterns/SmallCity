@@ -29,7 +29,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 /** SmallCityService object representing all components of the webapp **/
 public class SmallCityService {
   
-  private User user;
+  public User user;
   private BusinessesService businessesService;
   private List<Listing> businesses;
   private final static Logger LOGGER = Logger.getLogger(SmallCityService.class.getName());
@@ -43,6 +43,7 @@ public class SmallCityService {
   **/
   public void createUserWithZip(String zipCode) {
     this.user = new User(zipCode);
+    LOGGER.info(this.user.getGeolocation().lat + ", " + this.user.getGeolocation().lng);
     getSmallBusinesses();
   }
   
@@ -57,6 +58,7 @@ public class SmallCityService {
   
   public void findAllBusinesses() {
     businesses = businessesService.getBusinessesFromPlacesApi(user);
+
   }
   
   // To be used for unit testing file to be able to 
@@ -76,10 +78,14 @@ public class SmallCityService {
     return businesses;
   }
 
-  private void getSmallBusinesses() {
+  public List<Listing> getSmallBusinesses() {
     businesses = new LinkedList<Listing>();
     businessesService = new BusinessesService(businesses);
     findAllBusinesses();
     filterBySmallBusinesses();
+    for (Listing listing : businesses) {
+      LOGGER.info(listing.getName());
+    }
+    return businesses;
   }
 }
