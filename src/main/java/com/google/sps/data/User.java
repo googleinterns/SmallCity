@@ -10,14 +10,12 @@ import com.google.maps.model.LatLng;
 import com.google.maps.model.LocationType;
 import java.util.Arrays;
 import java.util.logging.Logger;
-import io.github.cdimascio.dotenv.Dotenv;
 
 /** User representing a location **/
 public class User {
-  private Dotenv dotenv = Dotenv.configure().load();
 
   private MapLocation geolocation;
-  private final String KEY = dotenv.get("APIKey");
+  private final String KEY = "REDACTED";
   private final static Logger LOGGER = Logger.getLogger(User.class.getName());
 
   /** Creates a user with a geolocation
