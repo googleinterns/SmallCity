@@ -73,9 +73,11 @@ Main Content Container Styling
 /*
   Map Content Container Styling
 */
-.map-container {
+#map {
   background-color: var(--light-gray);
   border-radius: 30px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
 }
 
 /*

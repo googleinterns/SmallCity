@@ -21,7 +21,7 @@
     </header>
 
     <div class="main-container">
-      <div class="map-container"></div>
+      <div id="map"></div>
       <div class="results-container" id="results-container">
        <div class="results-content" id="results-content"></div>
         <div class="pagination-container">
@@ -30,8 +30,11 @@
         </div>
       </div>
     </div>
-
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=REDACTED">
+    </script>
     <script type="text/javascript" src="script.js" charset="utf-8"></script>
     <script type="text/javascript" src="paginationScript.js" charset="utf-8"></script>
+    <script type="text/javascript" src="mapScript.js" charset="utf-8"></script>
   </body>
 </html>
