@@ -30,10 +30,10 @@ function displayLocation(position) {
   let lat = position.coords.latitude;
   let lng = position.coords.longitude;
   let xhttp = new XMLHttpRequest();
-  xhttp.open('POST', '/data?lat=' + lat + '&lng=' + lng, true);
+  xhttp.open('POST', '/data?lat=' + lat + '&lng=' + lng, false);
+  xhttp.setRequestHeader("Cache-Control", "no-cache");
   xhttp.send();
-
-  setTimeout(fetchList, 4000);
+  setTimeout(fetchList, 5000);
 }
 
 function displayError() {
@@ -128,9 +128,10 @@ function createRating(rating) {
 
 function getZipCode() {
   let zip = document.getElementById('zipCode').value;
+  console.log(zip);
   let xhttp = new XMLHttpRequest();
-  xhttp.open('POST', '/data?zipCode=' + zip, true);
+  xhttp.open('POST', '/data?zipCode=' + zip, false);
+  xhttp.setRequestHeader("Cache-Control", "no-cache");
   xhttp.send();
-
-  setTimeout(fetchList, 4000);
+  setTimeout(fetchList(), 5000);
 }
