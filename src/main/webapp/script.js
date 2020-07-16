@@ -55,8 +55,8 @@ function fetchList() {
     listings.forEach((listing) => {
       listingsArray.push(createResultCard(listing.name, listing.formattedAddress, listing.photos, listing.rating, totalCardCount));
       totalCardCount++;
-      if (totalCardCount < 15) createMarker(listing);
-    });
+      if (totalCardCount < 15) createMarker(listing, totalCardCount);
+    }); 
     initialDisplay();
   });
 }

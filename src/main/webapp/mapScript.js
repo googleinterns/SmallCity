@@ -21,9 +21,18 @@ function initMap(mapLocation) {
   });
 }
 
-function createMarker(listing) {
+function createMarker(listing, cardNumber) {
   let marker = new google.maps.Marker({
     position: {lat: listing.mapLocation.lat, lng: listing.mapLocation.lng},
+  });
+
+  marker.addListener('click', function() {
+    map.setZoom(16);
+    map.setCenter(marker.getPosition());
+    let firstId = document.getElementById('results-content').firstChild.id;
+    console.log(firstId);
+    displayCards(cardNumber-firstId);
+    document.getElementById(cardNumber).style.backgroundColor = '#b3ffb3';
   });
   marker.setMap(map);
 }
