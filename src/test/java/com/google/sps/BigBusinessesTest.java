@@ -155,7 +155,7 @@ public final class BigBusinessesTest {
   }
 
   @Test
-  public void testEliminateBigBusinessesMethod() {
+  public void testFilterBySmallBusinessesMethod() {
     SmallCityService testSmallCityService = new SmallCityService();
     testSmallCityService.setAllBusinesses(sampleListOfBusinesses);
 
@@ -163,7 +163,7 @@ public final class BigBusinessesTest {
     // after the Bigbusinesses are removed from the List.
     // Currently to make sure this test runs properly, I made it so that the
     // references of the appropriate Listings are added to a seperate array, 
-    // so when eliminateBigBusinesses method is called, I am sure that the bigBusinesses 
+    // so when filterBySmallBusinesses method is called, I am sure that the bigBusinesses 
     // are being removed from the list variable in the SmallCityService class.
     expectedListOfBusinesses.add(sampleListOfBusinesses.get(3));
     expectedListOfBusinesses.add(sampleListOfBusinesses.get(4));
