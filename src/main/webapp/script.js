@@ -13,6 +13,7 @@
 // limitations under the License.
 
 const alertMessage = 'Sorry! We cannot geolocate you. Please enter a zipcode';
+let map;
 
 function getGeolocation() {
 
@@ -50,9 +51,11 @@ function fetchList() {
   fetch('/data').then(response => response.json()).then((listings) => {
     listingsArray = [];
     totalCardCount = 0;
+    initMap(listings[0].mapLocation);
     listings.forEach((listing) => {
       listingsArray.push(createResultCard(listing.name, listing.formattedAddress, listing.photos, listing.rating, totalCardCount));
       totalCardCount++;
+      if (totalCardCount < 15) createMarker(listing);
     });
     initialDisplay();
   });
