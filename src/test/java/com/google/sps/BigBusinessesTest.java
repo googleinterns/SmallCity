@@ -157,7 +157,6 @@ public final class BigBusinessesTest {
   @Test
   public void testEliminateBigBusinessesMethod() {
     SmallCityService testSmallCityService = new SmallCityService();
-    testSmallCityService.createUserWithGeolocation(testLocation);
     testSmallCityService.setAllBusinesses(sampleListOfBusinesses);
 
     // These are the listings that should be in the list 
