@@ -58,7 +58,6 @@ public class SmallCityService {
   
   public void findAllBusinesses() {
     businesses = businessesService.getBusinessesFromPlacesApi(user);
-
   }
   
   // To be used for unit testing file to be able to 
@@ -83,9 +82,6 @@ public class SmallCityService {
     businessesService = new BusinessesService(businesses);
     findAllBusinesses();
     filterBySmallBusinesses();
-    for (Listing listing : businesses) {
-      LOGGER.info(listing.getName());
-    }
     return businesses;
   }
 }
