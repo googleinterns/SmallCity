@@ -51,6 +51,7 @@ public class BusinessesService {
   private Listing currentBusiness;
   private PlacesSearchResponse similarBusinessesInTheArea;
   private LatLng latLng;
+  private int minFollowers = 50000;
 
   /** Create a new Businesses instance
   * @param allBusinesses businesses from SmallCityService
@@ -131,7 +132,7 @@ public class BusinessesService {
             .apiKey(KEY)
             .build();
     try {
-      for(int i = 0; i<30;i++){
+      for(int i = 0; i<allBusinesses.size();i++){
         currentBusiness = allBusinesses.get(i);
         TextSearchRequest request = new TextSearchRequest(context)
                                             .query(currentBusiness.getName())
@@ -185,7 +186,7 @@ public class BusinessesService {
                 Integer.parseInt(numberOfFollowers[i-1].replaceAll(",", ""));
       }
     }
-    if(companyFollowers > 50000) {
+    if(companyFollowers > minFollowers) {
       addBigBusinessToDatabase();
     }else {
       checkNumberOfSimilarBusinessesInTheArea(currentBusiness.getName());
