@@ -71,6 +71,11 @@ public class SmallCityService {
     queryOfDatabase = businessesService.getBigBusinessFromDatabase();
     businesses = businessesService.removeBigBusinessesFromResults(queryOfDatabase);
   }
+  
+  public void findBigBusinessInList () {
+     businessesService.checkNumberOfLocationsOfBusiness();
+     filterBySmallBusinesses();
+  }
 
   public List<Listing> getBusinesses() {
     return businesses;
@@ -81,5 +86,6 @@ public class SmallCityService {
     businessesService = new BusinessesService(businesses);
     findAllBusinesses();
     filterBySmallBusinesses();
+    findBigBusinessInList();
   }
 }
