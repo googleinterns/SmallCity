@@ -137,7 +137,7 @@ public class BusinessesService {
         TextSearchRequest request = new TextSearchRequest(context)
                                             .query(currentBusiness.getName())
                                             .location(latLng)
-                                            .radius(10000);
+                                            .radius(50000);
         similarBusinessesInTheArea = request.await();
         if(similarBusinessesInTheArea.results.length > 1){
           checkBusinessThroughLinkedin(currentBusiness.getName());
@@ -198,7 +198,8 @@ public class BusinessesService {
     int i = 0;
     while(i < similarBusinessesInTheArea.results.length 
           && countNumberOfMatchingBusiness < 10) {
-      if(similarBusinessesInTheArea.results[i].name.contains(businessName)) {
+      if(similarBusinessesInTheArea.results[i].name.contains(businessName) 
+          && similarBusinessesInTheArea.results[i].vicinity != currentBusiness.getFormattedAddress()) {
         countNumberOfMatchingBusiness++;
       }
       i++;
