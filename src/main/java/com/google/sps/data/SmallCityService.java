@@ -43,7 +43,6 @@ public class SmallCityService {
   **/
   public void createUserWithZip(String zipCode) {
     this.user = new User(zipCode);
-    getSmallBusinesses();
   }
   
   /** 
@@ -52,7 +51,6 @@ public class SmallCityService {
   **/
   public void createUserWithGeolocation(MapLocation mapLocation) {
     this.user = new User(mapLocation);
-    getSmallBusinesses();
   }
   
   public void findAllBusinesses() {
