@@ -15,17 +15,10 @@ import io.github.cdimascio.dotenv.Dotenv;
 /** User representing a location **/
 public class User {
 
-  private MapLocation geolocation;
+  public MapLocation geolocation;
 
   /** Creates a user with a geolocation
-  * @param geolocation lat/lng coordinate
   * @return User with geolocation
   **/
-  public User(MapLocation geolocation) {
-    this.geolocation = geolocation;
-  }
-  
-  public MapLocation getGeolocation() {
-    return geolocation;
-  }
+  public User() { }
 }

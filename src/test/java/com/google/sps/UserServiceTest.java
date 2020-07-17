@@ -49,32 +49,36 @@ public final class UserServiceTest {
 
   @Test
   public void geolocationUserWithMapLocation() {
-    test_userServiceWithMapLocation = new UserService(TEST_USER_MAP_LOCATION);
-    MapLocation actual = test_userServiceWithMapLocation.user.getGeolocation();
+    test_userServiceWithMapLocation = new UserService();
+    test_userServiceWithMapLocation.createUserWithGeolocation(TEST_USER_MAP_LOCATION);
+    MapLocation actual = test_userServiceWithMapLocation.user.geolocation;
     MapLocation expected = TEST_USER_MAP_LOCATION;
     Assert.assertEquals(expected, actual);
   }
 
   @Test
   public void geolocationUserWithZipCode() {
-    test_userServiceWithZipCode = new UserService(TEST_USER_ZIPCODE);
-    MapLocation actual = test_userServiceWithZipCode.user.getGeolocation();
+    test_userServiceWithZipCode = new UserService();
+    test_userServiceWithZipCode.createUserWithZipCode(TEST_USER_ZIPCODE);
+    MapLocation actual = test_userServiceWithZipCode.user.geolocation;
     String address = reverseGeocode(actual);
     Assert.assertTrue(address.contains(TEST_USER_ZIPCODE));
   }
 
   @Test
   public void geolocationUserWithCity() {
-    test_userServiceWithCity = new UserService(TEST_USER_CITY);
-    MapLocation actual = test_userServiceWithCity.user.getGeolocation();
+    test_userServiceWithCity = new UserService();
+    test_userServiceWithCity.createUserWithZipCode(TEST_USER_CITY);
+    MapLocation actual = test_userServiceWithCity.user.geolocation;
     String address = reverseGeocode(actual);  
     Assert.assertTrue(address.contains(TEST_USER_CITY));
   }
 
   @Test
   public void geolocationUserWithAddress() {
-    test_userServiceWithAddress = new UserService(TEST_USER_ADDRESS);
-    MapLocation actual = test_userServiceWithAddress.user.getGeolocation();
+    test_userServiceWithAddress = new UserService();
+    test_userServiceWithAddress.createUserWithZipCode(TEST_USER_ADDRESS);
+    MapLocation actual = test_userServiceWithAddress.user.geolocation;
     String address = reverseGeocode(actual); 
     Assert.assertTrue(address.contains(TEST_USER_ADDRESS));
   }

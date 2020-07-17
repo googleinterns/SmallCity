@@ -20,23 +20,18 @@ public class UserService {
 
   public User user;
 
-  /** Creates a userService with a geolocation
-  * @param mapLocation lat/lng coordinate
-  * @return UserService with user
-  **/
-  public UserService(MapLocation mapLocation) {
-    user = new User(mapLocation);
+  public UserService() { }
+  
+  public void createUserWithGeolocation(MapLocation mapLocation) {
+    user = new User();
+    user.geolocation = mapLocation;
   }
-
-  /** Creates a userService with a zipCode
-  * @param zipCode zipCode
-  * @return UserService with user
-  **/
-  public UserService(String zipCode) {
-    MapLocation mapLocation = zipCodeToMapLocation(zipCode);
-    user = new User(mapLocation);
+  
+  public void createUserWithZipCode(String zipCode) {
+    user = new User();
+    user.geolocation = zipCodeToMapLocation(zipCode);
   }
-
+  
   private MapLocation zipCodeToMapLocation(String zipCode) {
     final GeoApiContext context = new GeoApiContext.Builder()
             .apiKey(KEY)

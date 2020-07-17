@@ -42,7 +42,8 @@ public class SmallCityService {
   * @param zipCode inputted zipcode of user
   **/
   public void createUserServiceWithZip(String zipCode) {
-    this.userService = new UserService(zipCode);
+    this.userService = new UserService();
+    userService.createUserWithZipCode(zipCode);
     getSmallBusinesses();
   }
   
@@ -51,13 +52,14 @@ public class SmallCityService {
   * @param mapLocation found geolocation of user
   **/
   public void createUserServiceWithGeolocation(MapLocation mapLocation) {
-    this.userService = new UserService(mapLocation);
+    this.userService = new UserService();
+    userService.createUserWithGeolocation(mapLocation);
     getSmallBusinesses();
   }
   
   public void findAllBusinesses() {
     businesses = businessesService
-          .getBusinessesFromPlacesApi(userService.user.getGeolocation());
+          .getBusinessesFromPlacesApi(userService.user.geolocation);
   }
   
   // To be used for unit testing file to be able to 
