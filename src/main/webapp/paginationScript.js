@@ -23,6 +23,7 @@ const MAX_LIST_VIEW_NUMBER = 15;
 
 //Display the initial 3 cards in the list
 function initialDisplay() {
+  resultsContent.innerHTML = '';
   displayCards(0);
 }
 

@@ -52,37 +52,37 @@ public final class BigBusinessesTest {
   private List<Listing> sampleListOfBusinesses = new LinkedList<Listing>(
               Arrays.asList(
                 new Listing("LA Fitness",
-                  "Address", 
+                  "6425 Penn Ave, Pittsburgh", 
                   new MapLocation(40.457091, -79.915331), 
                   3.9,
                   samplePhotos, 
                   sampleBusinessTypes),
                 new Listing("west elm", 
-                  "Address",
+                  "110 Bakery Square Blvd, Pittsburgh",
                   new MapLocation(40.456279, -79.915015), 
                   3.6, 
                   samplePhotos,
                   sampleBusinessTypes),
-                new Listing("McDonalds",
-                  "Address", 
+                new Listing("McDonald's",
+                  "801 Allegheny Ave, Pittsburgh, PA 15233", 
                   new MapLocation(40.459450, -79.918479), 
                   2.6, 
                   samplePhotos,
                   sampleBusinessTypes),
                 new Listing("East End Brewing Company", 
-                  "Address",
+                  "147 Julius St, Pittsburgh",
                   new MapLocation(40.459391, -79.911782), 
                   4.7,
                   samplePhotos, 
                   sampleBusinessTypes),
                 new Listing("The Shiny Bean Coffee & Tea", 
-                  "Address",
+                  "333 Butler St, Etna",
                   new MapLocation(40.496328, -79.944862), 
                   4.9, 
                   samplePhotos,
                   sampleBusinessTypes),
                 new Listing("Weisshouse", 
-                  "Address",
+                  "324 S Highland Ave, Pittsburgh",
                   new MapLocation(40.456684, -79.925499), 
                   4.3,
                   samplePhotos, 
@@ -92,19 +92,19 @@ public final class BigBusinessesTest {
   private List<Listing> sampleDatabaseOfBigBusinesses = new LinkedList<Listing>(
               Arrays.asList(
                 new Listing("LA Fitness",
-                  "Address", 
+                  "6425 Penn Ave, Pittsburgh", 
                   new MapLocation(40.457091, -79.915331), 
                   3.9,
                   samplePhotos, 
                   sampleBusinessTypes),
                 new Listing("west elm", 
-                  "Address",
+                  "110 Bakery Square Blvd, Pittsburgh",
                   new MapLocation(40.456279, -79.915015), 
                   3.6, 
                   samplePhotos,
                   sampleBusinessTypes),
-                new Listing("McDonalds",
-                  "Address", 
+                new Listing("McDonald's",
+                  "801 Allegheny Ave, Pittsburgh", 
                   new MapLocation(40.459450, -79.918479), 
                   2.6, 
                   samplePhotos,
@@ -155,16 +155,15 @@ public final class BigBusinessesTest {
   }
 
   @Test
-  public void testEliminateBigBusinessesMethod() {
+  public void testFilterBySmallBusinessesMethod() {
     SmallCityService testSmallCityService = new SmallCityService();
-    testSmallCityService.createUserWithGeolocation(testLocation);
     testSmallCityService.setAllBusinesses(sampleListOfBusinesses);
 
     // These are the listings that should be in the list 
     // after the Bigbusinesses are removed from the List.
     // Currently to make sure this test runs properly, I made it so that the
     // references of the appropriate Listings are added to a seperate array, 
-    // so when eliminateBigBusinesses method is called, I am sure that the bigBusinesses 
+    // so when filterBySmallBusinesses method is called, I am sure that the bigBusinesses 
     // are being removed from the list variable in the SmallCityService class.
     expectedListOfBusinesses.add(sampleListOfBusinesses.get(3));
     expectedListOfBusinesses.add(sampleListOfBusinesses.get(4));
