@@ -77,7 +77,18 @@ function createResultCard(name, address, photos, rating, totalCardCount) {
 
   const imageDiv = document.createElement('div');
   imageDiv.className = 'results-image';
-  // TODO: Link image
+
+  const imageElement = document.createElement('img');
+  
+  if ((photos != null) && (photos.length > 0)) {
+    let photoReference = photos[0].photoReference;
+    const KEY = 'REDACTED';
+    let maxwidth = 400;
+    
+    imageElement.src = "https://maps.googleapis.com/maps/api/place/photo?photoreference=" + photoReference + "&key=" + KEY + "&maxwidth=" + maxwidth;
+  }
+
+  imageDiv.appendChild(imageElement);
 
   const nameHeader = document.createElement('h2');
   nameHeader.innerText = name;
