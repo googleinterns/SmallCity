@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import com.google.sps.data.SmallCityService;
+import com.google.sps.data.UserService;
 import com.google.sps.data.Listing;
 import com.google.sps.data.MapLocation;
 import com.google.sps.data.User;
@@ -26,7 +27,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 /** Test class for User Object **/
 @RunWith(JUnit4.class)
-public final class UserTest {
+public final class UserServiceTest {
   private Dotenv dotenv = Dotenv.configure().load();
 
   // Pittsburgh Google Office Location
@@ -37,43 +38,43 @@ public final class UserTest {
   private final String TEST_USER_ADDRESS 
         = "6425 Penn Ave, Pittsburgh, PA 15206";
   
-  private User test_userWithMapLocation;
-  private User test_userWithZipCode;
-  private User test_userWithCity;
-  private User test_userWithAddress;
+  private UserService test_userServiceWithMapLocation;
+  private UserService test_userServiceWithZipCode;
+  private UserService test_userServiceWithCity;
+  private UserService test_userServiceWithAddress;
 
   private final String KEY = dotenv.get("APIKey");
   private final static Logger LOGGER 
-        = Logger.getLogger(UserTest.class.getName());
+        = Logger.getLogger(UserServiceTest.class.getName());
 
   @Test
   public void geolocationUserWithMapLocation() {
-    test_userWithMapLocation = new User(TEST_USER_MAP_LOCATION);
-    MapLocation actual = test_userWithMapLocation.getGeolocation();
+    test_userServiceWithMapLocation = new UserService(TEST_USER_MAP_LOCATION);
+    MapLocation actual = test_userServiceWithMapLocation.user.getGeolocation();
     MapLocation expected = TEST_USER_MAP_LOCATION;
     Assert.assertEquals(expected, actual);
   }
 
   @Test
   public void geolocationUserWithZipCode() {
-    test_userWithZipCode = new User(TEST_USER_ZIPCODE);
-    MapLocation actual = test_userWithZipCode.getGeolocation();
+    test_userServiceWithZipCode = new UserService(TEST_USER_ZIPCODE);
+    MapLocation actual = test_userServiceWithZipCode.user.getGeolocation();
     String address = reverseGeocode(actual);
     Assert.assertTrue(address.contains(TEST_USER_ZIPCODE));
   }
 
   @Test
   public void geolocationUserWithCity() {
-    test_userWithCity = new User(TEST_USER_CITY);
-    MapLocation actual = test_userWithCity.getGeolocation();
+    test_userServiceWithCity = new UserService(TEST_USER_CITY);
+    MapLocation actual = test_userServiceWithCity.user.getGeolocation();
     String address = reverseGeocode(actual);  
     Assert.assertTrue(address.contains(TEST_USER_CITY));
   }
 
   @Test
   public void geolocationUserWithAddress() {
-    test_userWithAddress = new User(TEST_USER_ADDRESS);
-    MapLocation actual = test_userWithAddress.getGeolocation();
+    test_userServiceWithAddress = new UserService(TEST_USER_ADDRESS);
+    MapLocation actual = test_userServiceWithAddress.user.getGeolocation();
     String address = reverseGeocode(actual); 
     Assert.assertTrue(address.contains(TEST_USER_ADDRESS));
   }

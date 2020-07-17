@@ -72,9 +72,9 @@ public class BusinessesService {
     return allBusinesses;
   }
   
-  public List<Listing> getBusinessesFromPlacesApi(User user) {
+  public List<Listing> getBusinessesFromPlacesApi(MapLocation mapLocation) {
     LatLng latLng = 
-          new LatLng(user.getGeolocation().lat, user.getGeolocation().lng);
+          new LatLng(mapLocation.lat, mapLocation.lng);
     final GeoApiContext context = new GeoApiContext.Builder()
             .apiKey(KEY)
             .build();
