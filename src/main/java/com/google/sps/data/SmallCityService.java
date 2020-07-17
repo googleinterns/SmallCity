@@ -43,7 +43,6 @@ public class SmallCityService {
   **/
   public void createUserWithZip(String zipCode) {
     this.user = new User(zipCode);
-    LOGGER.info(this.user.getGeolocation().lat + ", " + this.user.getGeolocation().lng);
     getSmallBusinesses();
   }
   
