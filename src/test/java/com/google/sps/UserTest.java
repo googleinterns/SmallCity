@@ -1,4 +1,4 @@
-package com.google.sps;
+package com.google.sps.data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,12 +22,12 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.LocationType;
 import java.util.logging.Logger;
-import io.github.cdimascio.dotenv.Dotenv;
 
 /** Test class for User Object **/
 @RunWith(JUnit4.class)
 public final class UserTest {
-  private Dotenv dotenv = Dotenv.configure().load();
+
+  private SensitiveData key = new SensitiveData(); 
 
   // Pittsburgh Google Office Location
   private final MapLocation TEST_USER_MAP_LOCATION 
@@ -42,7 +42,7 @@ public final class UserTest {
   private User test_userWithCity;
   private User test_userWithAddress;
 
-  private final String KEY = dotenv.get("APIKey");
+  private final String KEY = key.getAPIKey();
   private final static Logger LOGGER 
         = Logger.getLogger(UserTest.class.getName());
 
