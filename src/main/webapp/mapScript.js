@@ -12,12 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-let highlightedCardId = 0;
+
 
 function initMap(mapLocation) {
   let myLatLng = {lat: mapLocation.lat, lng: mapLocation.lng};
   map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 16,
     center: myLatLng,
     mapTypeControl: false
   });
@@ -27,6 +26,7 @@ function createMarker(listing, cardNumber) {
   let marker = new google.maps.Marker({
     position: {lat: listing.mapLocation.lat, lng: listing.mapLocation.lng},
   });
+  bounds.extend(marker.getPosition());
 
   marker.addListener('click', function() {
     map.setCenter(marker.getPosition());

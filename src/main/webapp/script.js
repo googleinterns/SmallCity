@@ -46,8 +46,10 @@ let listingsArray = [];
 
 //Count of the total businesses in the fetch request, used to set a unique id for each card
 let totalCardCount = 0;
+let bounds = 0;
 
 function fetchList() {
+  bounds = new google.maps.LatLngBounds();
   fetch('/data').then(response => response.json()).then((listings) => {
     listingsArray = [];
     totalCardCount = 0;
@@ -58,6 +60,7 @@ function fetchList() {
       totalCardCount++;
     }); 
     initialDisplay();
+    map.fitBounds(bounds);
   });
 }
 
