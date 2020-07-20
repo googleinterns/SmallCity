@@ -54,8 +54,8 @@ function fetchList() {
     initMap(listings[0].mapLocation);
     listings.forEach((listing) => {
       listingsArray.push(createResultCard(listing.name, listing.formattedAddress, listing.photos, listing.rating, totalCardCount));
-      totalCardCount++;
       if (totalCardCount < 15) createMarker(listing, totalCardCount);
+      totalCardCount++;
     }); 
     initialDisplay();
   });
@@ -83,7 +83,6 @@ function createResultCard(name, address, photos, rating, totalCardCount) {
     let photoReference = photos[0].photoReference;
     const KEY = 'REDACTED';
     let maxwidth = 400;
-    
     imageElement.src = "https://maps.googleapis.com/maps/api/place/photo?photoreference=" + photoReference + "&key=" + KEY + "&maxwidth=" + maxwidth;
   }
 

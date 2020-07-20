@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-let highlightedId = 0;
+let highlightedCardId = 0;
 
 function initMap(mapLocation) {
   let myLatLng = {lat: mapLocation.lat, lng: mapLocation.lng};
   map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 13,
+    zoom: 16,
     center: myLatLng,
     mapTypeControl: false
   });
@@ -29,16 +29,19 @@ function createMarker(listing, cardNumber) {
   });
 
   marker.addListener('click', function() {
-    document.getElementById(highlightedId).style.backgroundColor = '#fff';
     map.setCenter(marker.getPosition());
-    map.setZoom(16);
-    let firstId = document.getElementById('results-content').firstChild.id;
+    map.setZoom(18);
+    let firstCardId = document.getElementById('results-content').firstChild.id;
     // If card is not on the current page
-    if ((cardNumber-firstId < 0) || (cardNumber-firstId >= 3)) {
-      displayCards(cardNumber-firstId);
+    if ((cardNumber-firstCardId < 0) || (cardNumber-firstCardId >= 3)) {
+      displayCards(Math.floor((cardNumber-firstCardId)/3)*3);
     }
-    document.getElementById(cardNumber).style.backgroundColor = '#b3ffb3';
-    highlightedId = cardNumber;
+    let currentCard = document.getElementById(cardNumber);
+    // Cooresponding card flashes for 5 seconds
+    currentCard.style.backgroundColor = '#b3ffb3';
+    setTimeout(function() {
+      currentCard.style.backgroundColor = '#fff';
+    }, 5000);
   });
   marker.setMap(map);
 }
