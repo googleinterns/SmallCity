@@ -13,6 +13,7 @@
 // limitations under the License.
 
 const alertMessage = 'Sorry! We cannot geolocate you. Please enter a zipcode';
+let map;
 
 function getGeolocation() {
 
@@ -49,9 +50,12 @@ let totalCardCount = 0;
 function fetchList() {
   fetch('/data').then(response => response.json()).then((listings) => {
     listingsArray = [];
+    totalCardCount = 0;
+    initMap(listings[0].mapLocation);
     listings.forEach((listing) => {
       listingsArray.push(createResultCard(listing.name, listing.formattedAddress, listing.photos, listing.rating, totalCardCount));
       totalCardCount++;
+      if (totalCardCount < 15) createMarker(listing);
     });
     initialDisplay();
   });
@@ -72,7 +76,18 @@ function createResultCard(name, address, photos, rating, totalCardCount) {
 
   const imageDiv = document.createElement('div');
   imageDiv.className = 'results-image';
-  // TODO: Link image
+
+  const imageElement = document.createElement('img');
+  
+  if ((photos != null) && (photos.length > 0)) {
+    let photoReference = photos[0].photoReference;
+    const KEY = 'REDACTED';
+    let maxwidth = 400;
+    
+    imageElement.src = "https://maps.googleapis.com/maps/api/place/photo?photoreference=" + photoReference + "&key=" + KEY + "&maxwidth=" + maxwidth;
+  }
+
+  imageDiv.appendChild(imageElement);
 
   const nameHeader = document.createElement('h2');
   nameHeader.innerText = name;

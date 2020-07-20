@@ -36,15 +36,15 @@ import java.security.GeneralSecurityException;
 import java.io.IOException;
 import java.util.Map;
 import java.lang.Integer;
-
+import com.google.maps.errors.ApiException;
 
 /** BusinessesService object representing all businesses 
 * components of the webapp.
  **/
 public class BusinessesService {
-  
+
   private List<Listing> allBusinesses;
-  private final String KEY = "REDACTED";
+  private final String KEY = "AIzaSyDDIsG-SJAZ69ZoOecmfbXOB7ZIS4pZkAw";
   private final static Logger LOGGER = 
         Logger.getLogger(BusinessesService.class.getName());
   private final int ALLOWED_SEARCH_REQUESTS = 3;
@@ -132,27 +132,32 @@ public class BusinessesService {
             .apiKey(KEY)
             .build();
     try {
-      for(int i = 0; i<allBusinesses.size();i++){
+      for (int i = 0; i<allBusinesses.size();i++){
         currentBusiness = allBusinesses.get(i);
         TextSearchRequest request = new TextSearchRequest(context)
                                             .query(currentBusiness.getName())
                                             .location(latLng)
                                             .radius(50000);
+
         similarBusinessesInTheArea = request.await();
-        if(similarBusinessesInTheArea.results.length > 1){
+        if (similarBusinessesInTheArea.results.length > 1){
           checkBusinessThroughLinkedin(currentBusiness.getName());
         }
       }
-
-    }catch(Exception e) {
+    } catch(GeneralSecurityException e) {
       LOGGER.warning(e.getMessage());
-    }  
+    } catch(IOException e) {
+      LOGGER.warning(e.getMessage());
+    } catch(ApiException e) {
+      LOGGER.warning(e.getMessage());
+    } catch(InterruptedException e) {
+      LOGGER.warning(e.getMessage());
+    } 
   }
   
   private void checkBusinessThroughLinkedin(String currentBusinessName) 
                           throws GeneralSecurityException, IOException {
-    String cx = "001390425498086947771:mhzyevhmmxq"; //Your search engine
-    //Instance Customsearch
+    String cx = "001390425498086947771:mhzyevhmmxq"; 
     Customsearch cs = new Customsearch.Builder(
                                 GoogleNetHttpTransport.newTrustedTransport(), 
                                 JacksonFactory.getDefaultInstance(), 
@@ -161,34 +166,33 @@ public class BusinessesService {
                                 .setGoogleClientRequestInitializer(
                                       new CustomsearchRequestInitializer(KEY)) 
                                 .build();
+
     Customsearch.Cse.List list = cs.cse().list(currentBusinessName).setCx(cx); 
     List<Result> searchJsonResults = list.execute().getItems();
     String[] numberOfFollowers;
-    if (searchJsonResults!=null){
-      if(searchJsonResults.size() != 0){
-        Result linkedinBusiness = searchJsonResults.get(0);
-        List<Map<String, Object>> resultsMetatags = 
-                        (List) linkedinBusiness.getPagemap().get("metatags");
-        for (Map<String, Object> tag : resultsMetatags) {
-          String b_title = (String) tag.get("og:description");
-          numberOfFollowers = b_title.split(" ");
-          findNumberOfFollowers(numberOfFollowers);
-        }
+    if (searchJsonResults!=null && searchJsonResults.size() != 0) {
+      Result linkedinBusiness = searchJsonResults.get(0);
+      List<Map<String, Object>> resultsMetatags = 
+                      (List) linkedinBusiness.getPagemap().get("metatags");
+      for (Map<String, Object> tag : resultsMetatags) {
+        String businessDescription = (String) tag.get("og:description");
+        numberOfFollowers = businessDescription.split(" ");
+        findNumberOfFollowers(numberOfFollowers);
       }
     }
   }
 
   private void findNumberOfFollowers(String[] numberOfFollowers) {
     int companyFollowers = 0;
-    for(int i = 0; i < numberOfFollowers.length; i++) {
-      if(numberOfFollowers[i].equals("followers")) {
+    for (int i = 0; i < numberOfFollowers.length; i++) {
+      if (numberOfFollowers[i].equals("followers")) {
         companyFollowers = 
                 Integer.parseInt(numberOfFollowers[i-1].replaceAll(",", ""));
       }
     }
-    if(companyFollowers > minFollowers) {
+    if (companyFollowers > minFollowers) {
       addBigBusinessToDatabase();
-    }else {
+    } else {
       checkNumberOfSimilarBusinessesInTheArea(currentBusiness.getName());
     }
   }
@@ -196,15 +200,15 @@ public class BusinessesService {
   private void checkNumberOfSimilarBusinessesInTheArea(String businessName){
     int countNumberOfMatchingBusiness = 0;
     int i = 0;
-    while(i < similarBusinessesInTheArea.results.length 
+    while (i < similarBusinessesInTheArea.results.length 
           && countNumberOfMatchingBusiness < 10) {
-      if(similarBusinessesInTheArea.results[i].name.contains(businessName) 
+      if (similarBusinessesInTheArea.results[i].name.contains(businessName) 
           && similarBusinessesInTheArea.results[i].vicinity != currentBusiness.getFormattedAddress()) {
         countNumberOfMatchingBusiness++;
       }
       i++;
      }
-     if(countNumberOfMatchingBusiness >= 10) {
+     if (countNumberOfMatchingBusiness >= 10) {
        addBigBusinessToDatabase();
      }
    }
