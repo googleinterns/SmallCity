@@ -131,8 +131,9 @@ public class BusinessesService {
     GeoApiContext context = new GeoApiContext.Builder()
             .apiKey(KEY)
             .build();
+    int size = allBusinesses.size();
     try {
-      for (int i = 0; i<allBusinesses.size();i++){
+      for (int i = 0; i<size;i++){
         currentBusiness = allBusinesses.get(i);
         TextSearchRequest request = new TextSearchRequest(context)
                                             .query(currentBusiness.getName())
@@ -143,6 +144,7 @@ public class BusinessesService {
         if (similarBusinessesInTheArea.results.length > 1){
           checkBusinessThroughLinkedin(currentBusiness.getName());
         }
+        size =allBusinesses.size();
       }
     } catch(GeneralSecurityException e) {
       LOGGER.warning(e.getMessage());
@@ -170,34 +172,24 @@ public class BusinessesService {
     Customsearch.Cse.List list = cs.cse().list(currentBusinessName).setCx(cx); 
     List<Result> searchJsonResults = list.execute().getItems();
     String[] numberOfFollowers;
+    int companyFollowers = 0;
     if (searchJsonResults!=null && searchJsonResults.size() != 0) {
       Result linkedinBusiness = searchJsonResults.get(0);
-      List<Map<String, Object>> resultsMetatags = 
-                      (List) linkedinBusiness.getPagemap().get("metatags");
-      for (Map<String, Object> tag : resultsMetatags) {
-        String businessDescription = (String) tag.get("og:description");
-        numberOfFollowers = businessDescription.split(" ");
-        findNumberOfFollowers(numberOfFollowers);
-      }
-    }
-  }
-
-  private void findNumberOfFollowers(String[] numberOfFollowers) {
-    int companyFollowers = 0;
-    int i = 0;
-    boolean isFollowers = false;
-    while (i < numberOfFollowers.length  && !isFollowers) {
-      if (numberOfFollowers[i].equals("followers")) {
+      String businessDescription = (String) linkedinBusiness.getPagemap().get("metatags").get(0).get("og:description");
+      System.out.println(businessDescription);
+      if(businessDescription.indexOf("|") != -1 && businessDescription.indexOf("followers") != -1){
+        String followers = businessDescription.substring(businessDescription.indexOf("|") + 2, businessDescription.indexOf("followers") - 1);
         companyFollowers = 
-                Integer.parseInt(numberOfFollowers[i-1].replaceAll(",", ""));
-                isFollowers = true;
+                    Integer.parseInt(followers.replaceAll(",", ""));
+        System.out.println(businessDescription);
+        System.out.println(companyFollowers);
       }
-      i++;
-    }
-    if (companyFollowers > minFollowers) {
-      addBigBusinessToDatabase();
-    } else {
-      checkNumberOfSimilarBusinessesInTheArea(currentBusiness.getName());
+      
+      if (companyFollowers > minFollowers) {
+        addBigBusinessToDatabase();
+      } else {
+        checkNumberOfSimilarBusinessesInTheArea(currentBusiness.getName());
+      }
     }
   }
 
