@@ -12,18 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
+
 function initMap(mapLocation) {
   let myLatLng = {lat: mapLocation.lat, lng: mapLocation.lng};
   map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 13,
     center: myLatLng,
     mapTypeControl: false
   });
 }
 
-function createMarker(listing) {
+function createMarker(listing, cardNumber) {
   let marker = new google.maps.Marker({
     position: {lat: listing.mapLocation.lat, lng: listing.mapLocation.lng},
+  });
+  bounds.extend(marker.getPosition());
+
+  marker.addListener('click', function() {
+    map.setCenter(marker.getPosition());
+    map.setZoom(18);
+    let firstCardId = document.getElementById('results-content').firstChild.id;
+    // If card is not on the current page
+    if ((cardNumber-firstCardId < 0) || (cardNumber-firstCardId >= 3)) {
+      displayCards(Math.floor((cardNumber-firstCardId)/3)*3);
+    }
+
+    let currentCard = document.getElementById(cardNumber);
+    // Corresponding card flashes for 5 seconds
+    currentCard.style.backgroundColor = '#b3ffb3';
+    setTimeout(function() {
+      currentCard.style.backgroundColor = '#fff';
+    }, 5000);
   });
   marker.setMap(map);
 }
