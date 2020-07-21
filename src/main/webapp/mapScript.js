@@ -36,8 +36,9 @@ function createMarker(listing, cardNumber) {
     if ((cardNumber-firstCardId < 0) || (cardNumber-firstCardId >= 3)) {
       displayCards(Math.floor((cardNumber-firstCardId)/3)*3);
     }
+
     let currentCard = document.getElementById(cardNumber);
-    // Cooresponding card flashes for 5 seconds
+    // Corresponding card flashes for 5 seconds
     currentCard.style.backgroundColor = '#b3ffb3';
     setTimeout(function() {
       currentCard.style.backgroundColor = '#fff';
