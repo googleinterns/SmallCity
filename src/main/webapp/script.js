@@ -43,6 +43,7 @@ function displayError() {
 
 //Array of the (currently 6 for this demo build) 15 listings gathered from the fetch request
 let listingsArray = [];
+let photoReferencesArray = [];
 
 //Count of the total businesses in the fetch request, used to set a unique id for each card
 let totalCardCount = 0;
@@ -50,6 +51,7 @@ let totalCardCount = 0;
 function fetchList() {
   fetch('/data').then(response => response.json()).then((listings) => {
     listingsArray = [];
+    photoReferencesArray = [];
     totalCardCount = 0;
     initMap(listings[0].mapLocation);
     listings.forEach((listing) => {
@@ -78,13 +80,13 @@ function createResultCard(name, address, photos, rating, totalCardCount) {
   imageDiv.className = 'results-image';
 
   const imageElement = document.createElement('img');
+  imageElement.id = 'results-image-element';
   
   if ((photos != null) && (photos.length > 0)) {
-    let photoReference = photos[0].photoReference;
-    const KEY = 'REDACTED';
-    let maxwidth = 400;
-    
-    imageElement.src = "https://maps.googleapis.com/maps/api/place/photo?photoreference=" + photoReference + "&key=" + KEY + "&maxwidth=" + maxwidth;
+    photoReferencesArray[totalCardCount] = photos[0].photoReference;
+  }
+  else {
+    photoReferencesArray[totalCardCount] = 'none';
   }
 
   imageDiv.appendChild(imageElement);

@@ -13,6 +13,7 @@
 body {
   font-family: 'Raleway', sans-serif;
   color: var(--dark-gray);
+  font-size: .85vw;
 }
 
 header {
@@ -21,6 +22,10 @@ header {
   display: flex;
   justify-content: space-between;
   padding: 50px 5%;
+}
+
+h2 {
+  font-size: 1.25vw;
 }
 
 .logo {
@@ -123,7 +128,7 @@ Main Content Container Styling
   border-radius: 30px;
   display: grid;
   grid-template-columns: auto;
-  grid-template-rows: [content] .9fr [buttons] .1fr;
+  grid-template-rows: [content] 90% [buttons] 10%;
   margin: 0 10%;
   overflow: hidden;
   overflow-y: auto;
@@ -153,20 +158,18 @@ Main Content Container Styling
 }
 
 .results-image {
-  align-items: center;
   background-color: var(--dark-gray);
   border-radius: 30px;
   color: var(--white);
   display: flex;
-  justify-content: center;
   overflow: hidden;
   text-align: center;
 }
 
 .results-image img {
-  flex-shrink: 0;
   min-width: 100%;
   max-width: 100%;
+  object-fit: cover;
 }
 
 .results-rating {
@@ -203,7 +206,7 @@ Main Content Container Styling
   column-gap: 10px;
   grid-template-columns: [back] .5fr [forward] .5fr;
   grid-template-rows: auto;
-  padding: 0 15px 30px 15px;
+  padding: 10px 15px 15px 15px;
 }
 
 .pagination-buttons {
@@ -233,10 +236,6 @@ Main Content Container Styling
     h1 {
       font-size: 16pt;
     }
-    
-    h2 {
-      font-size: 14pt;
-    }
 
     .geolocate-button {
       font-size: 12pt;
@@ -263,7 +262,7 @@ Main Content Container Styling
       margin: 2%;
     }
 
-    .map-container {
+    #map {
       display: none;
     }
 
@@ -284,10 +283,6 @@ Main Content Container Styling
 
     h1 {
       font-size: 18pt;
-    }
-    
-    h2 {
-      font-size: 16pt;
     }
 
     .geolocate-button {
@@ -328,10 +323,6 @@ Main Content Container Styling
     h1 {
       font-size: 18pt;
     }
-    
-    h2 {
-      font-size: 16pt;
-    }
 
     .geolocate-button {
       font-size: 12pt;
@@ -368,10 +359,6 @@ Main Content Container Styling
       font-size: 22pt;
     }
 
-    h2 {
-      font-size: 20pt;
-    }
-
     .geolocate-button {
       font-size: 12pt;
     }
@@ -401,10 +388,6 @@ Main Content Container Styling
 
     h1 {
       font-size: 30pt;
-    }
-    
-    h2 {
-      font-size: 24pt;
     }
 
     .geolocate-button {

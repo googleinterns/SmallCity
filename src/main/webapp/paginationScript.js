@@ -56,7 +56,19 @@ function displayCards(listAugment) {
 
     resultsContent.innerHTML = '';
     for (let i = currentFirstCardIndex; i < (currentFirstCardIndex + TOTAL_CARDS_TO_DISPLAY); i++) {
+      if (photoReferencesArray[i] != 'none') {
+        loadImage(listingsArray[i].children[0].children[0], photoReferencesArray[i]);
+      }
+
       resultsContent.appendChild(listingsArray[i]);
     }
   }
 }  
+
+function loadImage(listingImage, photoReference) {
+  const KEY = 'AIzaSyDDIsG-SJAZ69ZoOecmfbXOB7ZIS4pZkAw';
+  let maxwidth = 400;
+
+  listingImage.src = "https://maps.googleapis.com/maps/api/place/photo?photoreference=" 
+        + photoReference + "&key=" + KEY + "&maxwidth=" + maxwidth;
+}
