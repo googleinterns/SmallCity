@@ -47,8 +47,10 @@ let photoReferencesArray = [];
 
 //Count of the total businesses in the fetch request, used to set a unique id for each card
 let totalCardCount = 0;
+let bounds = 0;
 
 function fetchList() {
+  bounds = new google.maps.LatLngBounds();
   fetch('/data').then(response => response.json()).then((listings) => {
     listingsArray = [];
     photoReferencesArray = [];
@@ -56,10 +58,11 @@ function fetchList() {
     initMap(listings[0].mapLocation);
     listings.forEach((listing) => {
       listingsArray.push(createResultCard(listing.name, listing.formattedAddress, listing.photos, listing.rating, totalCardCount));
+      if (totalCardCount < 15) createMarker(listing, totalCardCount);
       totalCardCount++;
-      if (totalCardCount < 15) createMarker(listing);
-    });
+    }); 
     initialDisplay();
+    map.fitBounds(bounds);
   });
 }
 
