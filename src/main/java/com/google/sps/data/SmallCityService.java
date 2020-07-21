@@ -69,7 +69,9 @@ public class SmallCityService {
     queryOfDatabase = businessesService.getBigBusinessFromDatabase();
     businesses = businessesService.removeBigBusinessesFromResults(queryOfDatabase);
   }
-
+  
+  // To be used for unit testing file to be able to get list 
+  // of businesses
   public List<Listing> getBusinesses() {
     return businesses;
   }
