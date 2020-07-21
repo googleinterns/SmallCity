@@ -184,11 +184,15 @@ public class BusinessesService {
 
   private void findNumberOfFollowers(String[] numberOfFollowers) {
     int companyFollowers = 0;
-    for (int i = 0; i < numberOfFollowers.length; i++) {
+    int i = 0;
+    boolean isFollowers = false;
+    while (i < numberOfFollowers.length  && !isFollowers) {
       if (numberOfFollowers[i].equals("followers")) {
         companyFollowers = 
                 Integer.parseInt(numberOfFollowers[i-1].replaceAll(",", ""));
+                isFollowers = true;
       }
+      i++;
     }
     if (companyFollowers > minFollowers) {
       addBigBusinessToDatabase();
