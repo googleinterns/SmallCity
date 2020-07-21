@@ -10,7 +10,6 @@ import com.google.maps.model.LatLng;
 import com.google.maps.model.LocationType;
 import java.util.Arrays;
 import java.util.logging.Logger;
-import io.github.cdimascio.dotenv.Dotenv;
 
 /** User representing a location **/
 public class User {
