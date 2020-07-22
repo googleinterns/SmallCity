@@ -44,12 +44,6 @@ function getZipCode() {
   initiateLoader();
 }
 
-function initiateLoader() {
-  document.getElementById('loader').style.display = 'block';
-  document.getElementById('loader-container').style.display = 'block';
-  document.getElementById('map').style.opacity = '0.5';
-}
-
 //Array of the (currently 6 for this demo build) 15 listings gathered from the fetch request
 let listingsArray = [];
 
@@ -73,11 +67,22 @@ function fetchList(queryString) {
     removeLoader();
   });
 }
- 
+
+// Style elements being alterned by loader
+let loaderElement = document.getElementById('loader');
+let loaderContainerElement = document.getElementById('loader-container');
+let mapElement = document.getElementById('map');
+
+function initiateLoader() {
+  loaderElement.style.display = 'block';
+  loaderContainerElement.style.display = 'block';
+  mapElement.style.opacity = '0.5';
+}
+
 function removeLoader() {
-  document.getElementById('loader').style.display = 'none';
-  document.getElementById('loader-container').style.display = 'none';
-  document.getElementById('map').style.opacity = '1';
+  loaderElement.style.display = 'none';
+  loaderContainerElement.style.display = 'none';
+  mapElement.style.opacity = '1';
 }
 
 /**
