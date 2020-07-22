@@ -188,7 +188,8 @@ public class BusinessesService {
       if (companyFollowers > MINFOLLOWERS) {
         addBigBusinessToDatabase();
       } else {
-        checkNumberOfSimilarBusinessesInTheArea(currentBusiness.getName(), similarBusinessesInTheArea);
+        checkNumberOfSimilarBusinessesInTheArea(currentBusiness.getName(),
+                                                similarBusinessesInTheArea);
       }
     }
   }
