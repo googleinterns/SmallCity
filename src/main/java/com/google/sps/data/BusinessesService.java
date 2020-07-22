@@ -206,7 +206,7 @@ public class BusinessesService {
           && countNumberOfMatchingBusiness < 10) {
       if(similarBusinessesInTheArea[i].vicinity != null){
         if (similarBusinessesInTheArea[i].name.contains(businessName) 
-            && !(similarBusinessesInTheArea[i].vicinity.equals(currentBusiness.getFormattedAddress()))) {
+            && !(similarBusinessesInTheArea[i].formatted_address.equals(currentBusiness.getFormattedAddress()))) {
           countNumberOfMatchingBusiness++;
         }
       }
