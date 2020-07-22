@@ -56,7 +56,8 @@ function fetchList(queryString) {
     totalCardCount = 0;
     initMap(listings[0].mapLocation);
     listings.forEach((listing) => {
-      listingsArray.push(createResultCard(listing.name, listing.formattedAddress, listing.photos, listing.rating, listing.url, totalCardCount));
+      listingsArray.push(createResultCard(listing.name, listing.formattedAddress,
+            listing.photos, listing.rating, listing.url, totalCardCount));
       if (totalCardCount < 15) createMarker(listing, totalCardCount);
       totalCardCount++;
     }); 
@@ -107,9 +108,10 @@ function createResultCard(name, address, photos, rating, website, totalCardCount
 
   const websiteButton = document.createElement('button');
   websiteButton.className = 'results-website-button';
-  //websiteButton.innerText = 'Visit Website';
-  websiteButton.innerHTML = '<a href=' + website + '>Visit Website</a>';
-  // TODO: Add website link
+  websiteButton.innerText = 'Visit Website';
+  websiteButton.addEventListener('click', function() {
+    window.open(website);
+  });
 
   resultsCard.appendChild(imageDiv);
   resultsCard.appendChild(nameAndAddressDiv);

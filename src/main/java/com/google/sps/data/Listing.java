@@ -19,12 +19,13 @@ public class Listing {
   * @param mapLocation Location of business (lat/long coordinate)
   * @param rating Numerical rating of business (1-5)
   * @param photos Array of Google Photo objects
-  * @param businessType specifies business type from Places API (establishment, food, etc.)
+  * @param businessType specifies business type from Places API
   * @param url Website of listing
   * @return Listing object
   **/
 
-  public Listing(String name, String formattedAddress, MapLocation mapLocation, double rating, Photo photos[], String businessTypes[], String url) {
+  public Listing(String name, String formattedAddress, MapLocation mapLocation,
+        double rating, Photo photos[], String businessTypes[], String url) {
     this.name = name;
     this.formattedAddress = formattedAddress;
     this.mapLocation = mapLocation;
