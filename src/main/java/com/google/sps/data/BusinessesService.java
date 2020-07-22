@@ -49,7 +49,6 @@ public class BusinessesService {
         Logger.getLogger(BusinessesService.class.getName());
   private final int ALLOWED_SEARCH_REQUESTS = 3;
   private Listing currentBusiness;
-  private PlacesSearchResult[] similarBusinessesInTheArea;
   private Iterator<Listing> businesses;
   private LatLng latLng;
   private final int minFollowers = 50000;
@@ -142,9 +141,11 @@ public class BusinessesService {
                                             .query(currentBusiness.getName())
                                             .location(latLng)
                                             .radius(50000);
-        similarBusinessesInTheArea = request.await().results;
+        PlacesSearchResult[] similarBusinessesInTheArea = request
+                                                            .await()
+                                                            .results;
         if (similarBusinessesInTheArea.length > 1){
-          checkBusinessThroughLinkedin(currentBusiness.getName());
+          checkBusinessThroughLinkedin(currentBusiness.getName(), similarBusinessesInTheArea);
         }
       }
     } catch(GeneralSecurityException e) {
@@ -158,8 +159,9 @@ public class BusinessesService {
     } 
   }
   
-  private void checkBusinessThroughLinkedin(String currentBusinessName) 
-                          throws GeneralSecurityException, IOException {
+  private void checkBusinessThroughLinkedin(String currentBusinessName, 
+                          PlacesSearchResult[] similarBusinessesInTheArea) 
+                              throws GeneralSecurityException, IOException {
     String cx = "REDACTED"; 
     Customsearch cs = new Customsearch.Builder(
                                 GoogleNetHttpTransport.newTrustedTransport(), 
@@ -191,12 +193,13 @@ public class BusinessesService {
       if (companyFollowers > minFollowers) {
         addBigBusinessToDatabase();
       } else {
-        checkNumberOfSimilarBusinessesInTheArea(currentBusiness.getName());
+        checkNumberOfSimilarBusinessesInTheArea(currentBusiness.getName(), similarBusinessesInTheArea);
       }
     }
   }
 
-  private void checkNumberOfSimilarBusinessesInTheArea(String businessName){
+  private void checkNumberOfSimilarBusinessesInTheArea(String businessName, 
+                          PlacesSearchResult[] similarBusinessesInTheArea) {
     int countNumberOfMatchingBusiness = 0;
     int i = 0;
     while (i < similarBusinessesInTheArea.length 
