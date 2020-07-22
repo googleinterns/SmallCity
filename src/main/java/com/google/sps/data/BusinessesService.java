@@ -86,9 +86,9 @@ public class BusinessesService {
     return allBusinesses;
   }
   
-  public List<Listing> getBusinessesFromPlacesApi(User user) {
+  public List<Listing> getBusinessesFromPlacesApi(MapLocation mapLocation) {
     latLng = 
-          new LatLng(user.getGeolocation().lat, user.getGeolocation().lng);
+          new LatLng(mapLocation.lat, mapLocation.lng);
     final GeoApiContext context = new GeoApiContext.Builder()
             .apiKey(KEY)
             .build();
@@ -131,10 +131,9 @@ public class BusinessesService {
     GeoApiContext context = new GeoApiContext.Builder()
             .apiKey(KEY)
             .build();
-    int size = allBusinesses.size();
     try {
-      for (int i = 0; i<size;i++){
-        currentBusiness = allBusinesses.get(i);
+      for (Listing business: allBusinesses){
+        currentBusiness = business;
         TextSearchRequest request = new TextSearchRequest(context)
                                             .query(currentBusiness.getName())
                                             .location(latLng)
@@ -144,7 +143,7 @@ public class BusinessesService {
         if (similarBusinessesInTheArea.results.length > 1){
           checkBusinessThroughLinkedin(currentBusiness.getName());
         }
-        size =allBusinesses.size();
+        size = allBusinesses.size();
       }
     } catch(GeneralSecurityException e) {
       LOGGER.warning(e.getMessage());
