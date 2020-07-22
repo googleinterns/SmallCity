@@ -199,9 +199,6 @@ public class BusinessesService {
   private void checkNumberOfSimilarBusinessesInTheArea(String businessName){
     int countNumberOfMatchingBusiness = 0;
     int i = 0;
-    System.out.println(currentBusiness.getFormattedAddress());
-    System.out.println(similarBusinessesInTheArea[i].name);
-    System.out.println(similarBusinessesInTheArea[i]);
     while (i < similarBusinessesInTheArea.length 
           && countNumberOfMatchingBusiness < 10) {
       if(similarBusinessesInTheArea[i].vicinity != null){
