@@ -51,9 +51,9 @@ public class BusinessesService {
   private Listing currentBusiness;
   private Iterator<Listing> businesses;
   private LatLng latLng;
-  private final int minFollowers = 50000;
-  private final String startIndex = "| ";
-  private final String endIndex = "followers";
+  private final int MINFOLLOWERS = 50000;
+  private final String START_SUBSTRING = "| ";
+  private final String END_SUBSTRING = "followers";
 
   /** Create a new Businesses instance
   * @param allBusinesses businesses from SmallCityService
@@ -182,15 +182,15 @@ public class BusinessesService {
                                                             .get("metatags")
                                                             .get(0)
                                                             .get("og:description");
-      if(businessDescription.indexOf(startIndex) != -1 
-          && businessDescription.indexOf(endIndex) != -1){
+      if(businessDescription.indexOf(START_SUBSTRING) != -1 
+          && businessDescription.indexOf(END_SUBSTRING) != -1){
         String followers = businessDescription.substring(
-                                businessDescription.indexOf(startIndex) + 2, 
-                                businessDescription.indexOf(endIndex) - 1);
+                                businessDescription.indexOf(START_SUBSTRING) + 2, 
+                                businessDescription.indexOf(END_SUBSTRING) - 1);
         companyFollowers = 
                     Integer.parseInt(followers.replaceAll(",", ""));
       }
-      if (companyFollowers > minFollowers) {
+      if (companyFollowers > MINFOLLOWERS) {
         addBigBusinessToDatabase();
       } else {
         checkNumberOfSimilarBusinessesInTheArea(currentBusiness.getName(), similarBusinessesInTheArea);
