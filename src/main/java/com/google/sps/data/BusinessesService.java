@@ -25,16 +25,15 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
-import io.github.cdimascio.dotenv.Dotenv;
+
 
 /** BusinessesService object representing all businesses 
 * components of the webapp.
  **/
 public class BusinessesService {
-  private Dotenv dotenv = Dotenv.configure().load();
 
   private List<Listing> allBusinesses;
-  private final String KEY = dotenv.get("APIKey");
+  private final String KEY = "REDACTED";
   private final static Logger LOGGER = 
         Logger.getLogger(BusinessesService.class.getName());
   private final int ALLOWED_SEARCH_REQUESTS = 3;
@@ -72,9 +71,9 @@ public class BusinessesService {
     return allBusinesses;
   }
   
-  public List<Listing> getBusinessesFromPlacesApi(User user) {
+  public List<Listing> getBusinessesFromPlacesApi(MapLocation mapLocation) {
     LatLng latLng = 
-          new LatLng(user.getGeolocation().lat, user.getGeolocation().lng);
+          new LatLng(mapLocation.lat, mapLocation.lng);
     final GeoApiContext context = new GeoApiContext.Builder()
             .apiKey(KEY)
             .build();
