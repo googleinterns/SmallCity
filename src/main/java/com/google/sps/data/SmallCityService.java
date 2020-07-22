@@ -29,6 +29,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 /** SmallCityService object representing all components of the webapp **/
 public class SmallCityService {
   
+
   private UserService userService;
   private BusinessesService businessesService;
   private List<Listing> businesses;
@@ -44,7 +45,6 @@ public class SmallCityService {
   public void createUserServiceWithZip(String zipCode) {
     this.userService = new UserService();
     userService.createUserWithZipCode(zipCode);
-    getSmallBusinesses();
   }
   
   /** 
@@ -54,7 +54,6 @@ public class SmallCityService {
   public void createUserServiceWithGeolocation(MapLocation mapLocation) {
     this.userService = new UserService();
     userService.createUserWithGeolocation(mapLocation);
-    getSmallBusinesses();
   }
   
   public void findAllBusinesses() {
@@ -74,15 +73,18 @@ public class SmallCityService {
     queryOfDatabase = businessesService.getBigBusinessFromDatabase();
     businesses = businessesService.removeBigBusinessesFromResults(queryOfDatabase);
   }
-
+  
+  // To be used for unit testing file to be able to get list 
+  // of businesses
   public List<Listing> getBusinesses() {
     return businesses;
   }
 
-  private void getSmallBusinesses() {
+  public List<Listing> getSmallBusinesses() {
     businesses = new LinkedList<Listing>();
     businessesService = new BusinessesService(businesses);
     findAllBusinesses();
     filterBySmallBusinesses();
+    return businesses;
   }
 }
