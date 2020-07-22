@@ -164,13 +164,10 @@ public class BusinessesService {
                               throws GeneralSecurityException, IOException {
     String cx = "REDACTED"; 
     Customsearch cs = new Customsearch.Builder(
-                                GoogleNetHttpTransport.newTrustedTransport(), 
-                                JacksonFactory.getDefaultInstance(), 
-                                null) 
-                                .setApplicationName("linkedinSearch") 
-                                .setGoogleClientRequestInitializer(
-                                      new CustomsearchRequestInitializer(KEY)) 
-                                .build();
+        GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), null) 
+              .setApplicationName("linkedinSearch") 
+              .setGoogleClientRequestInitializer(new CustomsearchRequestInitializer(KEY)) 
+              .build();
 
     Customsearch.Cse.List list = cs.cse().list(currentBusinessName).setCx(cx); 
     List<Result> searchJsonResults = list.execute().getItems();
@@ -178,10 +175,8 @@ public class BusinessesService {
     int companyFollowers = 0;
     if (searchJsonResults!=null && searchJsonResults.size() != 0) {
       Result linkedinBusiness = searchJsonResults.get(0);
-      String businessDescription = (String) linkedinBusiness.getPagemap()
-                                                            .get("metatags")
-                                                            .get(0)
-                                                            .get("og:description");
+      String businessDescription = 
+        (String) linkedinBusiness.getPagemap().get("metatags").get(0).get("og:description");
       if(businessDescription.indexOf(START_SUBSTRING) != -1 
           && businessDescription.indexOf(END_SUBSTRING) != -1){
         String followers = businessDescription.substring(
