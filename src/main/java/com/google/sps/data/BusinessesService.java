@@ -204,7 +204,7 @@ public class BusinessesService {
     int i = 0;
     while (i < similarBusinessesInTheArea.length 
           && countNumberOfMatchingBusiness < 10) {
-      if(similarBusinessesInTheArea[i].vicinity != null){
+      if(similarBusinessesInTheArea[i].formatted_address != null){
         if (similarBusinessesInTheArea[i].name.contains(businessName) 
             && !(similarBusinessesInTheArea[i].formatted_address.equals(currentBusiness.getFormattedAddress()))) {
           countNumberOfMatchingBusiness++;
