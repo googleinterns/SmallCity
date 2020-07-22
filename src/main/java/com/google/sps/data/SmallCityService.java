@@ -73,7 +73,6 @@ public class SmallCityService {
     businesses = businessesService.removeBigBusinessesFromResults(queryOfDatabase);
   }
   
-<<<<<<< HEAD
   public void findBigBusinessInList () {
      businessesService.checkNumberOfLocationsOfBusiness();
      filterBySmallBusinesses();
