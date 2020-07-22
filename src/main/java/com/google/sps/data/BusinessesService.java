@@ -134,29 +134,24 @@ public class BusinessesService {
             .apiKey(KEY)
             .build();
     businesses =  allBusinesses.iterator(); 
-    try {
-      while (businesses.hasNext()) {
-        currentBusiness = businesses.next();
-        TextSearchRequest request = new TextSearchRequest(context)
-                                            .query(currentBusiness.getName())
-                                            .location(latLng)
-                                            .radius(50000);
+    
+    while (businesses.hasNext()) {
+      currentBusiness = businesses.next();
+      TextSearchRequest request = new TextSearchRequest(context)
+                                          .query(currentBusiness.getName())
+                                          .location(latLng)
+                                          .radius(50000);
+      try {                                       
         PlacesSearchResult[] similarBusinessesInTheArea = request
                                                             .await()
                                                             .results;
         if (similarBusinessesInTheArea.length > 1){
           checkBusinessThroughLinkedin(currentBusiness.getName(), similarBusinessesInTheArea);
         }
+      } catch(GeneralSecurityException | IOException | InterruptedException | ApiException e ) {
+          LOGGER.warning(e.getMessage());
+        }                                                   
       }
-    } catch(GeneralSecurityException e) {
-      LOGGER.warning(e.getMessage());
-    } catch(IOException e) {
-      LOGGER.warning(e.getMessage());
-    } catch(ApiException e) {
-      LOGGER.warning(e.getMessage());
-    } catch(InterruptedException e) {
-      LOGGER.warning(e.getMessage());
-    } 
   }
   
   private void checkBusinessThroughLinkedin(String currentBusinessName, 
@@ -200,9 +195,9 @@ public class BusinessesService {
     int i = 0;
     while (i < similarBusinessesInTheArea.length 
           && countNumberOfMatchingBusiness < 10) {
-      if(similarBusinessesInTheArea[i].formatted_address != null){
+      if(similarBusinessesInTheArea[i].vicinity != null){
         if (similarBusinessesInTheArea[i].name.contains(businessName) 
-            && !(similarBusinessesInTheArea[i].formatted_address.equals(currentBusiness.getFormattedAddress()))) {
+            && !(similarBusinessesInTheArea[i].vicinity.equals(currentBusiness.getFormattedAddress()))) {
           countNumberOfMatchingBusiness++;
         }
       }
