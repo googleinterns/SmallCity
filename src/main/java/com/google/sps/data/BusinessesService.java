@@ -107,7 +107,7 @@ public class BusinessesService {
       PlaceDetails result = new PlaceDetailsRequest(context)
             .placeId(placeId)
             .await();
-      if (result.website.toString() != null) {
+      if (result.website != null) {
         return (result.website.toString());
       }
       else {
