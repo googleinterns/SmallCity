@@ -30,6 +30,7 @@ function displayLocation(position) {
   let lat = position.coords.latitude;
   let lng = position.coords.longitude;
   fetchList('/data?lat=' + lat + "&lng=" + lng);
+  initiateLoader();
 }
 
 function displayError() {
@@ -40,6 +41,13 @@ function displayError() {
 function getZipCode() {
   let zip = document.getElementById('zipCode').value;
   fetchList('/data?zipCode=' + zip);
+  initiateLoader();
+}
+
+function initiateLoader() {
+  document.getElementById('loader').style.display = 'block';
+  document.getElementById('loader-container').style.display = 'block';
+  document.getElementById('map').style.opacity = '0.5';
 }
 
 //Array of the (currently 6 for this demo build) 15 listings gathered from the fetch request
@@ -61,8 +69,15 @@ function fetchList(queryString) {
       totalCardCount++;
     }); 
     initialDisplay();
-    map.fitBounds(bounds);
+    map.fitBounds(bounds);  
+    removeLoader();
   });
+}
+ 
+function removeLoader() {
+  document.getElementById('loader').style.display = 'none';
+  document.getElementById('loader-container').style.display = 'none';
+  document.getElementById('map').style.opacity = '1';
 }
 
 /**

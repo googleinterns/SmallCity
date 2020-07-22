@@ -111,8 +111,40 @@ Main Content Container Styling
 #map {
   background-color: var(--light-gray);
   border-radius: 30px;
+  opacity: 1;
   -webkit-border-radius: 30px;
   -moz-border-radius: 30px;
+}
+
+/*
+  Loader Content Container Styling
+*/
+#loader-container {
+  background-color: var(--dark-gray);
+  opacity: 0.5;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: none;
+}
+
+#loader {
+  border: 16px solid white; 
+  border-top: 16px solid var(--main-color); 
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  animation: spin 2s linear infinite;
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  opacity: 1;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /*
