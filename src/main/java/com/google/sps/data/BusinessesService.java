@@ -37,7 +37,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.lang.Integer;
 import com.google.maps.errors.ApiException;
-
+import com.google.maps.model.PlacesSearchResult;
 /** BusinessesService object representing all businesses 
 * components of the webapp.
  **/
@@ -49,9 +49,11 @@ public class BusinessesService {
         Logger.getLogger(BusinessesService.class.getName());
   private final int ALLOWED_SEARCH_REQUESTS = 3;
   private Listing currentBusiness;
-  private PlacesSearchResponse similarBusinessesInTheArea;
+  private PlacesSearchResult[] similarBusinessesInTheArea;
   private LatLng latLng;
-  private int minFollowers = 50000;
+  private final int minFollowers = 50000;
+  private final String startIndex = "| ";
+  private final String endIndex = "followers";
 
   /** Create a new Businesses instance
   * @param allBusinesses businesses from SmallCityService
@@ -139,8 +141,8 @@ public class BusinessesService {
                                             .location(latLng)
                                             .radius(50000);
 
-        similarBusinessesInTheArea = request.await();
-        if (similarBusinessesInTheArea.results.length > 1){
+        similarBusinessesInTheArea = request.await().results;
+        if (similarBusinessesInTheArea.length > 1){
           checkBusinessThroughLinkedin(currentBusiness.getName());
         }
       }
@@ -157,7 +159,7 @@ public class BusinessesService {
   
   private void checkBusinessThroughLinkedin(String currentBusinessName) 
                           throws GeneralSecurityException, IOException {
-    String cx = "001390425498086947771:mhzyevhmmxq"; 
+    String cx = "REDACTED"; 
     Customsearch cs = new Customsearch.Builder(
                                 GoogleNetHttpTransport.newTrustedTransport(), 
                                 JacksonFactory.getDefaultInstance(), 
@@ -178,11 +180,11 @@ public class BusinessesService {
                                                             .get(0)
                                                             .get("og:description");
       System.out.println(businessDescription);
-      if(businessDescription.indexOf("|") != -1 
-          && businessDescription.indexOf("followers") != -1){
+      if(businessDescription.indexOf(startIndex) != -1 
+          && businessDescription.indexOf(endIndex) != -1){
         String followers = businessDescription.substring(
-                                businessDescription.indexOf("| ") + 1, 
-                                businessDescription.indexOf("followers") - 1);
+                                businessDescription.indexOf(startIndex) + 2, 
+                                businessDescription.indexOf(endIndex) - 1);
         companyFollowers = 
                     Integer.parseInt(followers.replaceAll(",", ""));
         System.out.println(businessDescription);
@@ -200,10 +202,10 @@ public class BusinessesService {
   private void checkNumberOfSimilarBusinessesInTheArea(String businessName){
     int countNumberOfMatchingBusiness = 0;
     int i = 0;
-    while (i < similarBusinessesInTheArea.results.length 
+    while (i < similarBusinessesInTheArea.length 
           && countNumberOfMatchingBusiness < 10) {
-      if (similarBusinessesInTheArea.results[i].name.contains(businessName) 
-          && similarBusinessesInTheArea.results[i].vicinity != currentBusiness.getFormattedAddress()) {
+      if (similarBusinessesInTheArea[i].name.contains(businessName) 
+          && similarBusinessesInTheArea[i].vicinity != currentBusiness.getFormattedAddress()) {
         countNumberOfMatchingBusiness++;
       }
       i++;
