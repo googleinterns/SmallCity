@@ -66,7 +66,7 @@ function displayCards(listAugment) {
 }  
 
 function loadImage(listingImage, photoReference) {
-  const KEY = 'AIzaSyDDIsG-SJAZ69ZoOecmfbXOB7ZIS4pZkAw';
+  const KEY = 'REDACTED';
   let maxwidth = 400;
 
   listingImage.src = "https://maps.googleapis.com/maps/api/place/photo?photoreference=" 
