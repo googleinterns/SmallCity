@@ -151,7 +151,7 @@ public class BusinessesService {
       } catch(GeneralSecurityException | IOException | InterruptedException | ApiException e ) {
           LOGGER.warning(e.getMessage());
         }                                                   
-      }
+    }
   }
   
   private void checkBusinessThroughLinkedin(String currentBusinessName, 
@@ -159,7 +159,8 @@ public class BusinessesService {
                               throws GeneralSecurityException, IOException {
     String cx = "REDACTED"; 
     Customsearch cs = new Customsearch.Builder(
-        GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), null) 
+        GoogleNetHttpTransport.newTrustedTransport(), 
+        JacksonFactory.getDefaultInstance(), null) 
               .setApplicationName("linkedinSearch") 
               .setGoogleClientRequestInitializer(new CustomsearchRequestInitializer(KEY)) 
               .build();
