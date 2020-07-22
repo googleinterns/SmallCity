@@ -50,6 +50,7 @@ public class BusinessesService {
   private final int ALLOWED_SEARCH_REQUESTS = 3;
   private Listing currentBusiness;
   private PlacesSearchResult[] similarBusinessesInTheArea;
+  private Iterator<Listing> businesses;
   private LatLng latLng;
   private final int minFollowers = 50000;
   private final String startIndex = "| ";
@@ -71,7 +72,7 @@ public class BusinessesService {
   }
 
   public List<Listing> removeBigBusinessesFromResults(PreparedQuery queryOfDatabase){
-    Iterator<Listing> businesses =  allBusinesses.iterator();
+    businesses =  allBusinesses.iterator();
     Entity entity;
     String businessName;
     while (businesses.hasNext()) {
@@ -133,9 +134,10 @@ public class BusinessesService {
     GeoApiContext context = new GeoApiContext.Builder()
             .apiKey(KEY)
             .build();
+    businesses =  allBusinesses.iterator(); 
     try {
-      for (Listing business: allBusinesses){
-        currentBusiness = business;
+      while (businesses.hasNext()) {
+        currentBusiness = businesses.next();
         TextSearchRequest request = new TextSearchRequest(context)
                                             .query(currentBusiness.getName())
                                             .location(latLng)
@@ -216,7 +218,7 @@ public class BusinessesService {
    }
 
   private void addBigBusinessToDatabase(){
-    allBusinesses.remove(currentBusiness);
+    businesses.remove();
     String title = "Business";
     String businessTypes = "BusinessTypes";
     String address = "Address";
