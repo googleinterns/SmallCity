@@ -73,11 +73,14 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
+<<<<<<< HEAD
     <dependency>
       <groupId>com.google.apis</groupId>
       <artifactId>google-api-services-customsearch</artifactId>
       <version>v1-rev57-1.23.0</version>
     </dependency> 
+=======
+>>>>>>> aa98efe884499f2f33c04b4616f877c32fb2f663
   </dependencies>
 
   <build>

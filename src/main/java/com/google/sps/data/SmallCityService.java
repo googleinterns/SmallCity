@@ -28,8 +28,8 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 
 /** SmallCityService object representing all components of the webapp **/
 public class SmallCityService {
-  
-  private User user;
+
+  private UserService userService;
   private BusinessesService businessesService;
   private List<Listing> businesses;
   private final static Logger LOGGER = Logger.getLogger(SmallCityService.class.getName());
@@ -38,25 +38,26 @@ public class SmallCityService {
   public SmallCityService() { }
   
   /** 
-  * Create User instance from zipCode and get businesses list
+  * Create UserService instance from zipCode and get businesses list
   * @param zipCode inputted zipcode of user
   **/
-  public void createUserWithZip(String zipCode) {
-    this.user = new User(zipCode);
-    getSmallBusinesses();
+  public void createUserServiceWithZip(String zipCode) {
+    this.userService = new UserService();
+    userService.createUserWithZipCode(zipCode);
   }
   
   /** 
-  * Create User instance from geolocation and get businesses list
+  * Create UserService instance from geolocation and get businesses list
   * @param mapLocation found geolocation of user
   **/
-  public void createUserWithGeolocation(MapLocation mapLocation) {
-    this.user = new User(mapLocation);
-    getSmallBusinesses();
+  public void createUserServiceWithGeolocation(MapLocation mapLocation) {
+    this.userService = new UserService();
+    userService.createUserWithGeolocation(mapLocation);
   }
   
   public void findAllBusinesses() {
-    businesses = businessesService.getBusinessesFromPlacesApi(user);
+    businesses = businessesService
+          .getBusinessesFromPlacesApi(userService.user.geolocation);
   }
   
   // To be used for unit testing file to be able to 
@@ -72,20 +73,24 @@ public class SmallCityService {
     businesses = businessesService.removeBigBusinessesFromResults(queryOfDatabase);
   }
   
+<<<<<<< HEAD
   public void findBigBusinessInList () {
      businessesService.checkNumberOfLocationsOfBusiness();
      filterBySmallBusinesses();
   }
 
+  // To be used for unit testing file to be able to get list 
+  // of businesses
   public List<Listing> getBusinesses() {
     return businesses;
   }
 
-  private void getSmallBusinesses() {
+  public List<Listing> getSmallBusinesses() {
     businesses = new LinkedList<Listing>();
     businessesService = new BusinessesService(businesses);
     findAllBusinesses();
     filterBySmallBusinesses();
     findBigBusinessInList();
+    return businesses;
   }
 }
