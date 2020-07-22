@@ -21,6 +21,8 @@ const resultsChildren = resultsContent.childNodes;
 const TOTAL_CARDS_TO_DISPLAY = 3;
 const MAX_LIST_VIEW_NUMBER = 15;
 
+
+
 //Display the initial 3 cards in the list
 function initialDisplay() {
   resultsContent.innerHTML = '';
@@ -57,7 +59,10 @@ function displayCards(listAugment) {
     resultsContent.innerHTML = '';
     for (let i = currentFirstCardIndex; i < (currentFirstCardIndex + TOTAL_CARDS_TO_DISPLAY); i++) {
       if (photoReferencesArray[i] != 'none') {
-        loadImage(listingsArray[i].children[0].children[0], photoReferencesArray[i]);
+        //The actual image element to which the image src will be applied
+        let imageElement = listingsArray[i].children[0].children[0];
+        
+        loadImage(imageElement, photoReferencesArray[i]);
       }
 
       resultsContent.appendChild(listingsArray[i]);
