@@ -74,15 +74,15 @@ let loaderContainerElement = document.getElementById('loader-container');
 let mapElement = document.getElementById('map');
 
 function initiateLoader() {
-  loaderElement.style.display = 'block';
-  loaderContainerElement.style.display = 'block';
-  mapElement.style.opacity = '0.5';
+  loaderElement.className = 'loader-display';
+  loaderContainerElement.className = 'loader-display';
+  mapElement.className = 'map-transparent';
 }
 
 function removeLoader() {
-  loaderElement.style.display = 'none';
-  loaderContainerElement.style.display = 'none';
-  mapElement.style.opacity = '1';
+  loaderElement.className = 'loader-hide';
+  loaderContainerElement.className = 'loader-hide';
+  mapElement.className = 'map-opaque';
 }
 
 /**
