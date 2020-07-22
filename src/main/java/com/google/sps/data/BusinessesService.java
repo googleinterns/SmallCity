@@ -143,7 +143,6 @@ public class BusinessesService {
         if (similarBusinessesInTheArea.results.length > 1){
           checkBusinessThroughLinkedin(currentBusiness.getName());
         }
-        size = allBusinesses.size();
       }
     } catch(GeneralSecurityException e) {
       LOGGER.warning(e.getMessage());
@@ -174,10 +173,16 @@ public class BusinessesService {
     int companyFollowers = 0;
     if (searchJsonResults!=null && searchJsonResults.size() != 0) {
       Result linkedinBusiness = searchJsonResults.get(0);
-      String businessDescription = (String) linkedinBusiness.getPagemap().get("metatags").get(0).get("og:description");
+      String businessDescription = (String) linkedinBusiness.getPagemap()
+                                                            .get("metatags")
+                                                            .get(0)
+                                                            .get("og:description");
       System.out.println(businessDescription);
-      if(businessDescription.indexOf("|") != -1 && businessDescription.indexOf("followers") != -1){
-        String followers = businessDescription.substring(businessDescription.indexOf("|") + 2, businessDescription.indexOf("followers") - 1);
+      if(businessDescription.indexOf("|") != -1 
+          && businessDescription.indexOf("followers") != -1){
+        String followers = businessDescription.substring(
+                                businessDescription.indexOf("| ") + 1, 
+                                businessDescription.indexOf("followers") - 1);
         companyFollowers = 
                     Integer.parseInt(followers.replaceAll(",", ""));
         System.out.println(businessDescription);
