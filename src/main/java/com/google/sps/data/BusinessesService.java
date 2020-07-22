@@ -140,7 +140,6 @@ public class BusinessesService {
                                             .query(currentBusiness.getName())
                                             .location(latLng)
                                             .radius(50000);
-
         similarBusinessesInTheArea = request.await().results;
         if (similarBusinessesInTheArea.length > 1){
           checkBusinessThroughLinkedin(currentBusiness.getName());
@@ -179,7 +178,6 @@ public class BusinessesService {
                                                             .get("metatags")
                                                             .get(0)
                                                             .get("og:description");
-      System.out.println(businessDescription);
       if(businessDescription.indexOf(startIndex) != -1 
           && businessDescription.indexOf(endIndex) != -1){
         String followers = businessDescription.substring(
@@ -187,10 +185,7 @@ public class BusinessesService {
                                 businessDescription.indexOf(endIndex) - 1);
         companyFollowers = 
                     Integer.parseInt(followers.replaceAll(",", ""));
-        System.out.println(businessDescription);
-        System.out.println(companyFollowers);
       }
-      
       if (companyFollowers > minFollowers) {
         addBigBusinessToDatabase();
       } else {
@@ -202,12 +197,16 @@ public class BusinessesService {
   private void checkNumberOfSimilarBusinessesInTheArea(String businessName){
     int countNumberOfMatchingBusiness = 0;
     int i = 0;
+    System.out.println(currentBusiness.getFormattedAddress());
+    System.out.println(similarBusinessesInTheArea[i].name);
+    System.out.println(similarBusinessesInTheArea[i]);
     while (i < similarBusinessesInTheArea.length 
           && countNumberOfMatchingBusiness < 10) {
-      if (similarBusinessesInTheArea[i].name.contains(businessName) 
-          && !similarBusinessesInTheArea[i].vicinity
-                          .equals(currentBusiness.getFormattedAddress())) {
-        countNumberOfMatchingBusiness++;
+      if(similarBusinessesInTheArea[i].vicinity != null){
+        if (similarBusinessesInTheArea[i].name.contains(businessName) 
+            && !(similarBusinessesInTheArea[i].vicinity.equals(currentBusiness.getFormattedAddress()))) {
+          countNumberOfMatchingBusiness++;
+        }
       }
       i++;
      }
@@ -217,6 +216,7 @@ public class BusinessesService {
    }
 
   private void addBigBusinessToDatabase(){
+    allBusinesses.remove(currentBusiness);
     String title = "Business";
     String businessTypes = "BusinessTypes";
     String address = "Address";
