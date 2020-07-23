@@ -30,7 +30,6 @@ function displayLocation(position) {
   let lat = position.coords.latitude;
   let lng = position.coords.longitude;
   fetchList('/data?lat=' + lat + "&lng=" + lng);
-  initiateLoader();
 }
 
 function displayError() {
@@ -41,7 +40,6 @@ function displayError() {
 function getZipCode() {
   let zip = document.getElementById('zipCode').value;
   fetchList('/data?zipCode=' + zip);
-  initiateLoader();
 }
 
 //Array of the (currently 6 for this demo build) 15 listings gathered from the fetch request
@@ -52,6 +50,7 @@ let totalCardCount = 0;
 let bounds = 0;
 
 function fetchList(queryString) {
+  initiateLoaderCircle();
   bounds = new google.maps.LatLngBounds();
   fetch(queryString).then(response => response.json()).then((listings) => {
     listingsArray = [];
@@ -64,24 +63,24 @@ function fetchList(queryString) {
     }); 
     initialDisplay();
     map.fitBounds(bounds);  
-    removeLoader();
+    removeLoaderCircle();
   });
 }
 
 // Style elements being alterned by loader
-let loaderElement = document.getElementById('loader');
-let loaderContainerElement = document.getElementById('loader-container');
+let loaderCircleElement = document.getElementById('loader-circle');
+let loaderCircleContainerElement = document.getElementById('loader-circle-container');
 let mapElement = document.getElementById('map');
 
-function initiateLoader() {
-  loaderElement.className = 'loader-display';
-  loaderContainerElement.className = 'loader-display';
+function initiateLoaderCircle() {
+  loaderCircleElement.className = 'loader-circle-display';
+  loaderCircleContainerElement.className = 'loader-circle-display';
   mapElement.className = 'map-transparent';
 }
 
-function removeLoader() {
-  loaderElement.className = 'loader-hide';
-  loaderContainerElement.className = 'loader-hide';
+function removeLoaderCircle() {
+  loaderCircleElement.className = 'loader-circle-hide';
+  loaderCircleContainerElement.className = 'loader-circle-hide';
   mapElement.className = 'map-opaque';
 }
 

@@ -118,7 +118,7 @@ Main Content Container Styling
 /*
   Loader Content Container Styling
 */
-#loader-container {
+#loader-circle-container {
   background-color: var(--dark-gray);
   display: none;
   height: 100%;
@@ -127,7 +127,7 @@ Main Content Container Styling
   width: 100%;
 }
 
-#loader {
+#loader-circle {
   animation: spin 2s linear infinite;
   border: 16px solid white; 
   border-radius: 50%;
@@ -149,11 +149,11 @@ Main Content Container Styling
   100% { transform: rotate(360deg); }
 }
 
-.loader-display {
+.loader-circle-display {
   display: block !important;
 }
 
-.loader-hide {
+.loader-circle-hide {
   display: none !important;
 }
 
