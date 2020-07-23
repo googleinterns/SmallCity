@@ -195,6 +195,10 @@ Main Content Container Styling
   color: var(--white);
 }
 
+.unavailable-website {
+  background-color: var(--dark-gray);
+}
+
 /*
   Results List Pagination Buttons Container Styling
 */

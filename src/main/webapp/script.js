@@ -108,10 +108,19 @@ function createResultCard(name, address, photos, rating, website, totalCardCount
 
   const websiteButton = document.createElement('button');
   websiteButton.className = 'results-website-button';
-  websiteButton.innerText = 'Visit Website';
-  websiteButton.addEventListener('click', function() {
-    window.open(website);
-  });
+  if (website.includes('maps.google.com')) {
+    websiteButton.innerText = 'Visit Website on Google Maps';
+    linkWebsite(website, websiteButton);
+  }
+  else if (website === '') {
+    websiteButton.innerText = 'Website unavailable';
+    websiteButton.className = 'unavailable-website';
+  }
+  else {
+    websiteButton.innerText = 'Visit Website';
+    linkWebsite(website, websiteButton);
+  }
+    
 
   resultsCard.appendChild(imageDiv);
   resultsCard.appendChild(nameAndAddressDiv);
@@ -119,6 +128,13 @@ function createResultCard(name, address, photos, rating, website, totalCardCount
   resultsCard.appendChild(websiteButton);
 
   return resultsCard;
+}
+
+function linkWebsite(website, websiteButton) {
+  // Equivalent to HTML's 'onClick'
+  websiteButton.addEventListener('click', function() {
+    window.open(website);
+  });
 }
 
 /**
