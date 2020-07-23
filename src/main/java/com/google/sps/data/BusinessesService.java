@@ -116,7 +116,8 @@ public class BusinessesService {
     } catch(Exception e) {
       LOGGER.warning(e.getMessage());
     }
-    return "NO URL";
+    // Place Details failure
+    return "";
   }
 
   private void addListingToBusinesses(PlacesSearchResult place, String url) {
