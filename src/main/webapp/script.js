@@ -43,7 +43,7 @@ function getZipCode() {
 }
 
 //Array of the (currently 6 for this demo build) 15 listings gathered from the fetch request
-let listingsArray = [];
+let resultsCardsArray = [];
 
 //Count of the total businesses in the fetch request, used to set a unique id for each card
 let totalCardCount = 0;
@@ -52,11 +52,11 @@ let bounds = 0;
 function fetchList(queryString) {
   bounds = new google.maps.LatLngBounds();
   fetch(queryString).then(response => response.json()).then((listings) => {
-    listingsArray = [];
+    resultsCardsArray = [];
     totalCardCount = 0;
     initMap(listings[0].mapLocation);
     listings.forEach((listing) => {
-      listingsArray.push(createResultCard(listing.name, listing.formattedAddress, listing.photos, listing.rating, totalCardCount));
+      resultsCardsArray.push(createResultCard(listing.name, listing.formattedAddress, listing.photos, listing.rating, totalCardCount));
       if (totalCardCount < 15) createMarker(listing, totalCardCount);
       totalCardCount++;
     }); 
@@ -82,12 +82,14 @@ function createResultCard(name, address, photos, rating, totalCardCount) {
   imageDiv.className = 'results-image';
 
   const imageElement = document.createElement('img');
-  
+  imageElement.id = 'results-image-element';
+
+  let resultPhotoReference = '';
   if ((photos != null) && (photos.length > 0)) {
-    let photoReference = photos[0].photoReference;
-    const KEY = 'REDACTED';
-    let maxwidth = 400;
-    imageElement.src = "https://maps.googleapis.com/maps/api/place/photo?photoreference=" + photoReference + "&key=" + KEY + "&maxwidth=" + maxwidth;
+    resultPhotoReference = photos[0].photoReference;
+  }
+  else {
+    resultPhotoReference = 'none';
   }
 
   imageDiv.appendChild(imageElement);
@@ -115,7 +117,13 @@ function createResultCard(name, address, photos, rating, totalCardCount) {
   resultsCard.appendChild(ratingDiv);
   resultsCard.appendChild(websiteButton);
 
-  return resultsCard;
+  //Creates object that contains the resultCard and photoReference to append to array
+  let resultsCardObject = {
+    card: resultsCard,
+    photoReference: resultPhotoReference
+  };
+
+  return resultsCardObject;
 }
 
 /**
