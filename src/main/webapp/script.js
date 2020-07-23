@@ -52,8 +52,7 @@ function isValidInput(zip) {
   if (len === 0) {  
     return false; 
   }
-  let i;
-  for (i=0; i<len; i++) {
+  for (let i=0; i<len; i++) {
     let charCode = zip.charCodeAt(i);
     if (!(charCode >= 48 && charCode <= 57) &&      // digits
           !(charCode >= 65 && charCode <= 90) &&    // uppercase letters
