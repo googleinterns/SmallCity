@@ -66,7 +66,7 @@ public class SmallCityService {
   // To remove the big businesses from the list 
   // that will be returned from the use of the Places API 
   public void filterBySmallBusinesses() {
-    businesses = businessesService.removeBigBusinessesFromResults(queryOfDatabase);
+    businesses = businessesService.removeBigBusinessesFromResults();
   }
   
   // To be used for unit testing file to be able to get list 

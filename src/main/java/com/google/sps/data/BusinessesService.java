@@ -45,7 +45,7 @@ public class BusinessesService {
     this.allBusinesses = allBusinesses;
   }
 
-  public List<Listing> removeBigBusinessesFromResults(PreparedQuery queryOfDatabase){
+  public List<Listing> removeBigBusinessesFromResults(){
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Iterator<Listing> businesses =  allBusinesses.iterator();
     String businessName;
