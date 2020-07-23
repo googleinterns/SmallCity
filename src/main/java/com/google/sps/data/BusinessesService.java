@@ -61,7 +61,11 @@ public class BusinessesService {
     while (businesses.hasNext()) {
       Listing currentBusiness = businesses.next();
       try {
-        businessName = (String) datastore.get(KeyFactory.createKey("BigBusinesses", currentBusiness.getName())).getProperty("Business");
+        businessName = 
+            (String) datastore.get(KeyFactory.createKey(
+                                    "BigBusinesses", 
+                                    currentBusiness.getName()))
+                              .getProperty("Business");
         if(businessName.equals(currentBusiness.getName())){
           businesses.remove();
         }
