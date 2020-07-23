@@ -58,14 +58,16 @@ function displayCards(listAugment) {
 
     resultsContent.innerHTML = '';
     for (let i = currentFirstCardIndex; i < (currentFirstCardIndex + TOTAL_CARDS_TO_DISPLAY); i++) {
-      if (photoReferencesArray[i] != 'none') {
+      //Card being appended to the resultsContent div
+      let cardToAppend = resultsCardsArray[i];
+
+      if (cardToAppend.photoReference != 'none') {
         //The actual image element to which the image src will be applied
-        let imageElement = listingsArray[i].children[0].children[0];
-        
-        loadImage(imageElement, photoReferencesArray[i]);
+        let imageElement = cardToAppend.card.children[0].children[0];
+        loadImage(imageElement, cardToAppend.photoReference);
       }
 
-      resultsContent.appendChild(listingsArray[i]);
+      resultsContent.appendChild(cardToAppend.card);
     }
   }
 }  
