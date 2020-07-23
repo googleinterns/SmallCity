@@ -25,8 +25,9 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
-
-
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 /** BusinessesService object representing all businesses 
 * components of the webapp.
  **/
@@ -45,9 +46,9 @@ public class BusinessesService {
   public BusinessesService(List<Listing> allBusinesses) {
     this.allBusinesses = allBusinesses;
   }
-
+  private DatastoreService datastore;
   public PreparedQuery getBigBusinessFromDatabase(){
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+     datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("BigBusinesses");
     PreparedQuery queryOfDatabase = datastore.prepare(query);
     return queryOfDatabase;
@@ -55,17 +56,17 @@ public class BusinessesService {
 
   public List<Listing> removeBigBusinessesFromResults(PreparedQuery queryOfDatabase){
     Iterator<Listing> businesses =  allBusinesses.iterator();
-    Entity entity;
     String businessName;
+    Iterator<Entity> bigBusinessEntities = queryOfDatabase.asIterator();
     while (businesses.hasNext()) {
       Listing currentBusiness = businesses.next();
-      Iterator<Entity> bigBusinessEntities = queryOfDatabase.asIterator();
-      while(bigBusinessEntities.hasNext()) {
-        businessName = 
-              (String) bigBusinessEntities.next().getProperty("Business");
-        if(businessName.equals(currentBusiness.getName())) {
+      try {
+        businessName = (String) datastore.get(KeyFactory.createKey("BigBusinesses", currentBusiness.getName())).getProperty("Business");
+        if(businessName.equals(currentBusiness.getName())){
           businesses.remove();
         }
+      } catch(EntityNotFoundException e){
+        LOGGER.warning(e.getMessage());
       }
     }
     return allBusinesses;
