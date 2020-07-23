@@ -139,7 +139,6 @@ public final class BigBusinessesTest {
     Entity businessEntity;
     Key key;
     for(Listing business: sampleDatabaseOfBigBusinesses) {
-      // key = KeyFactory.createKey("key",business.getName());
       businessEntity = new Entity("BigBusinesses",business.getName());
       businessEntity.setProperty(title, business.getName());
       businessEntity.setProperty(address, business.getFormattedAddress());
@@ -148,7 +147,6 @@ public final class BigBusinessesTest {
       businessEntity.setProperty(businessTypes, Arrays.asList(
                                                     business.getBusinessTypes()));
       datastore.put(businessEntity);
-      System.out.println(businessEntity.getKey());
     }
   }
 
