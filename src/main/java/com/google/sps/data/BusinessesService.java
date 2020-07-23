@@ -216,7 +216,7 @@ public class BusinessesService {
     String address = "Address";
     String rating = "Rating";
     String photos = "Photos";
-    Entity businessEntity = new Entity("BigBusinesses");
+    Entity businessEntity = new Entity("BigBusinesses", currentBusiness.getName());
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     businessEntity.setProperty(title, currentBusiness.getName());
     businessEntity.setProperty(address, currentBusiness.getFormattedAddress());
