@@ -50,6 +50,7 @@ let totalCardCount = 0;
 let bounds = 0;
 
 function fetchList(queryString) {
+  initiateLoaderCircle();
   bounds = new google.maps.LatLngBounds();
   fetch(queryString).then(response => response.json()).then((listings) => {
     resultsCardsArray = [];
@@ -61,8 +62,26 @@ function fetchList(queryString) {
       totalCardCount++;
     }); 
     initialDisplay();
-    map.fitBounds(bounds);
+    map.fitBounds(bounds);  
+    removeLoaderCircle();
   });
+}
+
+// Style elements being alterned by loader
+let loaderCircleElement = document.getElementById('loader-circle');
+let loaderCircleContainerElement = document.getElementById('loader-circle-container');
+let mapElement = document.getElementById('map');
+
+function initiateLoaderCircle() {
+  loaderCircleElement.className = 'loader-circle-display';
+  loaderCircleContainerElement.className = 'loader-circle-display';
+  mapElement.className = 'map-transparent';
+}
+
+function removeLoaderCircle() {
+  loaderCircleElement.className = 'loader-circle-hide';
+  loaderCircleContainerElement.className = 'loader-circle-hide';
+  mapElement.className = 'map-opaque';
 }
 
 /**

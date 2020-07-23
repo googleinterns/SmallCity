@@ -116,8 +116,58 @@ Main Content Container Styling
 #map {
   background-color: var(--light-gray);
   border-radius: 30px;
-  -webkit-border-radius: 30px;
   -moz-border-radius: 30px;
+  -webkit-border-radius: 30px;
+}
+
+/*
+  Loader Content Container Styling
+*/
+#loader-circle-container {
+  background-color: var(--dark-gray);
+  display: none;
+  height: 100%;
+  opacity: 0.5;
+  position: absolute;
+  width: 100%;
+}
+
+#loader-circle {
+  animation: spin 2s linear infinite;
+  border: 16px solid white; 
+  border-radius: 50%;
+  border-top: 16px solid var(--main-color); 
+  display: none;
+  height: 200px;
+  left: 50%;
+  opacity: 1;
+  position: absolute;
+  top: 50%;  
+  width: 200px;
+}
+
+/*
+  Defines spin of loader circle
+*/
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loader-circle-display {
+  display: block !important;
+}
+
+.loader-circle-hide {
+  display: none !important;
+}
+
+.map-transparent {
+  opacity: 0.5;
+}
+
+.map-opaque {
+  opacity: 1;
 }
 
 /*
