@@ -22,12 +22,10 @@ import java.util.Iterator;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.EntityNotFoundException;
+
 /** BusinessesService object representing all businesses 
 * components of the webapp.
  **/
@@ -46,18 +44,11 @@ public class BusinessesService {
   public BusinessesService(List<Listing> allBusinesses) {
     this.allBusinesses = allBusinesses;
   }
-  private DatastoreService datastore;
-  public PreparedQuery getBigBusinessFromDatabase(){
-     datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query = new Query("BigBusinesses");
-    PreparedQuery queryOfDatabase = datastore.prepare(query);
-    return queryOfDatabase;
-  }
 
   public List<Listing> removeBigBusinessesFromResults(PreparedQuery queryOfDatabase){
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Iterator<Listing> businesses =  allBusinesses.iterator();
     String businessName;
-    Iterator<Entity> bigBusinessEntities = queryOfDatabase.asIterator();
     while (businesses.hasNext()) {
       Listing currentBusiness = businesses.next();
       try {
