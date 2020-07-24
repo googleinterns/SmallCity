@@ -14,6 +14,8 @@
 
 const alertMessage = 'Sorry! We cannot geolocate you. Please enter a zipcode';
 let map;
+let locationQuery = '';
+let product = '';
 
 function getGeolocation() {
 
@@ -29,7 +31,8 @@ function getGeolocation() {
 function displayLocation(position) {
   let lat = position.coords.latitude;
   let lng = position.coords.longitude;
-  fetchList('/data?lat=' + lat + "&lng=" + lng);
+  locationQuery = '/data?lat=' + lat + '&lng=' + lng;
+  //fetchList('/data?lat=' + lat + "&lng=" + lng);
 }
 
 function displayError() {
@@ -38,10 +41,33 @@ function displayError() {
 }
 
 function getZipCode() {
-  let zip = document.getElementById('zipCode').value;
-  fetchList('/data?zipCode=' + zip);
+  document.getElementById('entry-container').style.display = 'none';
+  zip = document.getElementById('entryZipCode').value;
+  document.getElementById('zipCode').value = zip;
+  locationQuery = '/data?zipCode=' + zip;
+  //fetchList('/data?zipCode=' + zip);
 }
 
+function getProduct() {
+  if (locationQuery === '') {
+    window.alert("Please enter a location first");
+  }
+  else {
+    product = document.getElementById('product').value;
+    fetchList(locationQuery + '&product=' + product);
+  }
+}
+
+function changeZipCode() {
+  zip = document.getElementById('zipCode').value;
+
+  fetchList('/data?zipCode=' + zip + '&product=' + product);
+}
+
+function changeGeolocation() {
+  getGeolocation();
+  fetchList(locationQuery + '&product=' + product);
+}
 //Array of the (currently 6 for this demo build) 15 listings gathered from the fetch request
 let resultsCardsArray = [];
 
