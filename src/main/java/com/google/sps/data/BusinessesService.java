@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import com.google.maps.GeoApiContext;
 import com.google.maps.PlacesApi;
 import com.google.maps.NearbySearchRequest;
+import com.google.maps.TextSearchRequest;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.LocationType;
 import com.google.maps.model.Photo;
@@ -71,16 +72,16 @@ public class BusinessesService {
     return allBusinesses;
   }
   
-  public List<Listing> getBusinessesFromPlacesApi(MapLocation mapLocation) {
+  public List<Listing> getBusinessesFromPlacesApi(MapLocation mapLocation, String product) {
     LatLng latLng = 
           new LatLng(mapLocation.lat, mapLocation.lng);
     final GeoApiContext context = new GeoApiContext.Builder()
             .apiKey(KEY)
             .build();
-    NearbySearchRequest request = PlacesApi.nearbySearchQuery(context, latLng);
+    TextSearchRequest request = PlacesApi.textSearchQuery(context, product);
     try {
-      PlacesSearchResponse response = request.type(PlaceType.STORE)
-              .rankby(RankBy.DISTANCE)
+      PlacesSearchResponse response = request.location(latLng)
+              .radius(30000)
               .await();
       for (int i=0; i<ALLOWED_SEARCH_REQUESTS; i++) {
         for(PlacesSearchResult place : response.results) {
@@ -90,7 +91,7 @@ public class BusinessesService {
         if (i < 2) {
           Thread.sleep(2000); // Required delay before next API request
           response = PlacesApi
-                .nearbySearchNextPage(context, response.nextPageToken).await();
+                .textSearchNextPage(context, response.nextPageToken).await();
         }
       }
     } catch(Exception e) {

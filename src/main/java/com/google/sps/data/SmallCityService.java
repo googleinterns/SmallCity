@@ -42,23 +42,23 @@ public class SmallCityService {
   * Create UserService instance from zipCode and get businesses list
   * @param zipCode inputted zipcode of user
   **/
-  public void createUserServiceWithZip(String zipCode) {
+  public void createUserServiceWithZip(String zipCode, String product) {
     this.userService = new UserService();
-    userService.createUserWithZipCode(zipCode);
+    userService.createUserWithZipCode(zipCode, product);
   }
   
   /** 
   * Create UserService instance from geolocation and get businesses list
   * @param mapLocation found geolocation of user
   **/
-  public void createUserServiceWithGeolocation(MapLocation mapLocation) {
+  public void createUserServiceWithGeolocation(MapLocation mapLocation, String product) {
     this.userService = new UserService();
-    userService.createUserWithGeolocation(mapLocation);
+    userService.createUserWithGeolocation(mapLocation, product);
   }
   
   public void findAllBusinesses() {
     businesses = businessesService
-          .getBusinessesFromPlacesApi(userService.user.geolocation);
+          .getBusinessesFromPlacesApi(userService.user.geolocation, userService.product);
   }
   
   // To be used for unit testing file to be able to 

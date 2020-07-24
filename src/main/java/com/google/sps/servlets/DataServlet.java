@@ -44,10 +44,12 @@ public class DataServlet extends HttpServlet {
     double lat = convertToDouble(latString);
     double lng = convertToDouble(lngString);
     MapLocation userLocation = new MapLocation(lat, lng);
-    smallCityService.createUserServiceWithGeolocation(userLocation);
+    String product = request.getParameter("product");
+    smallCityService.createUserServiceWithGeolocation(userLocation, product);
     } catch(NullPointerException e) {
       String zip = request.getParameter("zipCode");
-      smallCityService.createUserServiceWithZip(zip);
+      String product = request.getParameter("product");
+      smallCityService.createUserServiceWithZip(zip, product);
       LOGGER.warning(e.getMessage() 
            + "Unable to geolocate user, zipCode entered instead.");
     }
