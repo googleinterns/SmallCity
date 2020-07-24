@@ -178,8 +178,12 @@ public class BusinessesService {
         String followers = businessDescription.substring(
                                 businessDescription.indexOf(START_SUBSTRING) + 2, 
                                 businessDescription.indexOf(END_SUBSTRING) - 1);
-        companyFollowers = 
+        try{
+          companyFollowers = 
                     Integer.parseInt(followers.replaceAll(",", ""));
+        } catch (NumberFormatException e){
+            LOGGER.warning(e.getMessage());
+        }
       }
       if (companyFollowers > MINFOLLOWERS) {
         addBigBusinessToDatabase();
