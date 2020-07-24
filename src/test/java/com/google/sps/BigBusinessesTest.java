@@ -139,7 +139,7 @@ public final class BigBusinessesTest {
     Entity businessEntity;
     Key key;
     for(Listing business: sampleDatabaseOfBigBusinesses) {
-      businessEntity = new Entity("BigBusinesses",business.getName());
+      businessEntity = new Entity("BigBusinesses", business.getName());
       businessEntity.setProperty(title, business.getName());
       businessEntity.setProperty(address, business.getFormattedAddress());
       businessEntity.setProperty(rating, business.getRating());
