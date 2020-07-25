@@ -51,7 +51,6 @@ public class BusinessesService {
   private final int MINFOLLOWERS = 50000;
   private final String START_SUBSTRING = "| ";
   private final String END_SUBSTRING = "followers";
-  private Listing currentBusiness;
   private LatLng latLng;
   private List<Listing> allBusinesses;
 
@@ -129,7 +128,7 @@ public class BusinessesService {
   public void checkNumberOfLocationsOfBusiness() {
     GeoApiContext context = 
       new GeoApiContext.Builder().apiKey(KEY).build();
-    
+    Listing currentBusiness;
     while (allBusinesses.iterator().hasNext()) {
       currentBusiness = allBusinesses.iterator().next();
       TextSearchRequest request = new TextSearchRequest(context)
@@ -141,7 +140,7 @@ public class BusinessesService {
                                                             .await()
                                                             .results;
         if (similarBusinessesInTheArea.length > 1){
-          checkBusinessThroughLinkedin(currentBusiness.getName(), similarBusinessesInTheArea);
+          checkBusinessThroughLinkedin(currentBusiness, similarBusinessesInTheArea);
         }
       } catch(GeneralSecurityException | IOException | InterruptedException | ApiException e ) {
           LOGGER.warning(e.getMessage());
@@ -149,7 +148,7 @@ public class BusinessesService {
     }
   }
   
-  private void checkBusinessThroughLinkedin(String currentBusinessName, 
+  private void checkBusinessThroughLinkedin(Listing currentBusiness, 
                           PlacesSearchResult[] similarBusinessesInTheArea) 
                               throws GeneralSecurityException, IOException {
     String cx = "REDACTED"; 
@@ -160,7 +159,7 @@ public class BusinessesService {
               .setGoogleClientRequestInitializer(new CustomsearchRequestInitializer(KEY)) 
               .build();
 
-    Customsearch.Cse.List list = cs.cse().list(currentBusinessName).setCx(cx); 
+    Customsearch.Cse.List list = cs.cse().list(currentBusiness.getName()).setCx(cx); 
     List<Result> searchJsonResults = list.execute().getItems();
     String[] numberOfFollowers;
     int companyFollowers = 0;
@@ -174,8 +173,7 @@ public class BusinessesService {
                                 businessDescription.indexOf(START_SUBSTRING) + 2, 
                                 businessDescription.indexOf(END_SUBSTRING) - 1);
         try{
-          companyFollowers = 
-                    Integer.parseInt(followers.replaceAll(",", ""));
+          companyFollowers = Integer.parseInt(followers.replaceAll(",", ""));
         } catch (NumberFormatException e){
             LOGGER.warning(e.getMessage());
         }
@@ -183,20 +181,20 @@ public class BusinessesService {
       if (companyFollowers > MINFOLLOWERS) {
         addBigBusinessToDatabase();
       } else {
-        checkNumberOfSimilarBusinessesInTheArea(currentBusiness.getName(),
+        checkNumberOfSimilarBusinessesInTheArea(currentBusiness,
                                                 similarBusinessesInTheArea);
       }
     }
   }
 
-  private void checkNumberOfSimilarBusinessesInTheArea(String businessName, 
+  private void checkNumberOfSimilarBusinessesInTheArea(Listing currentBusiness, 
                           PlacesSearchResult[] similarBusinessesInTheArea) {
     int countNumberOfMatchingBusiness = 0;
     int i = 0;
     while (i < similarBusinessesInTheArea.length 
           && countNumberOfMatchingBusiness < 10) {
       if(similarBusinessesInTheArea[i].vicinity != null){
-        if (similarBusinessesInTheArea[i].name.contains(businessName) 
+        if (similarBusinessesInTheArea[i].name.contains(currentBusiness.getName()) 
             && !(similarBusinessesInTheArea[i].vicinity.equals(currentBusiness.getFormattedAddress()))) {
           countNumberOfMatchingBusiness++;
         }
