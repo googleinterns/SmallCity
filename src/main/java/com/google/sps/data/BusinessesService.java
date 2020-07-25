@@ -52,7 +52,6 @@ public class BusinessesService {
   private final String START_SUBSTRING = "| ";
   private final String END_SUBSTRING = "followers";
   private Listing currentBusiness;
-  private Iterator<Listing> businesses;
   private LatLng latLng;
   private List<Listing> allBusinesses;
 
@@ -128,13 +127,11 @@ public class BusinessesService {
   }
 
   public void checkNumberOfLocationsOfBusiness() {
-    GeoApiContext context = new GeoApiContext.Builder()
-            .apiKey(KEY)
-            .build();
-    businesses =  allBusinesses.iterator(); 
+    GeoApiContext context = 
+      new GeoApiContext.Builder().apiKey(KEY).build();
     
-    while (businesses.hasNext()) {
-      currentBusiness = businesses.next();
+    while (allBusinesses.iterator().hasNext()) {
+      currentBusiness = allBusinesses.iterator().next();
       TextSearchRequest request = new TextSearchRequest(context)
                                           .query(currentBusiness.getName())
                                           .location(latLng)
