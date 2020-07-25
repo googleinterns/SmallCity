@@ -128,9 +128,7 @@ public class BusinessesService {
   public void checkNumberOfLocationsOfBusiness() {
     GeoApiContext context = 
       new GeoApiContext.Builder().apiKey(KEY).build();
-    Listing currentBusiness;
-    while (allBusinesses.iterator().hasNext()) {
-      currentBusiness = allBusinesses.iterator().next();
+    for(Listing currentBusiness: allBusinesses){
       TextSearchRequest request = new TextSearchRequest(context)
                                           .query(currentBusiness.getName())
                                           .location(latLng)
@@ -193,12 +191,12 @@ public class BusinessesService {
     int i = 0;
     while (i < similarBusinessesInTheArea.length 
           && countNumberOfMatchingBusiness < 10) {
-      if(similarBusinessesInTheArea[i].vicinity != null){
-        if (similarBusinessesInTheArea[i].name.contains(currentBusiness.getName()) 
-            && !(similarBusinessesInTheArea[i].vicinity.equals(currentBusiness.getFormattedAddress()))) {
+          System.out.println(similarBusinessesInTheArea[i].formattedAddress);
+          System.out.println(similarBusinessesInTheArea[i].formattedAddress);
+        if (similarBusinessesInTheArea[i].name.contains(currentBusiness.getName())
+            && !similarBusinessesInTheArea[i].formattedAddress.equals(currentBusiness.getFormattedAddress())) {
           countNumberOfMatchingBusiness++;
         }
-      }
       i++;
      }
      if (countNumberOfMatchingBusiness >= 10) {
@@ -207,7 +205,6 @@ public class BusinessesService {
    }
 
   private void addBigBusinessToDatabase(Listing currentBusiness){
-    businesses.remove();
     String title = "Business";
     String businessTypes = "BusinessTypes";
     String address = "Address";
