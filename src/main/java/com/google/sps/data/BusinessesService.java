@@ -44,17 +44,17 @@ import com.google.appengine.api.datastore.EntityNotFoundException;
  **/
 public class BusinessesService {
 
-  private List<Listing> allBusinesses;
   private final String KEY = "REDACTED";
   private final static Logger LOGGER = 
         Logger.getLogger(BusinessesService.class.getName());
   private final int ALLOWED_SEARCH_REQUESTS = 3;
-  private Listing currentBusiness;
-  private Iterator<Listing> businesses;
-  private LatLng latLng;
   private final int MINFOLLOWERS = 50000;
   private final String START_SUBSTRING = "| ";
   private final String END_SUBSTRING = "followers";
+  private Listing currentBusiness;
+  private Iterator<Listing> businesses;
+  private LatLng latLng;
+  private List<Listing> allBusinesses;
 
   /** Create a new Businesses instance
   * @param allBusinesses businesses from SmallCityService
