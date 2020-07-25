@@ -179,7 +179,7 @@ public class BusinessesService {
         }
       }
       if (companyFollowers > MINFOLLOWERS) {
-        addBigBusinessToDatabase();
+        addBigBusinessToDatabase(currentBusiness);
       } else {
         checkNumberOfSimilarBusinessesInTheArea(currentBusiness,
                                                 similarBusinessesInTheArea);
@@ -202,11 +202,11 @@ public class BusinessesService {
       i++;
      }
      if (countNumberOfMatchingBusiness >= 10) {
-       addBigBusinessToDatabase();
+       addBigBusinessToDatabase(currentBusiness);
      }
    }
 
-  private void addBigBusinessToDatabase(){
+  private void addBigBusinessToDatabase(Listing currentBusiness){
     businesses.remove();
     String title = "Business";
     String businessTypes = "BusinessTypes";
