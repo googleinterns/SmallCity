@@ -49,10 +49,13 @@ public class BusinessesService {
         Logger.getLogger(BusinessesService.class.getName());
   private final int ALLOWED_SEARCH_REQUESTS = 3;
   private final int MINFOLLOWERS = 50000;
+  private final int smallBusinessesDisplayed = 15;
   private final String START_SUBSTRING = "| ";
   private final String END_SUBSTRING = "followers";
   private LatLng latLng;
   private List<Listing> allBusinesses;
+  private int numberOfSmallBusinesses;
+
 
   /** Create a new Businesses instance
   * @param allBusinesses businesses from SmallCityService
@@ -128,7 +131,10 @@ public class BusinessesService {
   public void checkNumberOfLocationsOfBusiness() {
     GeoApiContext context = 
       new GeoApiContext.Builder().apiKey(KEY).build();
-    for(Listing currentBusiness: allBusinesses){
+    numberOfSmallBusinesses = 0;
+    Iterator<Listing> businesses =  allBusinesses.iterator();
+    while(businesses.hasNext() && numberOfSmallBusinesses < smallBusinessesDisplayed){
+      Listing currentBusiness = businesses.next();
       TextSearchRequest request = new TextSearchRequest(context)
                                           .query(currentBusiness.getName())
                                           .location(latLng)
@@ -139,10 +145,13 @@ public class BusinessesService {
                                                             .results;
         if (similarBusinessesInTheArea.length > 1){
           checkBusinessThroughLinkedin(currentBusiness, similarBusinessesInTheArea);
+        }else if(similarBusinessesInTheArea.length == 1){
+          numberOfSmallBusinesses++;
         }
       } catch(GeneralSecurityException | IOException | InterruptedException | ApiException e ) {
           LOGGER.warning(e.getMessage());
-        }                                                   
+        } 
+    System.out.println(numberOfSmallBusinesses);                                                 
     }
   }
   
@@ -201,6 +210,8 @@ public class BusinessesService {
      }
      if (countNumberOfMatchingBusiness >= 10) {
        addBigBusinessToDatabase(currentBusiness);
+     }else{
+       numberOfSmallBusinesses++;
      }
    }
 
