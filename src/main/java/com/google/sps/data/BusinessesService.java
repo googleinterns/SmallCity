@@ -137,14 +137,12 @@ public class BusinessesService {
     while(businesses.hasNext() 
           && numberOfSmallBusinesses < SMALL_BUSINESSES_DISPLAYED) {
       Listing currentBusiness = businesses.next();
-      TextSearchRequest request = new TextSearchRequest(context)
-                                          .query(currentBusiness.getName())
-                                          .location(latLng)
-                                          .radius(50000);
+      TextSearchRequest request = 
+        new TextSearchRequest(context).query(currentBusiness.getName())
+          .location(latLng).radius(50000);
       try {                                       
-        PlacesSearchResult[] similarBusinessesInTheArea = request
-                                                            .await()
-                                                            .results;
+        PlacesSearchResult[] similarBusinessesInTheArea = 
+          request.await().results;
         if (similarBusinessesInTheArea.length > 1){
           checkBusinessThroughLinkedin(currentBusiness, similarBusinessesInTheArea);
         }else if(similarBusinessesInTheArea.length == 1){
