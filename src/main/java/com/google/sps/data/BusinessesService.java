@@ -134,7 +134,8 @@ public class BusinessesService {
       new GeoApiContext.Builder().apiKey(KEY).build();
     numberOfSmallBusinesses = 0;
     Iterator<Listing> businesses =  allBusinesses.iterator();
-    while(businesses.hasNext() && numberOfSmallBusinesses < SMALL_BUSINESSES_DISPLAYED){
+    while(businesses.hasNext() 
+          && numberOfSmallBusinesses < SMALL_BUSINESSES_DISPLAYED) {
       Listing currentBusiness = businesses.next();
       TextSearchRequest request = new TextSearchRequest(context)
                                           .query(currentBusiness.getName())
@@ -152,7 +153,6 @@ public class BusinessesService {
       } catch(GeneralSecurityException | IOException | InterruptedException | ApiException e ) {
           LOGGER.warning(e.getMessage());
         } 
-    System.out.println(numberOfSmallBusinesses);                                                 
     }
   }
   
@@ -171,7 +171,7 @@ public class BusinessesService {
     List<Result> searchJsonResults = list.execute().getItems();
     String[] numberOfFollowers;
     int companyFollowers = 0;
-    if (searchJsonResults!=null && searchJsonResults.size() != 0) {
+    if (searchJsonResults != null && searchJsonResults.size() != 0) {
       Result linkedinBusiness = searchJsonResults.get(0);
       String businessDescription = 
         (String) linkedinBusiness.getPagemap().get("metatags").get(0).get("og:description");
@@ -215,7 +215,7 @@ public class BusinessesService {
      }
    }
 
-  private void addBigBusinessToDatabase(Listing currentBusiness){
+  private void addBigBusinessToDatabase(Listing currentBusiness) {
     String title = "Business";
     String businessTypes = "BusinessTypes";
     String address = "Address";
