@@ -196,18 +196,18 @@ public class BusinessesService {
 
   private void checkNumberOfSimilarBusinessesInTheArea(Listing currentBusiness, 
                           PlacesSearchResult[] similarBusinessesInTheArea) {
-    int countNumberOfMatchingBusiness = 0;
+    int numberOfMatchingBusinesses = 0;
     int i = 0;
     while (i < similarBusinessesInTheArea.length 
-          && countNumberOfMatchingBusiness < 10) {
+          && numberOfMatchingBusinesses < 10) {
         if (similarBusinessesInTheArea[i].name.contains(currentBusiness.getName())
             && !similarBusinessesInTheArea[i].formattedAddress
                   .equals(currentBusiness.getFormattedAddress())) {
-          countNumberOfMatchingBusiness++;
+          numberOfMatchingBusinesses++;
         }
       i++;
      }
-     if (countNumberOfMatchingBusiness >= 10) {
+     if (numberOfMatchingBusinesses >= 10) {
        addBigBusinessToDatabase(currentBusiness);
      }else{
        numberOfSmallBusinesses++;
