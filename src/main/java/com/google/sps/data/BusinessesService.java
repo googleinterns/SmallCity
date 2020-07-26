@@ -200,10 +200,9 @@ public class BusinessesService {
     int i = 0;
     while (i < similarBusinessesInTheArea.length 
           && countNumberOfMatchingBusiness < 10) {
-          System.out.println(similarBusinessesInTheArea[i].formattedAddress);
-          System.out.println(similarBusinessesInTheArea[i].formattedAddress);
         if (similarBusinessesInTheArea[i].name.contains(currentBusiness.getName())
-            && !similarBusinessesInTheArea[i].formattedAddress.equals(currentBusiness.getFormattedAddress())) {
+            && !similarBusinessesInTheArea[i].formattedAddress
+                  .equals(currentBusiness.getFormattedAddress())) {
           countNumberOfMatchingBusiness++;
         }
       i++;
