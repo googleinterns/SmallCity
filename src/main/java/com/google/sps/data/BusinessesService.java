@@ -174,8 +174,8 @@ public class BusinessesService {
       Result linkedinBusiness = searchJsonResults.get(0);
       String businessDescription = 
         (String) linkedinBusiness.getPagemap().get("metatags").get(0).get("og:description");
-      if(businessDescription.indexOf(START_SUBSTRING) != -1 
-          && businessDescription.indexOf(END_SUBSTRING) != -1){
+      if(businessDescription.contains(START_SUBSTRING) != null 
+          && businessDescription.contains(END_SUBSTRING) != null){
         String followers = businessDescription.substring(
                                 businessDescription.indexOf(START_SUBSTRING) + 2, 
                                 businessDescription.indexOf(END_SUBSTRING) - 1);
