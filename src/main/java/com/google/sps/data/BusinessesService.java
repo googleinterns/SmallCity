@@ -49,13 +49,14 @@ public class BusinessesService {
         Logger.getLogger(BusinessesService.class.getName());
   private final int ALLOWED_SEARCH_REQUESTS = 3;
   private final int MINFOLLOWERS = 50000;
-  private final int smallBusinessesDisplayed = 15;
+  private final int SMALL_BUSINESSES_DISPLAYED = 15;
   private final String START_SUBSTRING = "| ";
   private final String END_SUBSTRING = "followers";
+  private final int MIN_NUMBER_OF_MATCHING_BUSINESSES = 10;
   private LatLng latLng;
   private List<Listing> allBusinesses;
   private int numberOfSmallBusinesses;
-
+  
 
   /** Create a new Businesses instance
   * @param allBusinesses businesses from SmallCityService
@@ -133,7 +134,7 @@ public class BusinessesService {
       new GeoApiContext.Builder().apiKey(KEY).build();
     numberOfSmallBusinesses = 0;
     Iterator<Listing> businesses =  allBusinesses.iterator();
-    while(businesses.hasNext() && numberOfSmallBusinesses < smallBusinessesDisplayed){
+    while(businesses.hasNext() && numberOfSmallBusinesses < SMALL_BUSINESSES_DISPLAYED){
       Listing currentBusiness = businesses.next();
       TextSearchRequest request = new TextSearchRequest(context)
                                           .query(currentBusiness.getName())
@@ -199,7 +200,7 @@ public class BusinessesService {
     int numberOfMatchingBusinesses = 0;
     int i = 0;
     while (i < similarBusinessesInTheArea.length 
-          && numberOfMatchingBusinesses < 10) {
+          && numberOfMatchingBusinesses < MIN_NUMBER_OF_MATCHING_BUSINESSES) {
         if (similarBusinessesInTheArea[i].name.contains(currentBusiness.getName())
             && !similarBusinessesInTheArea[i].formattedAddress
                   .equals(currentBusiness.getFormattedAddress())) {
@@ -207,7 +208,7 @@ public class BusinessesService {
         }
       i++;
      }
-     if (numberOfMatchingBusinesses >= 10) {
+     if (numberOfMatchingBusinesses >= MIN_NUMBER_OF_MATCHING_BUSINESSES) {
        addBigBusinessToDatabase(currentBusiness);
      }else{
        numberOfSmallBusinesses++;
