@@ -18,7 +18,8 @@ let locationQuery = '';
 let product = '';
 
 function getGeolocation() {
-
+  hideEntryContainer();
+  initiateLoaderCircle();
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(displayLocation, displayError);
   }
@@ -32,7 +33,13 @@ function displayLocation(position) {
   let lat = position.coords.latitude;
   let lng = position.coords.longitude;
   locationQuery = '/data?lat=' + lat + '&lng=' + lng;
-  //fetchList('/data?lat=' + lat + "&lng=" + lng);
+  product = document.getElementById('product').value;
+  if (product === '') {
+    fetchList(locationQuery + '&product=NULL');
+  }
+  else {
+    fetchList(locationQuery + '&product=' + product);
+  }
 }
 
 function displayError() {
@@ -41,16 +48,24 @@ function displayError() {
 }
 
 function getZipCode() {
-  document.getElementById('entry-container').style.display = 'none';
+  hideEntryContainer();
+  initiateLoaderCircle();
   zip = document.getElementById('entryZipCode').value;
   document.getElementById('zipCode').value = zip;
   locationQuery = '/data?zipCode=' + zip;
-  //fetchList('/data?zipCode=' + zip);
+  product = document.getElementById('product').value;
+  if (product === '') {
+    fetchList(locationQuery + '&product=NULL');
+  }
+  else {
+    fetchList(locationQuery + '&product=' + product);
+  }
 }
 
 function getProduct() {
-  if (locationQuery === '') {
-    window.alert("Please enter a location first");
+  initiateLoaderCircle();
+  if (document.getElementById('product').value === '') {
+    fetchList(locationQuery + '&product=NULL');
   }
   else {
     product = document.getElementById('product').value;
@@ -58,16 +73,18 @@ function getProduct() {
   }
 }
 
-function changeZipCode() {
-  zip = document.getElementById('zipCode').value;
-
-  fetchList('/data?zipCode=' + zip + '&product=' + product);
+function displayEntryContainer() {
+  document.getElementById('entry-container').className = 'element-display';
+  document.getElementById('options-container').className = 'element-display';
+  mapElement.className = 'map-transparent';
 }
 
-function changeGeolocation() {
-  getGeolocation();
-  fetchList(locationQuery + '&product=' + product);
+function hideEntryContainer() {
+  document.getElementById('entry-container').className = 'element-hide';
+  document.getElementById('options-container').className = 'element-hide';
+  mapElement.className = 'map-opaque';
 }
+
 //Array of the (currently 6 for this demo build) 15 listings gathered from the fetch request
 let resultsCardsArray = [];
 
@@ -76,7 +93,6 @@ let totalCardCount = 0;
 let bounds = 0;
 
 function fetchList(queryString) {
-  initiateLoaderCircle();
   bounds = new google.maps.LatLngBounds();
   fetch(queryString).then(response => response.json()).then((listings) => {
     resultsCardsArray = [];
@@ -99,14 +115,14 @@ let loaderCircleContainerElement = document.getElementById('loader-circle-contai
 let mapElement = document.getElementById('map');
 
 function initiateLoaderCircle() {
-  loaderCircleElement.className = 'loader-circle-display';
-  loaderCircleContainerElement.className = 'loader-circle-display';
+  loaderCircleElement.className = 'element-display';
+  loaderCircleContainerElement.className = 'element-display';
   mapElement.className = 'map-transparent';
 }
 
 function removeLoaderCircle() {
-  loaderCircleElement.className = 'loader-circle-hide';
-  loaderCircleContainerElement.className = 'loader-circle-hide';
+  loaderCircleElement.className = 'element-hide';
+  loaderCircleContainerElement.className = 'element-hide';
   mapElement.className = 'map-opaque';
 }
 

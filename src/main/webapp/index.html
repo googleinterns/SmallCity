@@ -44,7 +44,7 @@ to represent the company, product, or service to which they refer. -->
   </head>
   <body>
     <div id="entry-container"></div>
-      <div class="options-container">
+      <div id="options-container">
         <button class="geolocate-button" onclick="getGeolocation()"><i class="fas fa-location-arrow"></i> locate me</button>
         <div class="zipcode-container">
           your zipcode:
@@ -64,12 +64,9 @@ to represent the company, product, or service to which they refer. -->
         <input type="text" id="product" name="product" value="">
         <button type="submit" onclick="getProduct()" class="zipCode-submit-btn"><i class="fas fa-search"></i></button>
       </div>
-      <button class="geolocate-button" onclick="changeGeolocation()"><i class="fas fa-location-arrow"></i> locate me</button>
-      <div class="zipcode-container">
+      <div class="zipcode-container" onclick="displayEntryContainer()">
         your zipcode:
         <input type="text" id="zipCode" name="zipCode" value="">
-        <button type="submit" onclick="changeZipCode()" class="zipCode-submit-btn"><i class="fas fa-search"></i></button>
-
       </div>
     </header>
 

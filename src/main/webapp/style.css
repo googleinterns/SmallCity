@@ -140,9 +140,10 @@ Main Content Container Styling
   width: 100%;
 }
 
-.options-container {
+#options-container {
   background-color: var(--light-gray) !important;
   border-radius: 30px;
+  display: block;
   left: 50%;
   top: 50%;
   padding: 30px;
@@ -183,11 +184,11 @@ Main Content Container Styling
   100% { transform: rotate(360deg); }
 }
 
-.loader-circle-display {
+.element-display {
   display: block !important;
 }
 
-.loader-circle-hide {
+.element-hide {
   display: none !important;
 }
 
