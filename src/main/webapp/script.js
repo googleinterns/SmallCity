@@ -29,11 +29,7 @@ function getGeolocation() {
 function displayLocation(position) {
   let lat = position.coords.latitude;
   let lng = position.coords.longitude;
-  let xhttp = new XMLHttpRequest();
-  xhttp.open('POST', '/data?lat=' + lat + '&lng=' + lng, true);
-  xhttp.send();
-
-  setTimeout(fetchList, 4000);
+  fetchList('/data?lat=' + lat + "&lng=" + lng);
 }
 
 function displayError() {
@@ -41,24 +37,51 @@ function displayError() {
   alert(alertMessage);
 }
 
+function getZipCode() {
+  let zip = document.getElementById('zipCode').value;
+  fetchList('/data?zipCode=' + zip);
+}
+
 //Array of the (currently 6 for this demo build) 15 listings gathered from the fetch request
-let listingsArray = [];
+let resultsCardsArray = [];
 
 //Count of the total businesses in the fetch request, used to set a unique id for each card
 let totalCardCount = 0;
+let bounds = 0;
 
-function fetchList() {
-  fetch('/data').then(response => response.json()).then((listings) => {
-    listingsArray = [];
+function fetchList(queryString) {
+  initiateLoaderCircle();
+  bounds = new google.maps.LatLngBounds();
+  fetch(queryString).then(response => response.json()).then((listings) => {
+    resultsCardsArray = [];
     totalCardCount = 0;
     initMap(listings[0].mapLocation);
     listings.forEach((listing) => {
-      listingsArray.push(createResultCard(listing.name, listing.formattedAddress, listing.photos, listing.rating, totalCardCount));
+      resultsCardsArray.push(createResultCard(listing.name, listing.formattedAddress, listing.photos, listing.rating, totalCardCount));
+      if (totalCardCount < 15) createMarker(listing, totalCardCount);
       totalCardCount++;
-      if (totalCardCount < 15) createMarker(listing);
-    });
+    }); 
     initialDisplay();
+    map.fitBounds(bounds);  
+    removeLoaderCircle();
   });
+}
+
+// Style elements being alterned by loader
+let loaderCircleElement = document.getElementById('loader-circle');
+let loaderCircleContainerElement = document.getElementById('loader-circle-container');
+let mapElement = document.getElementById('map');
+
+function initiateLoaderCircle() {
+  loaderCircleElement.className = 'loader-circle-display';
+  loaderCircleContainerElement.className = 'loader-circle-display';
+  mapElement.className = 'map-transparent';
+}
+
+function removeLoaderCircle() {
+  loaderCircleElement.className = 'loader-circle-hide';
+  loaderCircleContainerElement.className = 'loader-circle-hide';
+  mapElement.className = 'map-opaque';
 }
 
 /**
@@ -78,13 +101,14 @@ function createResultCard(name, address, photos, rating, totalCardCount) {
   imageDiv.className = 'results-image';
 
   const imageElement = document.createElement('img');
-  
+  imageElement.id = 'results-image-element';
+
+  let resultPhotoReference = '';
   if ((photos != null) && (photos.length > 0)) {
-    let photoReference = photos[0].photoReference;
-    const KEY = 'REDACTED';
-    let maxwidth = 400;
-    
-    imageElement.src = "https://maps.googleapis.com/maps/api/place/photo?photoreference=" + photoReference + "&key=" + KEY + "&maxwidth=" + maxwidth;
+    resultPhotoReference = photos[0].photoReference;
+  }
+  else {
+    resultPhotoReference = 'none';
   }
 
   imageDiv.appendChild(imageElement);
@@ -112,7 +136,13 @@ function createResultCard(name, address, photos, rating, totalCardCount) {
   resultsCard.appendChild(ratingDiv);
   resultsCard.appendChild(websiteButton);
 
-  return resultsCard;
+  //Creates object that contains the resultCard and photoReference to append to array
+  let resultsCardObject = {
+    card: resultsCard,
+    photoReference: resultPhotoReference
+  };
+
+  return resultsCardObject;
 }
 
 /**
@@ -135,13 +165,4 @@ function createRating(rating) {
   ratingDiv.innerText += (' ' + rating.toFixed(1));
   
   return ratingDiv;
-}
-
-function getZipCode() {
-  let zip = document.getElementById('zipCode').value;
-  let xhttp = new XMLHttpRequest();
-  xhttp.open('POST', '/data?zipCode=' + zip, true);
-  xhttp.send();
-
-  setTimeout(fetchList, 4000);
 }
