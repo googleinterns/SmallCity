@@ -54,7 +54,7 @@ public class BusinessesService {
   private final int SMALL_BUSINESSES_DISPLAYED = 15;
   private final String START_SUBSTRING = "| ";
   private final String END_SUBSTRING = "followers";
-  private final int MIN_NUMBER_OF_MATCHING_BUSINESSES = 5;
+  private final int ALLOWED_NUMBER_OF_MATCHING_BUSINESSES = 5;
   private LatLng latLng;
   private List<Listing> allBusinesses;
   private int numberOfSmallBusinesses;
@@ -199,7 +199,7 @@ public class BusinessesService {
     int numberOfMatchingBusinesses = 0;
     int i = 0;
     while (i < similarBusinessesInTheArea.length 
-          && numberOfMatchingBusinesses < MIN_NUMBER_OF_MATCHING_BUSINESSES) {
+          && numberOfMatchingBusinesses < ALLOWED_NUMBER_OF_MATCHING_BUSINESSES) {
         if (similarBusinessesInTheArea[i].name.contains(currentBusiness.getName())
             && !similarBusinessesInTheArea[i].formattedAddress
                   .equals(currentBusiness.getFormattedAddress())) {
@@ -207,7 +207,7 @@ public class BusinessesService {
         }
       i++;
      }
-     if (numberOfMatchingBusinesses >= MIN_NUMBER_OF_MATCHING_BUSINESSES) {
+     if (numberOfMatchingBusinesses >= ALLOWED_NUMBER_OF_MATCHING_BUSINESSES) {
        addBigBusinessToDatabase(currentBusiness);
      }else{
        numberOfSmallBusinesses++;
