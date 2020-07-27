@@ -72,7 +72,8 @@ public class BusinessesService {
     return allBusinesses;
   }
   
-  public List<Listing> getBusinessesFromPlacesApi(MapLocation mapLocation, String product) {
+  public List<Listing> 
+        getBusinessesFromTextSearch(MapLocation mapLocation, String product) {
     LatLng latLng = 
           new LatLng(mapLocation.lat, mapLocation.lng);
     final GeoApiContext context = new GeoApiContext.Builder()
@@ -81,7 +82,7 @@ public class BusinessesService {
     TextSearchRequest request = PlacesApi.textSearchQuery(context, product);
     try {
       PlacesSearchResponse response = request.location(latLng)
-              .radius(30000)
+              .radius(10000)
               .await();
       for (int i=0; i<ALLOWED_SEARCH_REQUESTS; i++) {
         for(PlacesSearchResult place : response.results) {
@@ -100,9 +101,43 @@ public class BusinessesService {
     return allBusinesses;
   }
 
+  public List<Listing> getBusinessesFromNearbySearch(MapLocation mapLocation) {
+    LatLng latLng = 
+          new LatLng(mapLocation.lat, mapLocation.lng);
+    final GeoApiContext context = new GeoApiContext.Builder()
+            .apiKey(KEY)
+            .build();
+    NearbySearchRequest request = PlacesApi.nearbySearchQuery(context, latLng);
+    try {
+      PlacesSearchResponse response = request.type(PlaceType.STORE)
+              .rankby(RankBy.DISTANCE)
+              .await();
+      for (int i=0; i<ALLOWED_SEARCH_REQUESTS; i++) {
+        for(PlacesSearchResult place : response.results) {
+          addListingToBusinesses(place);
+        }
+        //Maximum of 2 next token requests allowed
+        if (i < 2) {
+          Thread.sleep(2000); // Required delay before next API request
+          response = PlacesApi
+                .nearbySearchNextPage(context, response.nextPageToken).await();
+        }
+      }
+    } catch(Exception e) {
+      LOGGER.warning(e.getMessage());
+    }  
+    return allBusinesses;
+  }
+
   private void addListingToBusinesses(PlacesSearchResult place) {
     String name = place.name;
-    String formattedAddress = place.vicinity;
+    String formattedAddress;
+    if (place.vicinity != null) {
+      formattedAddress = place.vicinity;
+    }
+    else {
+      formattedAddress = place.formattedAddress;
+    }
     Geometry geometry = place.geometry;
     MapLocation placeLocation = 
           new MapLocation(geometry.location.lat, geometry.location.lng);

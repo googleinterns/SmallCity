@@ -57,8 +57,13 @@ public class SmallCityService {
   }
   
   public void findAllBusinesses() {
-    businesses = businessesService
-          .getBusinessesFromPlacesApi(userService.user.geolocation, userService.product);
+    if ((userService.product).equals("NULL")) {
+      businesses = businessesService.getBusinessesFromNearbySearch(userService.user.geolocation);
+    }
+    else {
+      businesses = businessesService
+            .getBusinessesFromTextSearch(userService.user.geolocation, userService.product);
+    }        
   }
   
   // To be used for unit testing file to be able to 
