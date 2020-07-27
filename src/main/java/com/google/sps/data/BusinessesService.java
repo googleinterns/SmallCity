@@ -52,7 +52,7 @@ public class BusinessesService {
   private final int SMALL_BUSINESSES_DISPLAYED = 15;
   private final String START_SUBSTRING = "| ";
   private final String END_SUBSTRING = "followers";
-  private final int MIN_NUMBER_OF_MATCHING_BUSINESSES = 10;
+  private final int MIN_NUMBER_OF_MATCHING_BUSINESSES = 5;
   private LatLng latLng;
   private List<Listing> allBusinesses;
   private int numberOfSmallBusinesses;
