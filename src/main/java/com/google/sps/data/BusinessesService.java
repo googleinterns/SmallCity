@@ -38,13 +38,15 @@ import com.google.maps.model.PlacesSearchResult;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.EntityNotFoundException;
+import io.github.cdimascio.dotenv.Dotenv;
 
 /** BusinessesService object representing all businesses 
 * components of the webapp.
  **/
 public class BusinessesService {
 
-  private final String KEY = "REDACTED";
+  private Dotenv dotenv = Dotenv.configure().filename("env").load();
+  private final String KEY = dotenv.get("APIKEY");
   private final static Logger LOGGER = 
         Logger.getLogger(BusinessesService.class.getName());
   private final int ALLOWED_SEARCH_REQUESTS = 3;
