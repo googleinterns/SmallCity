@@ -62,12 +62,9 @@ function displayCards(listAugment) {
       let cardToAppend = resultsCardsArray[i];
 
       //The actual image element to which the image src will be applied
-      let imageElement = cardToAppend.card.children[0].children[0]; 
+      let resultsImageElement = cardToAppend.card.children[0].children[0]; 
       if (cardToAppend.photoReference != 'none') {
-        loadImage(imageElement, cardToAppend.photoReference);
-      }
-      else {
-        imageElement.src = "/images/image_not_found_two.png";
+        loadImage(resultsImageElement, cardToAppend.photoReference);
       }
 
       resultsContent.appendChild(cardToAppend.card);
@@ -79,6 +76,6 @@ function loadImage(listingImage, photoReference) {
   const KEY = 'REDACTED';
   let maxwidth = 400;
 
-  listingImage.src = "https://maps.googleapis.com/maps/api/place/photo?photoreference=" 
-        + photoReference + "&key=" + KEY + "&maxwidth=" + maxwidth;
+  listingImage.src = 'https://maps.googleapis.com/maps/api/place/photo?photoreference=' 
+        + photoReference + '&key=' + KEY + '&maxwidth=' + maxwidth;
 }

@@ -102,6 +102,7 @@ function createResultCard(name, address, photos, rating, totalCardCount) {
 
   const imageElement = document.createElement('img');
   imageElement.id = 'results-image-element';
+  imageElement.src = '/images/image_not_found_two.png';
 
   let resultPhotoReference = '';
   if ((photos != null) && (photos.length > 0)) {
