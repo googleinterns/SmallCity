@@ -46,7 +46,7 @@ public class DataServlet extends HttpServlet {
     MapLocation userLocation = new MapLocation(lat, lng);
     String product = request.getParameter("product");
     smallCityService.createUserServiceWithGeolocation(userLocation, product);
-    } catch(NullPointerException e) {
+    } catch (NullPointerException e) {
       String zip = request.getParameter("zipCode");
       String product = request.getParameter("product");
       smallCityService.createUserServiceWithZip(zip, product);
@@ -69,7 +69,7 @@ public class DataServlet extends HttpServlet {
     double doubleAsDouble;
     try {
       doubleAsDouble = Double.parseDouble(doubleAsString);
-    } catch(NumberFormatException e) {
+    } catch (NumberFormatException e) {
       LOGGER.warning("Location services failure - default set");
       return 0; // Null Island
     }
