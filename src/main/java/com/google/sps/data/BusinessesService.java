@@ -50,7 +50,7 @@ public class BusinessesService {
   private final static Logger LOGGER = 
         Logger.getLogger(BusinessesService.class.getName());
   private final int ALLOWED_SEARCH_REQUESTS = 3;
-  private final int MINFOLLOWERS = 50000;
+  private final int MIN_FOLLOWERS = 50000;
   private final int SMALL_BUSINESSES_DISPLAYED = 15;
   private final String START_SUBSTRING = "| ";
   private final String END_SUBSTRING = "followers";
@@ -91,8 +91,7 @@ public class BusinessesService {
   }
   
   public List<Listing> getBusinessesFromPlacesApi(MapLocation mapLocation) {
-    latLng = 
-          new LatLng(mapLocation.lat, mapLocation.lng);
+    latLng = new LatLng(mapLocation.lat, mapLocation.lng);
     final GeoApiContext context = new GeoApiContext.Builder()
             .apiKey(KEY)
             .build();
@@ -136,7 +135,7 @@ public class BusinessesService {
       new GeoApiContext.Builder().apiKey(KEY).build();
     numberOfSmallBusinesses = 0;
     Iterator<Listing> businesses =  allBusinesses.iterator();
-    while(businesses.hasNext() 
+    while(businesses.hasNext()
           && numberOfSmallBusinesses < SMALL_BUSINESSES_DISPLAYED) {
       Listing currentBusiness = businesses.next();
       TextSearchRequest request = 
@@ -159,7 +158,7 @@ public class BusinessesService {
   private void checkBusinessThroughLinkedin(Listing currentBusiness, 
                           PlacesSearchResult[] similarBusinessesInTheArea) 
                               throws GeneralSecurityException, IOException {
-    String cx = "REDACTED"; 
+    String cx = dotenv.get("CX"); 
     Customsearch cs = new Customsearch.Builder(
         GoogleNetHttpTransport.newTrustedTransport(), 
         JacksonFactory.getDefaultInstance(), null) 
@@ -186,7 +185,7 @@ public class BusinessesService {
             LOGGER.warning(e.getMessage());
         }
       }
-      if (companyFollowers > MINFOLLOWERS) {
+      if (companyFollowers > MIN_FOLLOWERS) {
         addBigBusinessToDatabase(currentBusiness);
       } else {
         checkNumberOfSimilarBusinessesInTheArea(currentBusiness,
