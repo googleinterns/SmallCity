@@ -104,9 +104,8 @@ public class BusinessesService {
   
   private String getUrlFromPlaceDetails(GeoApiContext context, String placeId) {
     try {
-      PlaceDetails result = new PlaceDetailsRequest(context)
-            .placeId(placeId)
-            .await();
+      PlaceDetails result = 
+            new PlaceDetailsRequest(context).placeId(placeId).await();
       if (result.website != null) {
         return (result.website.toString());
       }

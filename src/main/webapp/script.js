@@ -109,7 +109,7 @@ function createResultCard(name, address, photos, rating, website, totalCardCount
   const websiteButton = document.createElement('button');
   websiteButton.className = 'results-website-button';
   if (website.includes('maps.google.com')) {
-    websiteButton.innerText = 'Visit Website on Google Maps';
+    websiteButton.innerText = 'Visit Location on Google Maps';
     linkWebsite(website, websiteButton);
   }
   else if (website === '') {
