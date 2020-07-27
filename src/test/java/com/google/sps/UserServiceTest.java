@@ -23,11 +23,12 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.LocationType;
 import java.util.logging.Logger;
+import io.github.cdimascio.dotenv.Dotenv;
 
 /** Test class for User Object **/
 @RunWith(JUnit4.class)
 public final class UserServiceTest {
-
+  private Dotenv dotenv = Dotenv.configure().filename("env").load();
   // Pittsburgh Google Office Location
   private final MapLocation TEST_USER_MAP_LOCATION 
         = new MapLocation(40.45717, -79.91669);
@@ -41,11 +42,7 @@ public final class UserServiceTest {
   private UserService test_userServiceWithCity;
   private UserService test_userServiceWithAddress;
 
-<<<<<<< HEAD:src/test/java/com/google/sps/UserTest.java
-  private final String KEY = key.getAPIKey();
-=======
-  private final String KEY = "REDACTED";
->>>>>>> f8fc45470c30479cff4fe2f85effd4e655876543:src/test/java/com/google/sps/UserServiceTest.java
+  private final String KEY = dotenv.get("APIKEY");
   private final static Logger LOGGER 
         = Logger.getLogger(UserServiceTest.class.getName());
 
