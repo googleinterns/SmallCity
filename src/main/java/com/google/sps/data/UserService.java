@@ -10,10 +10,12 @@ import com.google.maps.model.LatLng;
 import com.google.maps.model.LocationType;
 import java.util.Arrays;
 import java.util.logging.Logger;
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class UserService {
+  private Dotenv dotenv = Dotenv.configure().filename("env").load();
   
-  private final String KEY = "REDACTED";
+  private final String KEY = dotenv.get("APIKEY");
   private final static Logger LOGGER = Logger.getLogger(UserService.class.getName());
 
   public User user;
