@@ -17,6 +17,7 @@ package com.google.sps.servlets;
 import com.google.sps.data.SmallCityService;
 import com.google.sps.data.Listing;
 import com.google.sps.data.MapLocation;
+import com.google.sps.data.SearchObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,11 +46,13 @@ public class DataServlet extends HttpServlet {
     double lng = convertToDouble(lngString);
     MapLocation userLocation = new MapLocation(lat, lng);
     String product = request.getParameter("product");
-    smallCityService.createUserServiceWithGeolocation(userLocation, product);
+    SearchObject searchObject = new SearchObject(product);
+    smallCityService.createUserServiceWithGeolocation(userLocation, searchObject);
     } catch (NullPointerException e) {
       String zip = request.getParameter("zipCode");
       String product = request.getParameter("product");
-      smallCityService.createUserServiceWithZip(zip, product);
+      SearchObject searchObject = new SearchObject(product);
+      smallCityService.createUserServiceWithZip(zip, searchObject);
       LOGGER.warning(e.getMessage() 
            + "Unable to geolocate user, zipCode entered instead.");
     }

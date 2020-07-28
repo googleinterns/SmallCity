@@ -33,13 +33,7 @@ function displayLocation(position) {
   let lat = position.coords.latitude;
   let lng = position.coords.longitude;
   locationQuery = '/data?lat=' + lat + '&lng=' + lng;
-  product = document.getElementById('product').value;
-  if (product === '') {
-    fetchList(locationQuery + '&product=NULL');
-  }
-  else {
-    fetchList(locationQuery + '&product=' + product);
-  }
+  fetchByQueryString();
 }
 
 function displayError() {
@@ -53,22 +47,20 @@ function getZipCode() {
   zip = document.getElementById('entryZipCode').value;
   document.getElementById('zipCode').value = zip;
   locationQuery = '/data?zipCode=' + zip;
-  product = document.getElementById('product').value;
-  if (product === '') {
-    fetchList(locationQuery + '&product=NULL');
-  }
-  else {
-    fetchList(locationQuery + '&product=' + product);
-  }
+  fetchByQueryString();
 }
 
 function getProduct() {
   initiateLoaderCircle();
-  if (document.getElementById('product').value === '') {
+  fetchByQueryString();
+}
+
+function fetchByQueryString() {
+product = document.getElementById('product').value;
+  if (product === '') {
     fetchList(locationQuery + '&product=NULL');
   }
   else {
-    product = document.getElementById('product').value;
     fetchList(locationQuery + '&product=' + product);
   }
 }
