@@ -176,9 +176,9 @@ public class BusinessesService {
                                 .getProperty("Business");
           isBigBusiness = false;
           numberOfSmallBusinesses++;
-        } catch(EntityNotFoundException e){
+      } catch(EntityNotFoundException e) {
           checkNumberOfSimilarBusinesses(currentBusiness);
-      }
+        }
   }
 
   private void checkNumberOfSimilarBusinesses(Listing currentBusiness){
@@ -198,7 +198,7 @@ public class BusinessesService {
         // useful if a business does not have that many loacations opened, 
         // but has a huge following on linkedin.
         checkBusinessThroughLinkedin(currentBusiness, similarBusinessesInTheArea);
-      }else if(similarBusinessesInTheArea.length == 1) {
+      } else if(similarBusinessesInTheArea.length == 1) {
         addBusinessToDatabase(currentBusiness, SMALL_BUSINESSES_DATABASE);
         numberOfSmallBusinesses++;
       }
