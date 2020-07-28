@@ -208,10 +208,10 @@ public class BusinessesService {
                           PlacesSearchResult[] similarBusinessesInTheArea) {
     int numberOfMatchingBusinesses = 0;
     int i = 0;
-    
+
     while (i < similarBusinessesInTheArea.length 
           && numberOfMatchingBusinesses < ALLOWED_NUMBER_OF_MATCHING_BUSINESSES) {
-        if (similarBusinessesInTheArea[i].name.contains(currentBusiness.getName())
+        if (similarBusinessesInTheArea[i].name.equals(currentBusiness.getName())
             && !similarBusinessesInTheArea[i].formattedAddress
                   .equals(currentBusiness.getFormattedAddress())) {
           numberOfMatchingBusinesses++;
