@@ -19,20 +19,17 @@ public class UserService {
   private final static Logger LOGGER = Logger.getLogger(UserService.class.getName());
 
   public User user;
-  public String product;
 
   public UserService() { }
   
-  public void createUserWithGeolocation(MapLocation mapLocation, String product) {
+  public void createUserWithGeolocation(MapLocation mapLocation) {
     user = new User();
     user.geolocation = mapLocation;
-    this.product = product;
   }
   
-  public void createUserWithZipCode(String zipCode, String product) {
+  public void createUserWithZipCode(String zipCode) {
     user = new User();
     user.geolocation = zipCodeToMapLocation(zipCode);
-    this.product = product;
   }
   
   private MapLocation zipCodeToMapLocation(String zipCode) {

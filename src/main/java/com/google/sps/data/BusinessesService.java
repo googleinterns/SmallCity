@@ -38,6 +38,7 @@ public class BusinessesService {
   private final static Logger LOGGER = 
         Logger.getLogger(BusinessesService.class.getName());
   private final int ALLOWED_SEARCH_REQUESTS = 3;
+  private final int TEXT_SEARCH_RADIUS = 10000;
 
   /** Create a new Businesses instance
   * @param allBusinesses businesses from SmallCityService
@@ -77,10 +78,12 @@ public class BusinessesService {
             .apiKey(KEY)
             .build();
     TextSearchRequest request = PlacesApi.textSearchQuery(context, product);
+    
     try {
       PlacesSearchResponse response = request.location(latLng)
-              .radius(10000)
+              .radius(TEXT_SEARCH_RADIUS)
               .await();
+      
       for (int i=0; i<ALLOWED_SEARCH_REQUESTS; i++) {
         for(PlacesSearchResult place : response.results) {
           addListingToBusinesses(place);
