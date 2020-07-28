@@ -62,7 +62,6 @@ public class BusinessesService {
   private LatLng latLng;
   private List<Listing> allBusinesses;
   private int numberOfSmallBusinesses;
-  private boolean isBigBusiness;
 
   /** Create a new Businesses instance
   * @param allBusinesses businesses from SmallCityService
@@ -155,33 +154,40 @@ public class BusinessesService {
   public void determineIfTheBusinessesAreBig() {
     numberOfSmallBusinesses = 0;
     Iterator<Listing> businesses =  allBusinesses.iterator();
-
+    boolean isBigBusiness;
     while(businesses.hasNext()
           && numberOfSmallBusinesses < SMALL_BUSINESSES_DISPLAYED) {
       Listing currentBusiness = businesses.next();
-      checkIfSmallBusinessInDatabase(currentBusiness);
+
+      isBigBusiness = checkIfSmallBusinessInDatabase(currentBusiness);
+      
       if(isBigBusiness){
         businesses.remove();
       }
     }
   }
 
-  private void checkIfSmallBusinessInDatabase(Listing currentBusiness){
+  private boolean checkIfSmallBusinessInDatabase(Listing currentBusiness){
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();    
+    boolean isBigBusiness = false;
       try {
           String smallBusinessName = 
               (String) datastore.get(KeyFactory.createKey(
                                       SMALL_BUSINESSES_DATABASE, 
                                       currentBusiness.getName()))
                                 .getProperty("Business");
-          isBigBusiness = false;
           numberOfSmallBusinesses++;
+          isBigBusiness = false;
+          
       } catch(EntityNotFoundException e) {
-          checkNumberOfSimilarBusinesses(currentBusiness);
+          isBigBusiness = checkNumberOfSimilarBusinesses(currentBusiness);
         }
+    return isBigBusiness;
   }
 
-  private void checkNumberOfSimilarBusinesses(Listing currentBusiness){
+  private boolean checkNumberOfSimilarBusinesses(Listing currentBusiness){
+    boolean isBigBusiness = false;
+
     GeoApiContext context = 
       new GeoApiContext.Builder().apiKey(KEY).build();
     TextSearchRequest request = 
@@ -197,19 +203,22 @@ public class BusinessesService {
         // through all the places that are similar to it in the area. Also,
         // useful if a business does not have that many loacations opened, 
         // but has a huge following on linkedin.
-        checkBusinessThroughLinkedin(currentBusiness, similarBusinessesInTheArea);
+        isBigBusiness = checkBusinessThroughLinkedin(currentBusiness, similarBusinessesInTheArea);
       } else if(similarBusinessesInTheArea.length == 1) {
         addBusinessToDatabase(currentBusiness, SMALL_BUSINESSES_DATABASE);
         numberOfSmallBusinesses++;
+        isBigBusiness = false;
       }
     } catch(GeneralSecurityException | IOException | InterruptedException | ApiException e ) {
         LOGGER.warning(e.getMessage());
       } 
+    return isBigBusiness;
   }
 
-  private void checkBusinessThroughLinkedin(Listing currentBusiness, 
+  private boolean checkBusinessThroughLinkedin(Listing currentBusiness, 
                           PlacesSearchResult[] similarBusinessesInTheArea) 
                               throws GeneralSecurityException, IOException {
+    boolean isBigBusiness = false;
     String cx = dotenv.get("CX"); 
     Customsearch cs = new Customsearch.Builder(
         GoogleNetHttpTransport.newTrustedTransport(), 
@@ -244,16 +253,18 @@ public class BusinessesService {
         addBusinessToDatabase(currentBusiness, BIG_BUSINESSES_DATABASE);
         isBigBusiness = true;
       } else {
-        checkNumberOfSimilarBusinessesInTheArea(currentBusiness,
+        isBigBusiness = checkNumberOfSimilarBusinessesInTheArea(currentBusiness,
                                                 similarBusinessesInTheArea);
       }
     }
+    return isBigBusiness;
   }
 
-  private void checkNumberOfSimilarBusinessesInTheArea(Listing currentBusiness, 
+  private boolean checkNumberOfSimilarBusinessesInTheArea(Listing currentBusiness, 
                           PlacesSearchResult[] similarBusinessesInTheArea) {
     int numberOfMatchingBusinesses = 0;
     int i = 0;
+    boolean isBigBusiness = false;
 
     while (i < similarBusinessesInTheArea.length 
           && numberOfMatchingBusinesses < ALLOWED_NUMBER_OF_MATCHING_BUSINESSES) {
@@ -272,6 +283,7 @@ public class BusinessesService {
         numberOfSmallBusinesses++;
         isBigBusiness = false;
      }
+    return isBigBusiness;
    }
 
   private void addBusinessToDatabase(Listing currentBusiness, String databaseEntry) {
