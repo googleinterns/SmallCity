@@ -69,8 +69,7 @@ public class SmallCityService {
   }
   
   public void findBigBusinessInList () {
-    businessesService.checkIfBusinessesAreBig();
-    filterBySmallBusinesses();     
+    businessesService.checkIfBusinessesAreBig();    
   }
 
   // To be used for unit testing file to be able to get list 

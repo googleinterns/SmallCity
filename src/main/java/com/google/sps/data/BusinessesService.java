@@ -62,7 +62,7 @@ public class BusinessesService {
   private LatLng latLng;
   private List<Listing> allBusinesses;
   private int numberOfSmallBusinesses;
-  
+  private boolean isBigBusiness;
 
   /** Create a new Businesses instance
   * @param allBusinesses businesses from SmallCityService
@@ -160,6 +160,9 @@ public class BusinessesService {
           && numberOfSmallBusinesses < SMALL_BUSINESSES_DISPLAYED) {
       Listing currentBusiness = businesses.next();
       checkIfSmallBusinessInDatabase(currentBusiness);
+      if(isBigBusiness){
+        businesses.remove();
+      }
     }
   }
 
@@ -171,7 +174,7 @@ public class BusinessesService {
                                       "SmallBusinesses", 
                                       currentBusiness.getName()))
                                 .getProperty("Business");
-          System.out.println(smallBusinessName);
+          isBigBusiness = false;
           numberOfSmallBusinesses++;
         } catch(EntityNotFoundException e){
           checkNumberOfSimilarBusinesses(currentBusiness);
@@ -240,6 +243,7 @@ public class BusinessesService {
 
       if (companyFollowers > MIN_FOLLOWERS) {
         addBusinessToDatabase(currentBusiness, BIG_BUSINESSES_DATABASE);
+        isBigBusiness = true;
       } else {
         checkNumberOfSimilarBusinessesInTheArea(currentBusiness,
                                                 similarBusinessesInTheArea);
@@ -262,10 +266,12 @@ public class BusinessesService {
       i++;
      }
      if (numberOfMatchingBusinesses >= ALLOWED_NUMBER_OF_MATCHING_BUSINESSES) {
-       addBusinessToDatabase(currentBusiness, BIG_BUSINESSES_DATABASE);
+        addBusinessToDatabase(currentBusiness, BIG_BUSINESSES_DATABASE);
+        isBigBusiness = true;
      } else {
         addBusinessToDatabase(currentBusiness, SMALL_BUSINESSES_DATABASE);
         numberOfSmallBusinesses++;
+        isBigBusiness = false;
      }
    }
 
