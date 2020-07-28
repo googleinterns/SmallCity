@@ -152,7 +152,7 @@ public class BusinessesService {
           placeLocation, rating, photos, types, url));
   }
 
-  public void checkIfBusinessesAreBig() {
+  public void determineIfTheBusinessesAreBig() {
     numberOfSmallBusinesses = 0;
     Iterator<Listing> businesses =  allBusinesses.iterator();
 
