@@ -62,7 +62,8 @@ function displayCards(listAugment) {
       let cardToAppend = resultsCardsArray[i];
 
       //The actual image element to which the image src will be applied
-      let resultsImageElement = cardToAppend.card.children[0].children[0]; 
+      let resultsImageElement = locateImageElement(cardToAppend.card);
+
       if (cardToAppend.photoReference != 'none') {
         loadImage(resultsImageElement, cardToAppend.photoReference);
       }
@@ -71,6 +72,17 @@ function displayCards(listAugment) {
     }
   }
 }  
+
+function locateImageElement(card) {
+  let cardChildren = card.childNodes;
+  let child = 0;
+
+  while (cardChildren[child].className != 'results-image') {
+    child++;
+  }
+
+  return cardChildren[child].children[0];
+}
 
 function loadImage(listingImage, photoReference) {
   const KEY = 'REDACTED';
