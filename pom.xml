@@ -74,6 +74,11 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>com.google.apis</groupId>
+      <artifactId>google-api-services-customsearch</artifactId>
+      <version>v1-rev57-1.23.0</version>
+    </dependency> 
+    <dependency>
       <groupId>io.github.cdimascio</groupId>
       <artifactId>java-dotenv</artifactId>
       <version>5.2.1</version>

@@ -25,7 +25,6 @@ import com.google.appengine.api.datastore.Entity;
 
 /** SmallCityService object representing all components of the webapp **/
 public class SmallCityService {
-  
 
   private UserService userService;
   private BusinessesService businessesService;
@@ -77,6 +76,11 @@ public class SmallCityService {
     businesses = businessesService.removeBigBusinessesFromResults();
   }
   
+  public void findBigBusinessInList () {
+    businessesService.checkIfBusinessesAreBig();
+    filterBySmallBusinesses();     
+  }
+
   // To be used for unit testing file to be able to get list 
   // of businesses
   public List<Listing> getBusinesses() {
@@ -88,6 +92,7 @@ public class SmallCityService {
     businessesService = new BusinessesService(businesses);
     findAllBusinesses();
     filterBySmallBusinesses();
+    findBigBusinessInList();
     return businesses;
   }
 }
