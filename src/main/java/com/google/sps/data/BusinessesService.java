@@ -81,7 +81,7 @@ public class BusinessesService {
       try {
         businessName = 
             (String) datastore.get(KeyFactory.createKey(
-                                    "BigBusinesses", 
+                                    BIG_BUSINESSES_DATABASE, 
                                     currentBusiness.getName()))
                               .getProperty("Business");
         if(businessName.equals(currentBusiness.getName())){
@@ -171,7 +171,7 @@ public class BusinessesService {
       try {
           String smallBusinessName = 
               (String) datastore.get(KeyFactory.createKey(
-                                      "SmallBusinesses", 
+                                      SMALL_BUSINESSES_DATABASE, 
                                       currentBusiness.getName()))
                                 .getProperty("Business");
           isBigBusiness = false;
