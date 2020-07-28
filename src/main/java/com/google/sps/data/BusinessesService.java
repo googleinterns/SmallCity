@@ -146,13 +146,14 @@ public class BusinessesService {
       try {                                       
         PlacesSearchResult[] similarBusinessesInTheArea = 
           request.await().results;
-        if (similarBusinessesInTheArea.length > 1){
+
+        if (similarBusinessesInTheArea.length > 1) {
           // Quickly determines if a business is big, instead of having to iterate
           // through all the places that are similar to it in the area. Also,
           // useful if a business does not have that many loacations opened, 
           // but has a huge following on linkedin.
           checkBusinessThroughLinkedin(currentBusiness, similarBusinessesInTheArea);
-        }else if(similarBusinessesInTheArea.length == 1){
+        }else if(similarBusinessesInTheArea.length == 1) {
           numberOfSmallBusinesses++;
         }
       } catch(GeneralSecurityException | IOException | InterruptedException | ApiException e ) {
@@ -183,14 +184,14 @@ public class BusinessesService {
         (String) linkedinBusiness.getPagemap().get("metatags").get(0).get("og:description");
 
       if(businessDescription.contains(START_SUBSTRING) 
-          && businessDescription.contains(END_SUBSTRING)){
+          && businessDescription.contains(END_SUBSTRING)) {
         String followers = businessDescription.substring(
                                 businessDescription.indexOf(START_SUBSTRING) + 2, 
                                 businessDescription.indexOf(END_SUBSTRING) - 1);
 
         try{
           companyFollowers = Integer.parseInt(followers.replaceAll(",", ""));
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             LOGGER.warning(e.getMessage());
         }
       }
