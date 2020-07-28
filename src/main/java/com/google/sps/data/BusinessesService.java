@@ -135,16 +135,22 @@ public class BusinessesService {
       new GeoApiContext.Builder().apiKey(KEY).build();
     numberOfSmallBusinesses = 0;
     Iterator<Listing> businesses =  allBusinesses.iterator();
+
     while(businesses.hasNext()
           && numberOfSmallBusinesses < SMALL_BUSINESSES_DISPLAYED) {
       Listing currentBusiness = businesses.next();
       TextSearchRequest request = 
         new TextSearchRequest(context).query(currentBusiness.getName())
           .location(latLng).radius(50000);
+
       try {                                       
         PlacesSearchResult[] similarBusinessesInTheArea = 
           request.await().results;
         if (similarBusinessesInTheArea.length > 1){
+          // Quickly determines if a business is big, instead of having to iterate
+          // through all the places that are similar to it in the area. Also,
+          // useful if a business does not have that many loacations opened, 
+          // but has a huge following on linkedin.
           checkBusinessThroughLinkedin(currentBusiness, similarBusinessesInTheArea);
         }else if(similarBusinessesInTheArea.length == 1){
           numberOfSmallBusinesses++;
@@ -170,21 +176,25 @@ public class BusinessesService {
     List<Result> searchJsonResults = list.execute().getItems();
     String[] numberOfFollowers;
     int companyFollowers = 0;
+
     if (searchJsonResults != null && searchJsonResults.size() != 0) {
       Result linkedinBusiness = searchJsonResults.get(0);
       String businessDescription = 
         (String) linkedinBusiness.getPagemap().get("metatags").get(0).get("og:description");
-      if(businessDescription.contains(START_SUBSTRING) == true 
-          && businessDescription.contains(END_SUBSTRING) == true){
+
+      if(businessDescription.contains(START_SUBSTRING) 
+          && businessDescription.contains(END_SUBSTRING)){
         String followers = businessDescription.substring(
                                 businessDescription.indexOf(START_SUBSTRING) + 2, 
                                 businessDescription.indexOf(END_SUBSTRING) - 1);
+
         try{
           companyFollowers = Integer.parseInt(followers.replaceAll(",", ""));
         } catch (NumberFormatException e){
             LOGGER.warning(e.getMessage());
         }
       }
+
       if (companyFollowers > MIN_FOLLOWERS) {
         addBigBusinessToDatabase(currentBusiness);
       } else {
@@ -198,6 +208,7 @@ public class BusinessesService {
                           PlacesSearchResult[] similarBusinessesInTheArea) {
     int numberOfMatchingBusinesses = 0;
     int i = 0;
+    
     while (i < similarBusinessesInTheArea.length 
           && numberOfMatchingBusinesses < ALLOWED_NUMBER_OF_MATCHING_BUSINESSES) {
         if (similarBusinessesInTheArea[i].name.contains(currentBusiness.getName())
