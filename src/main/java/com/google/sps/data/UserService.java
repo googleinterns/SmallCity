@@ -40,6 +40,7 @@ public class UserService {
     try {
         results = GeocodingApi.geocode(context, zipCode).await();
         MapLocation geolocation = new MapLocation(results[0].geometry.location.lat, results[0].geometry.location.lng);
+        LOGGER.info("Location type: " + results[0].geometry.locationType);
         return geolocation;
     } catch (final Exception e) {
         LOGGER.warning(e.getMessage());
