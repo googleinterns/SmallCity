@@ -130,7 +130,7 @@ public class BusinessesService {
           placeLocation, rating, photos, types));
   }
 
-  public void checkNumberOfLocationsOfBusiness() {
+  public void checkIfBusinessesAreBig() {
     GeoApiContext context = 
       new GeoApiContext.Builder().apiKey(KEY).build();
     numberOfSmallBusinesses = 0;

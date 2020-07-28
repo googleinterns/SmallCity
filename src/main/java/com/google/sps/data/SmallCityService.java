@@ -69,7 +69,7 @@ public class SmallCityService {
   }
   
   public void findBigBusinessInList () {
-    businessesService.checkNumberOfLocationsOfBusiness();
+    businessesService.checkIfBusinessesAreBig();
     filterBySmallBusinesses();     
   }
 
