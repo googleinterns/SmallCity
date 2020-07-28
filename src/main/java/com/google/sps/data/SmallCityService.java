@@ -22,19 +22,14 @@ import java.util.Iterator;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.SortDirection;
 
 /** SmallCityService object representing all components of the webapp **/
 public class SmallCityService {
-  
 
   private UserService userService;
   private BusinessesService businessesService;
   private List<Listing> businesses;
   private final static Logger LOGGER = Logger.getLogger(SmallCityService.class.getName());
-  private PreparedQuery queryOfDatabase;
 
   public SmallCityService() { }
   
@@ -70,10 +65,14 @@ public class SmallCityService {
   // To remove the big businesses from the list 
   // that will be returned from the use of the Places API 
   public void filterBySmallBusinesses() {
-    queryOfDatabase = businessesService.getBigBusinessFromDatabase();
-    businesses = businessesService.removeBigBusinessesFromResults(queryOfDatabase);
+    businesses = businessesService.removeBigBusinessesFromResults();
   }
   
+  public void findBigBusinessInList () {
+    businessesService.checkIfBusinessesAreBig();
+    filterBySmallBusinesses();     
+  }
+
   // To be used for unit testing file to be able to get list 
   // of businesses
   public List<Listing> getBusinesses() {
@@ -85,6 +84,7 @@ public class SmallCityService {
     businessesService = new BusinessesService(businesses);
     findAllBusinesses();
     filterBySmallBusinesses();
+    findBigBusinessInList();
     return businesses;
   }
 }
