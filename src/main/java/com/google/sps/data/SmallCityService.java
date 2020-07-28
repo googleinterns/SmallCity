@@ -55,7 +55,7 @@ public class SmallCityService {
   }
   
   public void findAllBusinesses() {
-    if ((searchObject.product).equals("NULL")) {
+    if ((searchObject.product).equals("")) {
       businesses = businessesService.getBusinessesFromNearbySearch(userService.user.geolocation);
     }
     else {

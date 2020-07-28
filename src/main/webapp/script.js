@@ -58,7 +58,7 @@ function getProduct() {
 function fetchByQueryString() {
 product = document.getElementById('product').value;
   if (product === '') {
-    fetchList(locationQuery + '&product=NULL');
+    fetchList(locationQuery + '&product=');
   }
   else {
     fetchList(locationQuery + '&product=' + product);
