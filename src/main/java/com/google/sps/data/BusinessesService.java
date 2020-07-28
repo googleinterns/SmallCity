@@ -17,6 +17,8 @@ import com.google.maps.model.RankBy;
 import com.google.maps.model.Geometry;
 import com.google.maps.model.PlacesSearchResponse;
 import com.google.maps.model.PlacesSearchResult;
+import com.google.maps.model.PlaceDetails;
+import com.google.maps.PlaceDetailsRequest;
 import java.util.logging.Logger;
 import java.util.Iterator;
 import com.google.appengine.api.datastore.DatastoreService;
@@ -102,7 +104,8 @@ public class BusinessesService {
               .await();
       for (int i=0; i<ALLOWED_SEARCH_REQUESTS; i++) {
         for(PlacesSearchResult place : response.results) {
-          addListingToBusinesses(place);
+          String url = getUrlFromPlaceDetails(context, place.placeId);
+          addListingToBusinesses(place, url);
         }
         //Maximum of 2 next token requests allowed
         if (i < 2) {
@@ -116,8 +119,25 @@ public class BusinessesService {
     }  
     return allBusinesses;
   }
+  
+  private String getUrlFromPlaceDetails(GeoApiContext context, String placeId) {
+    try {
+      PlaceDetails result = 
+            new PlaceDetailsRequest(context).placeId(placeId).await();
+      if (result.website != null) {
+        return (result.website.toString());
+      }
+      else {
+        return (result.url.toString());
+      }
+    } catch(Exception e) {
+      LOGGER.warning(e.getMessage());
+    }
+    // Place Details failure
+    return "";
+  }
 
-  private void addListingToBusinesses(PlacesSearchResult place) {
+  private void addListingToBusinesses(PlacesSearchResult place, String url) {
     String name = place.name;
     String formattedAddress = place.vicinity;
     Geometry geometry = place.geometry;
@@ -127,7 +147,7 @@ public class BusinessesService {
     Photo photos[] = place.photos;
     String types[] = place.types;
     allBusinesses.add(new Listing(name, formattedAddress, 
-          placeLocation, rating, photos, types));
+          placeLocation, rating, photos, types, url));
   }
 
   public void checkIfBusinessesAreBig() {
