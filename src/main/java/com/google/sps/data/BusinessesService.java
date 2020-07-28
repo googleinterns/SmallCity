@@ -57,6 +57,8 @@ public class BusinessesService {
   private final String START_SUBSTRING = "| ";
   private final String END_SUBSTRING = "followers";
   private final int ALLOWED_NUMBER_OF_MATCHING_BUSINESSES = 5;
+  private final String BIG_BUSINESSES_DATABASE = "BigBusinesses";
+  private final String SMALL_BUSINESSES_DATABASE = "SmallBusinesses";
   private LatLng latLng;
   private List<Listing> allBusinesses;
   private int numberOfSmallBusinesses;
@@ -151,37 +153,57 @@ public class BusinessesService {
   }
 
   public void checkIfBusinessesAreBig() {
-    GeoApiContext context = 
-      new GeoApiContext.Builder().apiKey(KEY).build();
     numberOfSmallBusinesses = 0;
     Iterator<Listing> businesses =  allBusinesses.iterator();
 
     while(businesses.hasNext()
           && numberOfSmallBusinesses < SMALL_BUSINESSES_DISPLAYED) {
       Listing currentBusiness = businesses.next();
-      TextSearchRequest request = 
+      checkIfSmallBusinessInDatabase(currentBusiness);
+    }
+  }
+
+  private void checkIfSmallBusinessInDatabase(Listing currentBusiness){
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();    
+      try {
+          String smallBusinessName = 
+              (String) datastore.get(KeyFactory.createKey(
+                                      "SmallBusinesses", 
+                                      currentBusiness.getName()))
+                                .getProperty("Business");
+          System.out.println(smallBusinessName);
+          numberOfSmallBusinesses++;
+        } catch(EntityNotFoundException e){
+          checkNumberOfSimilarBusinesses(currentBusiness);
+      }
+  }
+
+  private void checkNumberOfSimilarBusinesses(Listing currentBusiness){
+    GeoApiContext context = 
+      new GeoApiContext.Builder().apiKey(KEY).build();
+    TextSearchRequest request = 
         new TextSearchRequest(context).query(currentBusiness.getName())
           .location(latLng).radius(50000);
 
-      try {                                       
-        PlacesSearchResult[] similarBusinessesInTheArea = 
-          request.await().results;
+    try {                                       
+      PlacesSearchResult[] similarBusinessesInTheArea = 
+        request.await().results;
 
-        if (similarBusinessesInTheArea.length > 1) {
-          // Quickly determines if a business is big, instead of having to iterate
-          // through all the places that are similar to it in the area. Also,
-          // useful if a business does not have that many loacations opened, 
-          // but has a huge following on linkedin.
-          checkBusinessThroughLinkedin(currentBusiness, similarBusinessesInTheArea);
-        }else if(similarBusinessesInTheArea.length == 1) {
-          numberOfSmallBusinesses++;
-        }
-      } catch(GeneralSecurityException | IOException | InterruptedException | ApiException e ) {
-          LOGGER.warning(e.getMessage());
-        } 
-    }
+      if (similarBusinessesInTheArea.length > 1) {
+        // Quickly determines if a business is big, instead of having to iterate
+        // through all the places that are similar to it in the area. Also,
+        // useful if a business does not have that many loacations opened, 
+        // but has a huge following on linkedin.
+        checkBusinessThroughLinkedin(currentBusiness, similarBusinessesInTheArea);
+      }else if(similarBusinessesInTheArea.length == 1) {
+        addBusinessToDatabase(currentBusiness, SMALL_BUSINESSES_DATABASE);
+        numberOfSmallBusinesses++;
+      }
+    } catch(GeneralSecurityException | IOException | InterruptedException | ApiException e ) {
+        LOGGER.warning(e.getMessage());
+      } 
   }
-  
+
   private void checkBusinessThroughLinkedin(Listing currentBusiness, 
                           PlacesSearchResult[] similarBusinessesInTheArea) 
                               throws GeneralSecurityException, IOException {
@@ -212,12 +234,12 @@ public class BusinessesService {
         try{
           companyFollowers = Integer.parseInt(followers.replaceAll(",", ""));
         } catch (NumberFormatException e) {
-            LOGGER.warning(e.getMessage());
+          LOGGER.warning(e.getMessage());
         }
       }
 
       if (companyFollowers > MIN_FOLLOWERS) {
-        addBigBusinessToDatabase(currentBusiness);
+        addBusinessToDatabase(currentBusiness, BIG_BUSINESSES_DATABASE);
       } else {
         checkNumberOfSimilarBusinessesInTheArea(currentBusiness,
                                                 similarBusinessesInTheArea);
@@ -240,19 +262,20 @@ public class BusinessesService {
       i++;
      }
      if (numberOfMatchingBusinesses >= ALLOWED_NUMBER_OF_MATCHING_BUSINESSES) {
-       addBigBusinessToDatabase(currentBusiness);
-     }else{
-       numberOfSmallBusinesses++;
+       addBusinessToDatabase(currentBusiness, BIG_BUSINESSES_DATABASE);
+     } else {
+        addBusinessToDatabase(currentBusiness, SMALL_BUSINESSES_DATABASE);
+        numberOfSmallBusinesses++;
      }
    }
 
-  private void addBigBusinessToDatabase(Listing currentBusiness) {
+  private void addBusinessToDatabase(Listing currentBusiness, String databaseEntry) {
     String title = "Business";
     String businessTypes = "BusinessTypes";
     String address = "Address";
     String rating = "Rating";
     String photos = "Photos";
-    Entity businessEntity = new Entity("BigBusinesses", currentBusiness.getName());
+    Entity businessEntity = new Entity(databaseEntry, currentBusiness.getName());
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     businessEntity.setProperty(title, currentBusiness.getName());
     businessEntity.setProperty(address, currentBusiness.getFormattedAddress());
