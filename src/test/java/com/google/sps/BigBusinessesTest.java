@@ -41,6 +41,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import com.google.maps.model.Photo;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 
 @RunWith(JUnit4.class)
 public final class BigBusinessesTest {
@@ -144,9 +146,10 @@ public final class BigBusinessesTest {
     String photos = "Photos";
     String url = "Url";
     datastore = DatastoreServiceFactory.getDatastoreService();
-    Entity businessEntity = new Entity("BigBusinesses");
+    Entity businessEntity;
+    Key key;
     for(Listing business: sampleDatabaseOfBigBusinesses) {
-      businessEntity = new Entity("BigBusinesses");
+      businessEntity = new Entity("BigBusinesses", business.getName());
       businessEntity.setProperty(title, business.getName());
       businessEntity.setProperty(address, business.getFormattedAddress());
       businessEntity.setProperty(rating, business.getRating());

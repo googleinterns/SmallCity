@@ -24,18 +24,18 @@ import java.util.Iterator;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.SortDirection;
-
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import io.github.cdimascio.dotenv.Dotenv;
 
 /** BusinessesService object representing all businesses 
 * components of the webapp.
  **/
 public class BusinessesService {
-
+  private Dotenv dotenv = Dotenv.configure().filename("env").load();
   private List<Listing> allBusinesses;
-  private final String KEY = "REDACTED";
+  private final String KEY = dotenv.get("APIKEY");
   private final static Logger LOGGER = 
         Logger.getLogger(BusinessesService.class.getName());
   private final int ALLOWED_SEARCH_REQUESTS = 3;
@@ -48,26 +48,23 @@ public class BusinessesService {
     this.allBusinesses = allBusinesses;
   }
 
-  public PreparedQuery getBigBusinessFromDatabase(){
+  public List<Listing> removeBigBusinessesFromResults(){
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query = new Query("BigBusinesses");
-    PreparedQuery queryOfDatabase = datastore.prepare(query);
-    return queryOfDatabase;
-  }
-
-  public List<Listing> removeBigBusinessesFromResults(PreparedQuery queryOfDatabase){
     Iterator<Listing> businesses =  allBusinesses.iterator();
-    Entity entity;
     String businessName;
     while (businesses.hasNext()) {
       Listing currentBusiness = businesses.next();
-      Iterator<Entity> bigBusinessEntities = queryOfDatabase.asIterator();
-      while(bigBusinessEntities.hasNext()) {
+      try {
         businessName = 
-              (String) bigBusinessEntities.next().getProperty("Business");
-        if(businessName.equals(currentBusiness.getName())) {
+            (String) datastore.get(KeyFactory.createKey(
+                                    "BigBusinesses", 
+                                    currentBusiness.getName()))
+                              .getProperty("Business");
+        if(businessName.equals(currentBusiness.getName())){
           businesses.remove();
         }
+      } catch(EntityNotFoundException e){
+        LOGGER.warning(e.getMessage());
       }
     }
     return allBusinesses;

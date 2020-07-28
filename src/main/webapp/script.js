@@ -43,27 +43,47 @@ function getZipCode() {
 }
 
 //Array of the (currently 6 for this demo build) 15 listings gathered from the fetch request
-let listingsArray = [];
+let resultsCardsArray = [];
 
 //Count of the total businesses in the fetch request, used to set a unique id for each card
 let totalCardCount = 0;
 let bounds = 0;
 
 function fetchList(queryString) {
+  initiateLoaderCircle();
   bounds = new google.maps.LatLngBounds();
   fetch(queryString).then(response => response.json()).then((listings) => {
-    listingsArray = [];
+    resultsCardsArray = [];
     totalCardCount = 0;
     initMap(listings[0].mapLocation);
     listings.forEach((listing) => {
-      listingsArray.push(createResultCard(listing.name, listing.formattedAddress,
+      resultsCardsArray.push(createResultCard(listing.name, listing.formattedAddress, 
             listing.photos, listing.rating, listing.url, totalCardCount));
+
       if (totalCardCount < 15) createMarker(listing, totalCardCount);
       totalCardCount++;
     }); 
     initialDisplay();
-    map.fitBounds(bounds);
+    map.fitBounds(bounds);  
+    removeLoaderCircle();
   });
+}
+
+// Style elements being alterned by loader
+let loaderCircleElement = document.getElementById('loader-circle');
+let loaderCircleContainerElement = document.getElementById('loader-circle-container');
+let mapElement = document.getElementById('map');
+
+function initiateLoaderCircle() {
+  loaderCircleElement.className = 'loader-circle-display';
+  loaderCircleContainerElement.className = 'loader-circle-display';
+  mapElement.className = 'map-transparent';
+}
+
+function removeLoaderCircle() {
+  loaderCircleElement.className = 'loader-circle-hide';
+  loaderCircleContainerElement.className = 'loader-circle-hide';
+  mapElement.className = 'map-opaque';
 }
 
 /**
@@ -71,10 +91,10 @@ function fetchList(queryString) {
  * @param {string} address The address of the business
  * @param {string} image The url of the business image
  * @param {double} rating The numerical rating of the business, passed to the createRating() function
- * @param {string} website The url of the business' website
+ * @param {string} websiteUrl The url of the business' website
  * @param {int} totalCardCount The number of businesses in the list, used to set a specific id to each card
  */
-function createResultCard(name, address, photos, rating, website, totalCardCount) {
+function createResultCard(name, address, photos, rating, websiteUrl, totalCardCount) {
   const resultsCard = document.createElement('div');
   resultsCard.className = 'results-card';
   resultsCard.id = totalCardCount;
@@ -83,12 +103,14 @@ function createResultCard(name, address, photos, rating, website, totalCardCount
   imageDiv.className = 'results-image';
 
   const imageElement = document.createElement('img');
-  
+  imageElement.id = 'results-image-element';
+
+  let resultPhotoReference = '';
   if ((photos != null) && (photos.length > 0)) {
-    let photoReference = photos[0].photoReference;
-    const KEY = 'REDACTED';
-    let maxwidth = 400;
-    imageElement.src = "https://maps.googleapis.com/maps/api/place/photo?photoreference=" + photoReference + "&key=" + KEY + "&maxwidth=" + maxwidth;
+    resultPhotoReference = photos[0].photoReference;
+  }
+  else {
+    resultPhotoReference = 'none';
   }
 
   imageDiv.appendChild(imageElement);
@@ -108,17 +130,17 @@ function createResultCard(name, address, photos, rating, website, totalCardCount
 
   const websiteButton = document.createElement('button');
   websiteButton.className = 'results-website-button';
-  if (website.includes('maps.google.com')) {
+  if (websiteUrl.includes('maps.google.com')) {
     websiteButton.innerText = 'Visit Location on Google Maps';
-    linkWebsite(website, websiteButton);
+    linkWebsite(websiteUrl, websiteButton);
   }
-  else if (website === '') {
-    websiteButton.innerText = 'Website unavailable';
+  else if (websiteUrl === '') {
+    websiteButton.innerText = 'Website Unavailable';
     websiteButton.className = 'unavailable-website';
   }
   else {
     websiteButton.innerText = 'Visit Website';
-    linkWebsite(website, websiteButton);
+    linkWebsite(websiteUrl, websiteButton);
   }
     
 
@@ -127,13 +149,19 @@ function createResultCard(name, address, photos, rating, website, totalCardCount
   resultsCard.appendChild(ratingDiv);
   resultsCard.appendChild(websiteButton);
 
-  return resultsCard;
+  //Creates object that contains the resultCard and photoReference to append to array
+  let resultsCardObject = {
+    card: resultsCard,
+    photoReference: resultPhotoReference
+  };
+
+  return resultsCardObject;
 }
 
-function linkWebsite(website, websiteButton) {
+function linkWebsite(websiteUrl, websiteButton) {
   // Equivalent to HTML's 'onClick'
   websiteButton.addEventListener('click', function() {
-    window.open(website);
+    window.open(websiteUrl);
   });
 }
 

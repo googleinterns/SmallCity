@@ -39,9 +39,9 @@ function createMarker(listing, cardNumber) {
 
     let currentCard = document.getElementById(cardNumber);
     // Corresponding card flashes for 5 seconds
-    currentCard.style.backgroundColor = '#b3ffb3';
+    currentCard.style.border = '8px solid #b3ffb3';
     setTimeout(function() {
-      currentCard.style.backgroundColor = '#fff';
+      currentCard.style.border = 'none';
     }, 5000);
   });
   marker.setMap(map);
