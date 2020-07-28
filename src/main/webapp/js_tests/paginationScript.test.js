@@ -71,7 +71,7 @@ test('If displayCards functions as expected - this also tests initialDisplay', (
 test('If the moveNext function works as expected', () => {
 
   // Move next (what is being tested)
-  testDisplayCards(TOTAL_CARDS_TO_DISPLAY);
+  testDisplayCards(3);
 
   expect(testResultsContent[0].id).toEqual(3);
   expect(testResultsContent[1].id).toEqual(4);
@@ -81,7 +81,7 @@ test('If the moveNext function works as expected', () => {
 test(' If the navigatePrevious works as expected', () => {
 
   // Move Backwards (what is being tested)
-  testDisplayCards((-TOTAL_CARDS_TO_DISPLAY));
+  testDisplayCards((-3));
 
   expect(testResultsContent[0].id).toEqual(0);
   expect(testResultsContent[1].id).toEqual(1);
