@@ -58,37 +58,43 @@ public final class BigBusinessesTest {
                   new MapLocation(40.457091, -79.915331), 
                   3.9,
                   samplePhotos, 
-                  sampleBusinessTypes),
+                  sampleBusinessTypes,
+                  "https://www.lafitness.com/"),
                 new Listing("west elm", 
                   "110 Bakery Square Blvd, Pittsburgh",
                   new MapLocation(40.456279, -79.915015), 
                   3.6, 
                   samplePhotos,
-                  sampleBusinessTypes),
+                  sampleBusinessTypes,
+                  "http://www.westelm.com/"),
                 new Listing("McDonald's",
                   "801 Allegheny Ave, Pittsburgh, PA 15233", 
                   new MapLocation(40.459450, -79.918479), 
                   2.6, 
                   samplePhotos,
-                  sampleBusinessTypes),
+                  sampleBusinessTypes,
+                  "https://www.mcdonalds.com/us/en-us.html"),
                 new Listing("East End Brewing Company", 
                   "147 Julius St, Pittsburgh",
                   new MapLocation(40.459391, -79.911782), 
                   4.7,
                   samplePhotos, 
-                  sampleBusinessTypes),
+                  sampleBusinessTypes,
+                  "https://www.eastendbrewing.com/"),
                 new Listing("The Shiny Bean Coffee & Tea", 
                   "333 Butler St, Etna",
                   new MapLocation(40.496328, -79.944862), 
                   4.9, 
                   samplePhotos,
-                  sampleBusinessTypes),
+                  sampleBusinessTypes,
+                  "https://theshinybean.com/"),
                 new Listing("Weisshouse", 
                   "324 S Highland Ave, Pittsburgh",
                   new MapLocation(40.456684, -79.925499), 
                   4.3,
                   samplePhotos, 
-                  sampleBusinessTypes)
+                  sampleBusinessTypes,
+                  "https://www.weisshouse.com/")
   ));  
 
   private List<Listing> sampleDatabaseOfBigBusinesses = new LinkedList<Listing>(
@@ -98,19 +104,22 @@ public final class BigBusinessesTest {
                   new MapLocation(40.457091, -79.915331), 
                   3.9,
                   samplePhotos, 
-                  sampleBusinessTypes),
+                  sampleBusinessTypes,
+                  "https://www.lafitness.com/"),
                 new Listing("west elm", 
                   "110 Bakery Square Blvd, Pittsburgh",
                   new MapLocation(40.456279, -79.915015), 
                   3.6, 
                   samplePhotos,
-                  sampleBusinessTypes),
+                  sampleBusinessTypes,
+                  "http://www.westelm.com/"),
                 new Listing("McDonald's",
                   "801 Allegheny Ave, Pittsburgh", 
                   new MapLocation(40.459450, -79.918479), 
                   2.6, 
                   samplePhotos,
-                  sampleBusinessTypes)
+                  sampleBusinessTypes,
+                  "https://www.mcdonalds.com/us/en-us.html")
   ));
 
   private List<Listing> expectedListOfBusinesses = new LinkedList<>();  
@@ -135,6 +144,7 @@ public final class BigBusinessesTest {
     String address = "Address";
     String rating = "Rating";
     String photos = "Photos";
+    String url = "Url";
     datastore = DatastoreServiceFactory.getDatastoreService();
     Entity businessEntity;
     Key key;
@@ -146,6 +156,7 @@ public final class BigBusinessesTest {
       businessEntity.setProperty(photos, Arrays.asList(business.getPhotos()));
       businessEntity.setProperty(businessTypes, Arrays.asList(
                                                     business.getBusinessTypes()));
+      businessEntity.setProperty(url, business.getUrl());
       datastore.put(businessEntity);
     }
   }
@@ -177,5 +188,4 @@ public final class BigBusinessesTest {
     Assert.assertEquals(
         expectedListOfBusinesses, testSmallCityService.getBusinesses());
   }
-  
 }
