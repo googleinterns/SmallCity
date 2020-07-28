@@ -57,7 +57,9 @@ function fetchList(queryString) {
     totalCardCount = 0;
     initMap(listings[0].mapLocation);
     listings.forEach((listing) => {
-      resultsCardsArray.push(createResultCard(listing.name, listing.formattedAddress, listing.photos, listing.rating, totalCardCount));
+      resultsCardsArray.push(createResultCard(listing.name, listing.formattedAddress, 
+            listing.photos, listing.rating, listing.url, totalCardCount));
+
       if (totalCardCount < 15) createMarker(listing, totalCardCount);
       totalCardCount++;
     }); 
@@ -89,10 +91,10 @@ function removeLoaderCircle() {
  * @param {string} address The address of the business
  * @param {string} image The url of the business image
  * @param {double} rating The numerical rating of the business, passed to the createRating() function
- * @param {string} website The url of the business' website
+ * @param {string} websiteUrl The url of the business' website
  * @param {int} totalCardCount The number of businesses in the list, used to set a specific id to each card
  */
-function createResultCard(name, address, photos, rating, totalCardCount) {
+function createResultCard(name, address, photos, rating, websiteUrl, totalCardCount) {
   const resultsCard = document.createElement('div');
   resultsCard.className = 'results-card';
   resultsCard.id = totalCardCount;
@@ -129,8 +131,19 @@ function createResultCard(name, address, photos, rating, totalCardCount) {
 
   const websiteButton = document.createElement('button');
   websiteButton.className = 'results-website-button';
-  websiteButton.innerText = 'Visit Website';
-  // TODO: Add website link
+  if (websiteUrl.includes('maps.google.com')) {
+    websiteButton.innerText = 'Visit Location on Google Maps';
+    linkWebsite(websiteUrl, websiteButton);
+  }
+  else if (websiteUrl === '') {
+    websiteButton.innerText = 'Website Unavailable';
+    websiteButton.className = 'unavailable-website';
+  }
+  else {
+    websiteButton.innerText = 'Visit Website';
+    linkWebsite(websiteUrl, websiteButton);
+  }
+    
 
   resultsCard.appendChild(imageDiv);
   resultsCard.appendChild(nameAndAddressDiv);
@@ -144,6 +157,13 @@ function createResultCard(name, address, photos, rating, totalCardCount) {
   };
 
   return resultsCardObject;
+}
+
+function linkWebsite(websiteUrl, websiteButton) {
+  // Equivalent to HTML's 'onClick'
+  websiteButton.addEventListener('click', function() {
+    window.open(websiteUrl);
+  });
 }
 
 /**
