@@ -220,7 +220,6 @@ public class BusinessesService {
 
     Customsearch.Cse.List list = cs.cse().list(currentBusiness.getName()).setCx(cx); 
     List<Result> searchJsonResults = list.execute().getItems();
-    String[] numberOfFollowers;
     int companyFollowers = 0;
 
     if (searchJsonResults != null && searchJsonResults.size() != 0) {
