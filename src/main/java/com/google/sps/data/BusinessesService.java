@@ -138,7 +138,7 @@ public class BusinessesService {
             (numberOfSmallBusinesses < SMALL_BUSINESSES_DISPLAYED)) {
       Listing currentBusiness = businesses.next();
 
-      if (determineIfTheBusinessesAreBig(currentBusiness)) {
+      if (determineIfTheCurrentBusinessIsBig(currentBusiness)) {
         businesses.remove();
       } else {
           numberOfSmallBusinesses++;
@@ -147,7 +147,7 @@ public class BusinessesService {
     return allBusinesses;
   }
 
-  private boolean determineIfTheBusinessesAreBig(Listing currentBusiness) {
+  private boolean determineIfTheCurrentBusinessIsBig(Listing currentBusiness) {
     if (checkIfBusinessInDatabase(currentBusiness, SMALL_BUSINESSES_DATABASE)) {
       return false;
     } else if (checkIfBusinessInDatabase(currentBusiness, BIG_BUSINESSES_DATABASE)){
