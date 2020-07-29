@@ -61,7 +61,6 @@ public class BusinessesService {
   private final String SMALL_BUSINESSES_DATABASE = "SmallBusinesses";
   private LatLng latLng;
   private List<Listing> allBusinesses;
-  private int numberOfSmallBusinesses;
 
   /** Create a new Businesses instance
   * @param allBusinesses businesses from SmallCityService
@@ -75,7 +74,8 @@ public class BusinessesService {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Iterator<Listing> businesses =  allBusinesses.iterator();
     String businessName;
-    while (businesses.hasNext()) {
+    int numberOfSmallBusinesses = 0;
+    while (businesses.hasNext() && numberOfSmallBusinesses < SMALL_BUSINESSES_DISPLAYED) {
       Listing currentBusiness = businesses.next();
       try {
         businessName = 
@@ -87,7 +87,11 @@ public class BusinessesService {
           businesses.remove();
         }
       } catch(EntityNotFoundException e){
-        LOGGER.warning(e.getMessage());
+         if(determineIfTheBusinessesAreBig(currentBusiness)) {
+           businesses.remove();
+         }else{
+            numberOfSmallBusinesses++;
+         }
       }
     }
     return allBusinesses;
@@ -151,38 +155,31 @@ public class BusinessesService {
           placeLocation, rating, photos, types, url));
   }
 
-  public void determineIfTheBusinessesAreBig() {
-    numberOfSmallBusinesses = 0;
-    Iterator<Listing> businesses =  allBusinesses.iterator();
-    boolean isBigBusiness;
-    while(businesses.hasNext()
-          && numberOfSmallBusinesses < SMALL_BUSINESSES_DISPLAYED) {
-      Listing currentBusiness = businesses.next();
-
-      isBigBusiness = checkIfSmallBusinessInDatabase(currentBusiness);
-      
-      if(isBigBusiness){
-        businesses.remove();
-      }
+  public boolean determineIfTheBusinessesAreBig(Listing currentBusiness) {
+    boolean isBigBusiness = false;
+    if(checkIfSmallBusinessInDatabase(currentBusiness)) {
+      isBigBusiness = false;
+    }else {
+      isBigBusiness = checkNumberOfSimilarBusinesses(currentBusiness);
     }
+    return isBigBusiness;
   }
 
   private boolean checkIfSmallBusinessInDatabase(Listing currentBusiness){
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();    
-    boolean isBigBusiness = false;
+    boolean foundSmallBusiness = false;
       try {
           String smallBusinessName = 
               (String) datastore.get(KeyFactory.createKey(
                                       SMALL_BUSINESSES_DATABASE, 
                                       currentBusiness.getName()))
                                 .getProperty("Business");
-          numberOfSmallBusinesses++;
-          isBigBusiness = false;
-          
+          foundSmallBusiness = true;
       } catch(EntityNotFoundException e) {
-          isBigBusiness = checkNumberOfSimilarBusinesses(currentBusiness);
+          LOGGER.warning(e.getMessage());
+          foundSmallBusiness = false;
         }
-    return isBigBusiness;
+    return foundSmallBusiness;
   }
 
   private boolean checkNumberOfSimilarBusinesses(Listing currentBusiness){
@@ -206,8 +203,6 @@ public class BusinessesService {
         isBigBusiness = checkBusinessThroughLinkedin(currentBusiness, similarBusinessesInTheArea);
       } else if(similarBusinessesInTheArea.length == 1) {
         addBusinessToDatabase(currentBusiness, SMALL_BUSINESSES_DATABASE);
-        numberOfSmallBusinesses++;
-        isBigBusiness = false;
       }
     } catch(GeneralSecurityException | IOException | InterruptedException | ApiException e ) {
         LOGGER.warning(e.getMessage());
@@ -280,8 +275,6 @@ public class BusinessesService {
         isBigBusiness = true;
      } else {
         addBusinessToDatabase(currentBusiness, SMALL_BUSINESSES_DATABASE);
-        numberOfSmallBusinesses++;
-        isBigBusiness = false;
      }
     return isBigBusiness;
    }
