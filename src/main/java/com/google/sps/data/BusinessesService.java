@@ -33,7 +33,6 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import java.security.GeneralSecurityException;
 import java.io.IOException;
-import java.util.Map;
 import java.lang.Integer;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.PlacesSearchResult;
@@ -41,6 +40,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import io.github.cdimascio.dotenv.Dotenv;
+import java.util.ArrayList;
 
 /** BusinessesService object representing all businesses 
 * components of the webapp.
@@ -68,33 +68,6 @@ public class BusinessesService {
   
   public BusinessesService(List<Listing> allBusinesses) {
     this.allBusinesses = allBusinesses;
-  }
-
-  public List<Listing> removeBigBusinessesFromResults(){
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Iterator<Listing> businesses =  allBusinesses.iterator();
-    String businessName;
-    int numberOfSmallBusinesses = 0;
-    while (businesses.hasNext() && numberOfSmallBusinesses < SMALL_BUSINESSES_DISPLAYED) {
-      Listing currentBusiness = businesses.next();
-      try {
-        businessName = 
-            (String) datastore.get(KeyFactory.createKey(
-                                    BIG_BUSINESSES_DATABASE, 
-                                    currentBusiness.getName()))
-                              .getProperty("Business");
-        if(businessName.equals(currentBusiness.getName())){
-          businesses.remove();
-        }
-      } catch(EntityNotFoundException e){
-         if(determineIfTheBusinessesAreBig(currentBusiness)) {
-           businesses.remove();
-         }else{
-            numberOfSmallBusinesses++;
-         }
-      }
-    }
-    return allBusinesses;
   }
   
   public List<Listing> getBusinessesFromPlacesApi(MapLocation mapLocation) {
@@ -155,129 +128,146 @@ public class BusinessesService {
           placeLocation, rating, photos, types, url));
   }
 
-  public boolean determineIfTheBusinessesAreBig(Listing currentBusiness) {
-    boolean isBigBusiness = false;
-    if(checkIfSmallBusinessInDatabase(currentBusiness)) {
-      isBigBusiness = false;
-    }else {
-      isBigBusiness = checkNumberOfSimilarBusinesses(currentBusiness);
+  public List<Listing> removeBigBusinessesFromResults() {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Iterator<Listing> businesses =  allBusinesses.iterator();
+    String businessName = "";
+    int numberOfSmallBusinesses = 0;
+
+    while (businesses.hasNext() && 
+            (numberOfSmallBusinesses < SMALL_BUSINESSES_DISPLAYED)) {
+      Listing currentBusiness = businesses.next();
+
+      if (determineIfTheBusinessesAreBig(currentBusiness)) {
+        businesses.remove();
+      } else {
+          numberOfSmallBusinesses++;
+      }  
     }
-    return isBigBusiness;
+    return allBusinesses;
   }
 
-  private boolean checkIfSmallBusinessInDatabase(Listing currentBusiness){
+  private boolean determineIfTheBusinessesAreBig(Listing currentBusiness) {
+    if (checkIfBusinessInDatabase(currentBusiness, SMALL_BUSINESSES_DATABASE)) {
+      return false;
+    } else if (checkIfBusinessInDatabase(currentBusiness, BIG_BUSINESSES_DATABASE)){
+      return true;
+    }
+
+    if (checkNumberOfSimilarBusinesses(currentBusiness) || 
+          checkBusinessThroughLinkedin(currentBusiness)) {
+      addBusinessToDatabase(currentBusiness, BIG_BUSINESSES_DATABASE);
+      return true;
+    }
+
+    addBusinessToDatabase(currentBusiness, SMALL_BUSINESSES_DATABASE);
+    return false;
+  }
+
+  private boolean checkIfBusinessInDatabase(Listing currentBusiness, 
+                                              String databaseEntry) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();    
-    boolean foundSmallBusiness = false;
-      try {
-          String smallBusinessName = 
-              (String) datastore.get(KeyFactory.createKey(
-                                      SMALL_BUSINESSES_DATABASE, 
-                                      currentBusiness.getName()))
-                                .getProperty("Business");
-          foundSmallBusiness = true;
-      } catch(EntityNotFoundException e) {
-          LOGGER.warning(e.getMessage());
-          foundSmallBusiness = false;
-        }
-    return foundSmallBusiness;
+    
+    try {
+        String businessName = 
+            (String) datastore.get(KeyFactory.createKey(
+                                    databaseEntry, 
+                                    currentBusiness.getName()))
+                              .getProperty("Business");
+        return true;
+    } catch (EntityNotFoundException e) {
+        // Sometimes the small or big business will be in the database,
+        // but if not additional checks will follow to determine it's size.
+        LOGGER.warning(e.getMessage());
+        return false;
+    }
   }
 
-  private boolean checkNumberOfSimilarBusinesses(Listing currentBusiness){
-    boolean isBigBusiness = false;
-
+  private boolean checkNumberOfSimilarBusinesses(Listing currentBusiness) {
     GeoApiContext context = 
       new GeoApiContext.Builder().apiKey(KEY).build();
     TextSearchRequest request = 
         new TextSearchRequest(context).query(currentBusiness.getName())
           .location(latLng).radius(50000);
+    PlacesSearchResult[] similarBusinessesInTheArea = null;
 
     try {                                       
-      PlacesSearchResult[] similarBusinessesInTheArea = 
-        request.await().results;
-
-      if (similarBusinessesInTheArea.length > 1) {
-        // Quickly determines if a business is big, instead of having to iterate
-        // through all the places that are similar to it in the area. Also,
-        // useful if a business does not have that many loacations opened, 
-        // but has a huge following on linkedin.
-        isBigBusiness = checkBusinessThroughLinkedin(currentBusiness, similarBusinessesInTheArea);
-      } else if(similarBusinessesInTheArea.length == 1) {
-        addBusinessToDatabase(currentBusiness, SMALL_BUSINESSES_DATABASE);
-      }
-    } catch(GeneralSecurityException | IOException | InterruptedException | ApiException e ) {
+         similarBusinessesInTheArea = request.await().results;
+    } catch(IOException | InterruptedException | ApiException e ) {
         LOGGER.warning(e.getMessage());
-      } 
-    return isBigBusiness;
-  }
+    } 
 
-  private boolean checkBusinessThroughLinkedin(Listing currentBusiness, 
-                          PlacesSearchResult[] similarBusinessesInTheArea) 
-                              throws GeneralSecurityException, IOException {
-    boolean isBigBusiness = false;
-    String cx = dotenv.get("CX"); 
-    Customsearch cs = new Customsearch.Builder(
-        GoogleNetHttpTransport.newTrustedTransport(), 
-        JacksonFactory.getDefaultInstance(), null) 
-              .setApplicationName("linkedinSearch") 
-              .setGoogleClientRequestInitializer(new CustomsearchRequestInitializer(KEY)) 
-              .build();
-
-    Customsearch.Cse.List list = cs.cse().list(currentBusiness.getName()).setCx(cx); 
-    List<Result> searchJsonResults = list.execute().getItems();
-    int companyFollowers = 0;
-
-    if (searchJsonResults != null && searchJsonResults.size() != 0) {
-      Result linkedinBusiness = searchJsonResults.get(0);
-      String businessDescription = 
-        (String) linkedinBusiness.getPagemap().get("metatags").get(0).get("og:description");
-
-      if(businessDescription.contains(START_SUBSTRING) 
-          && businessDescription.contains(END_SUBSTRING)) {
-        String followers = businessDescription.substring(
-                                businessDescription.indexOf(START_SUBSTRING) + 2, 
-                                businessDescription.indexOf(END_SUBSTRING) - 1);
-
-        try{
-          companyFollowers = Integer.parseInt(followers.replaceAll(",", ""));
-        } catch (NumberFormatException e) {
-          LOGGER.warning(e.getMessage());
-        }
-      }
-
-      if (companyFollowers > MIN_FOLLOWERS) {
-        addBusinessToDatabase(currentBusiness, BIG_BUSINESSES_DATABASE);
-        isBigBusiness = true;
-      } else {
-        isBigBusiness = checkNumberOfSimilarBusinessesInTheArea(currentBusiness,
-                                                similarBusinessesInTheArea);
-      }
-    }
-    return isBigBusiness;
+    return checkNumberOfSimilarBusinessesInTheArea(currentBusiness, similarBusinessesInTheArea);  
   }
 
   private boolean checkNumberOfSimilarBusinessesInTheArea(Listing currentBusiness, 
                           PlacesSearchResult[] similarBusinessesInTheArea) {
     int numberOfMatchingBusinesses = 0;
     int i = 0;
-    boolean isBigBusiness = false;
 
     while (i < similarBusinessesInTheArea.length 
-          && numberOfMatchingBusinesses < ALLOWED_NUMBER_OF_MATCHING_BUSINESSES) {
-        if (similarBusinessesInTheArea[i].name.equals(currentBusiness.getName())
-            && !similarBusinessesInTheArea[i].formattedAddress
-                  .equals(currentBusiness.getFormattedAddress())) {
-          numberOfMatchingBusinesses++;
-        }
+      && numberOfMatchingBusinesses < ALLOWED_NUMBER_OF_MATCHING_BUSINESSES) {
+      if (similarBusinessesInTheArea[i].name.equals(currentBusiness.getName())
+          && !similarBusinessesInTheArea[i].formattedAddress
+                .equals(currentBusiness.getFormattedAddress())) {
+        numberOfMatchingBusinesses++;
+      }
       i++;
-     }
-     if (numberOfMatchingBusinesses >= ALLOWED_NUMBER_OF_MATCHING_BUSINESSES) {
-        addBusinessToDatabase(currentBusiness, BIG_BUSINESSES_DATABASE);
-        isBigBusiness = true;
-     } else {
-        addBusinessToDatabase(currentBusiness, SMALL_BUSINESSES_DATABASE);
-     }
-    return isBigBusiness;
-   }
+    }
+
+    if (numberOfMatchingBusinesses >= ALLOWED_NUMBER_OF_MATCHING_BUSINESSES) {
+      return true;
+    } 
+    
+    return false;
+  }
+
+  private boolean checkBusinessThroughLinkedin(Listing currentBusiness) {
+    String searchEngineID = dotenv.get("CX"); 
+    List<Result> searchJsonResults = new ArrayList<>();
+    int companyFollowers = 0;
+
+    try {
+      Customsearch cs = new Customsearch.Builder(
+          GoogleNetHttpTransport.newTrustedTransport(), 
+          JacksonFactory.getDefaultInstance(), null) 
+                .setApplicationName("linkedinSearch") 
+                .setGoogleClientRequestInitializer(new CustomsearchRequestInitializer(KEY)) 
+                .build();
+      Customsearch.Cse.List list = cs.cse().list(currentBusiness.getName()).setCx(searchEngineID); 
+      searchJsonResults = list.execute().getItems();                   
+    } catch (GeneralSecurityException | IOException e) {
+      LOGGER.warning(e.getMessage());
+    }
+
+    if (searchJsonResults != null && searchJsonResults.size() != 0) {
+      Result linkedinBusiness = searchJsonResults.get(0);
+      String businessDescription = 
+        (String) linkedinBusiness.getPagemap().get("metatags").get(0).get("og:description");
+
+      if (businessDescription.contains(START_SUBSTRING) 
+          && businessDescription.contains(END_SUBSTRING)) {
+        String followers = businessDescription.substring(
+                                businessDescription.indexOf(START_SUBSTRING) + 2, 
+                                businessDescription.indexOf(END_SUBSTRING) - 1);
+
+        try {
+          companyFollowers = Integer.parseInt(followers.replaceAll(",", ""));
+        } catch (NumberFormatException e) {
+          // Sometimes businessDescription does not contain a string that 
+          // follows a certain pattern, so the string of the company followers 
+          // is not a number
+          LOGGER.warning(e.getMessage());
+        }
+      }
+
+      if (companyFollowers > MIN_FOLLOWERS) {
+        return true;
+      } 
+    }
+
+    return false;
+  }
 
   private void addBusinessToDatabase(Listing currentBusiness, String databaseEntry) {
     String title = "Business";
