@@ -1,12 +1,5 @@
 package com.google.sps.data;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Arrays;
-import java.io.Serializable;
-import java.net.URL;
-import java.util.logging.Logger;
 import com.google.maps.GeoApiContext;
 import com.google.maps.PlacesApi;
 import com.google.maps.NearbySearchRequest;
@@ -18,10 +11,17 @@ import com.google.maps.model.RankBy;
 import com.google.maps.model.Geometry;
 import com.google.maps.model.PlacesSearchResponse;
 import com.google.maps.model.PlacesSearchResult;
-import java.util.Iterator;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.LinkedList;
+import java.util.Arrays;
+import java.io.Serializable;
+import java.net.URL;
+import java.util.logging.Logger;
+import java.util.Iterator;
 
 /** SmallCityService object representing all components of the webapp **/
 public class SmallCityService {

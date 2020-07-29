@@ -1,11 +1,5 @@
 package com.google.sps.data;
 
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Arrays;
-import java.io.Serializable;
-import java.net.URL;
-import java.util.logging.Logger;
 import com.google.maps.GeoApiContext;
 import com.google.maps.PlacesApi;
 import com.google.maps.NearbySearchRequest;
@@ -19,8 +13,6 @@ import com.google.maps.model.PlacesSearchResponse;
 import com.google.maps.model.PlacesSearchResult;
 import com.google.maps.model.PlaceDetails;
 import com.google.maps.PlaceDetailsRequest;
-import java.util.logging.Logger;
-import java.util.Iterator;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -31,16 +23,24 @@ import com.google.api.services.customsearch.Customsearch;
 import com.google.api.services.customsearch.CustomsearchRequestInitializer;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import java.security.GeneralSecurityException;
-import java.io.IOException;
-import java.lang.Integer;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.PlacesSearchResult;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import io.github.cdimascio.dotenv.Dotenv;
+import java.util.List;
+import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.ArrayList;
+import java.io.Serializable;
+import java.net.URL;
+import java.util.logging.Logger;
+import java.security.GeneralSecurityException;
+import java.io.IOException;
+import java.lang.Integer;
+import java.util.logging.Logger;
+import java.util.Iterator;
 
 /** BusinessesService object representing all businesses 
 * components of the webapp.
