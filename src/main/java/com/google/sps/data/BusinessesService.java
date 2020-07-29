@@ -150,7 +150,7 @@ public class BusinessesService {
   private boolean determineIfTheCurrentBusinessIsBig(Listing currentBusiness) {
     if (checkIfBusinessInDatabase(currentBusiness, SMALL_BUSINESSES_DATABASE)) {
       return false;
-    } else if (checkIfBusinessInDatabase(currentBusiness, BIG_BUSINESSES_DATABASE)){
+    } else if (checkIfBusinessInDatabase(currentBusiness, BIG_BUSINESSES_DATABASE)) {
       return true;
     }
 
@@ -197,7 +197,8 @@ public class BusinessesService {
         LOGGER.warning(e.getMessage());
     } 
 
-    return checkNumberOfSimilarBusinessesInTheArea(currentBusiness, similarBusinessesInTheArea);  
+    return checkNumberOfSimilarBusinessesInTheArea(currentBusiness, 
+                                                  similarBusinessesInTheArea);  
   }
 
   private boolean checkNumberOfSimilarBusinessesInTheArea(Listing currentBusiness, 
@@ -234,7 +235,8 @@ public class BusinessesService {
                 .setApplicationName("linkedinSearch") 
                 .setGoogleClientRequestInitializer(new CustomsearchRequestInitializer(KEY)) 
                 .build();
-      Customsearch.Cse.List list = cs.cse().list(currentBusiness.getName()).setCx(searchEngineID); 
+      Customsearch.Cse.List list = cs.cse().list(currentBusiness.getName())
+                                           .setCx(searchEngineID); 
       searchJsonResults = list.execute().getItems();                   
     } catch (GeneralSecurityException | IOException e) {
       LOGGER.warning(e.getMessage());
