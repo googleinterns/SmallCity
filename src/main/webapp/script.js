@@ -109,6 +109,7 @@ let resultsCardsArray = [];
 let totalCardCount = 0;
 let bounds = 0;
 
+// Storing the current listin
 let listingsSessionStorage = [];
 
 function fetchList(queryString) {
@@ -255,13 +256,17 @@ function createRating(rating) {
 }
 
 window.onbeforeunload = function() {
-  sessionStorage.setItem("listings", JSON.stringify(listingsSessionStorage));
+  localStorage.setItem("listings", JSON.stringify(listingsSessionStorage));
+  localStorage.setItem("location", locationQuery);
 }
 
 window.onload = function() {
-  listingsSessionStorage = JSON.parse(sessionStorage.getItem("listings"));
+  listingsSessionStorage = JSON.parse(localStorage.getItem("listings"));
+  locationQuery = localStorage.getItem("location");
   bounds = new google.maps.LatLngBounds();
-  if(listingsSessionStorage != null){
+  
+  if(listingsSessionStorage != null && locationQuery != null){
+    hideEntryContainer();
     addResultCardsAndMapToTheScreen(listingsSessionStorage);
   }
 }
