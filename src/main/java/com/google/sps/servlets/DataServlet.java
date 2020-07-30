@@ -18,6 +18,7 @@ import com.google.sps.data.SmallCityService;
 import com.google.sps.data.Listing;
 import com.google.sps.data.MapLocation;
 import com.google.sps.data.SearchObject;
+import com.google.common.base.Strings;
 
 import java.util.List;
 import java.util.LinkedList;
@@ -52,8 +53,7 @@ public class DataServlet extends HttpServlet {
     }
       
     SearchObject searchObject = new SearchObject(product);
-    if (latString != null && !latString.isEmpty() 
-          && lngString != null && !lngString.isEmpty()) {
+    if (!Strings.isNullOrEmpty(latString) && !Strings.isNullOrEmpty(lngString)) {
       double lat = convertToDouble(latString);
       double lng = convertToDouble(lngString);
       MapLocation userLocation = new MapLocation(lat, lng);
