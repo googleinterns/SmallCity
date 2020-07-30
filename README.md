@@ -14,3 +14,37 @@ The U.S Small Business Administration Office of Advocacy defines a small busines
 
 Right now, many small local businesses get lost in the shadow of large businesses on online shopping platforms. But, as buyers continue to purchase more products from the comfort of their own homes, we want to give them an option to support the businesses in their community with ease. In a 2020 survey by Salesforce, 86% of consumers reported that they would pay more to support a small local business. Giving users the ability to filter for small local businesses on an already trusted platform like Google Shopping would allow users to shop locally from wherever they are while boosting local economies. 
 
+# Build Instructions
+
+```
+1. npm install
+2. mvn install
+```
+
+# Test Instructions
+
+Run all tests
+```
+mvn test
+
+```
+
+Run one test class file 
+```
+mvn -Dtest=FileNameOfTestFile test
+```
+
+# Run App Locally Instruction
+
+```
+mvn package appengine:run
+```
+
+# Deploy Instructions 
+
+```
+1. Open pom.xml file
+2. Find <deploy.projectId>Name_Of_App_Engine_Project_ID</deploy.projectId> 
+3. Change the "Name_Of_App_Engine_ID" to your app engine ID for your project
+4. Run the command mvn package appengine:deploy
+```
