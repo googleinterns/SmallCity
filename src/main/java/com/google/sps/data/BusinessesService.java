@@ -79,8 +79,8 @@ public class BusinessesService {
               .await();
       for (int i=0; i<ALLOWED_SEARCH_REQUESTS; i++) {
         for(PlacesSearchResult place : response.results) {
-          String url = getUrlFromPlaceDetails(context, place.placeId);
-          addListingToBusinesses(place, url);
+          //String url = getUrlFromPlaceDetails(context, place.placeId);
+          addListingToBusinesses(place);
         }
         //Maximum of 2 next token requests allowed
         if (i < 2) {
@@ -94,7 +94,7 @@ public class BusinessesService {
     }  
     return allBusinesses;
   }
-  
+  /*
   private String getUrlFromPlaceDetails(GeoApiContext context, String placeId) {
     try {
       PlaceDetails result = 
@@ -111,8 +111,9 @@ public class BusinessesService {
     // Place Details failure
     return "";
   }
+  */
 
-  private void addListingToBusinesses(PlacesSearchResult place, String url) {
+  private void addListingToBusinesses(PlacesSearchResult place) {
     String name = place.name;
     String formattedAddress = place.vicinity;
     Geometry geometry = place.geometry;
@@ -121,8 +122,10 @@ public class BusinessesService {
     double rating = place.rating;
     Photo photos[] = place.photos;
     String types[] = place.types;
-    allBusinesses.add(new Listing(name, formattedAddress, 
-          placeLocation, rating, photos, types, url));
+    Listing listing = new Listing(name, formattedAddress, 
+          placeLocation, rating, photos, types);
+    listing.addPlaceId(place.placeId);
+    allBusinesses.add(listing);
   }
 
   public List<Listing> removeBigBusinessesFromResults() {

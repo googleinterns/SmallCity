@@ -83,7 +83,7 @@ function fetchList(queryString) {
     initMap(listings[0].mapLocation);
     listings.forEach((listing) => {
       resultsCardsArray.push(createResultCard(listing.name, listing.formattedAddress, 
-            listing.photos, listing.rating, listing.url, totalCardCount));
+            listing.photos, listing.rating, listing.placeId, totalCardCount));
 
       if (totalCardCount < 15) createMarker(listing, totalCardCount);
       totalCardCount++;
@@ -119,7 +119,7 @@ function removeLoaderCircle() {
  * @param {string} websiteUrl The url of the business' website
  * @param {int} totalCardCount The number of businesses in the list, used to set a specific id to each card
  */
-function createResultCard(name, address, photos, rating, websiteUrl, totalCardCount) {
+function createResultCard(name, address, photos, rating, placeId, totalCardCount) {
   const resultsCard = document.createElement('div');
   resultsCard.className = 'results-card';
   resultsCard.id = totalCardCount;
@@ -152,7 +152,11 @@ function createResultCard(name, address, photos, rating, websiteUrl, totalCardCo
   nameAndAddressDiv.appendChild(addressParagraph);
 
   const ratingDiv = createRating(rating);
-
+  console.log(placeId);
+  const KEY = 'AIzaSyDDIsG-SJAZ69ZoOecmfbXOB7ZIS4pZkAw';
+  let url = 'https://maps.googleapis.com/maps/api/place/details/json?place_id=' + placeId + '&fields=website,url&key=' + KEY;
+  console.log(url);
+  console.log(url.result);
   const websiteButton = document.createElement('button');
   websiteButton.className = 'results-website-button';
   if (websiteUrl.includes('maps.google.com')) {

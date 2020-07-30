@@ -61,6 +61,7 @@ function displayCards(listAugment) {
       //Card being appended to the resultsContent div
       let cardToAppend = resultsCardsArray[i];
 
+      
       if (cardToAppend.photoReference != 'none') {
         //The actual image element to which the image src will be applied
         let imageElement = cardToAppend.card.children[0].children[0];
@@ -72,8 +73,9 @@ function displayCards(listAugment) {
   }
 }  
 
+const KEY = 'REDACTED';
+
 function loadImage(listingImage, photoReference) {
-  const KEY = 'REDACTED';
   let maxwidth = 400;
 
   listingImage.src = "https://maps.googleapis.com/maps/api/place/photo?photoreference=" 
