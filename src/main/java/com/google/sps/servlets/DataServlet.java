@@ -17,6 +17,9 @@ package com.google.sps.servlets;
 import com.google.sps.data.SmallCityService;
 import com.google.sps.data.Listing;
 import com.google.sps.data.MapLocation;
+import com.google.sps.data.SearchObject;
+import com.google.common.base.Strings;
+
 import java.util.List;
 import java.util.LinkedList;
 import com.google.gson.Gson;
@@ -36,20 +39,31 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String latString = ""; 
+    String lngString = "";
+    String product = "";
+    
     try {
-    String latString = request.getParameter("lat");
-    String lngString = request.getParameter("lng");
-    double lat = convertToDouble(latString);
-    double lng = convertToDouble(lngString);
-    MapLocation userLocation = new MapLocation(lat, lng);
-    smallCityService.createUserServiceWithGeolocation(userLocation);
-    } catch(NullPointerException e) {
-      String zip = request.getParameter("zipCode");
-      smallCityService.createUserServiceWithZip(zip);
+      latString = request.getParameter("lat");
+      lngString = request.getParameter("lng");
+      product = request.getParameter("product");
+    } catch (NullPointerException e) {
       LOGGER.warning(e.getMessage() 
            + "Unable to geolocate user, zipCode entered instead.");
     }
-  
+      
+    SearchObject searchObject = new SearchObject(product);
+    if (!Strings.isNullOrEmpty(latString) && !Strings.isNullOrEmpty(lngString)) {
+      double lat = convertToDouble(latString);
+      double lng = convertToDouble(lngString);
+      MapLocation userLocation = new MapLocation(lat, lng);
+      smallCityService.createUserServiceWithGeolocation(userLocation, searchObject);
+    }
+    else {
+      String zip = request.getParameter("zipCode");
+      smallCityService.createUserServiceWithZip(zip, searchObject);
+    }
+      
     response.setContentType("application/json;");
     response.setCharacterEncoding("UTF-8");
     response.getWriter().println(convertToJson(smallCityService.getSmallBusinesses()));
@@ -65,7 +79,7 @@ public class DataServlet extends HttpServlet {
     double doubleAsDouble;
     try {
       doubleAsDouble = Double.parseDouble(doubleAsString);
-    } catch(NumberFormatException e) {
+    } catch (NumberFormatException e) {
       LOGGER.warning("Location services failure - default set");
       return 0; // Null Island
     }

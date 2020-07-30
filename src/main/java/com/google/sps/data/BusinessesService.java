@@ -3,6 +3,7 @@ package com.google.sps.data;
 import com.google.maps.GeoApiContext;
 import com.google.maps.PlacesApi;
 import com.google.maps.NearbySearchRequest;
+import com.google.maps.TextSearchRequest;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.LocationType;
 import com.google.maps.model.Photo;
@@ -48,7 +49,9 @@ public class BusinessesService {
   private final String KEY = dotenv.get("APIKEY");
   private final static Logger LOGGER = 
         Logger.getLogger(BusinessesService.class.getName());
+  
   private final int ALLOWED_SEARCH_REQUESTS = 3;
+  private final int TEXT_SEARCH_RADIUS = 10000;
   private final int MIN_FOLLOWERS = 50000;
   private final int SMALL_BUSINESSES_DISPLAYED = 15;
   private final String START_SUBSTRING = "| ";
@@ -67,7 +70,38 @@ public class BusinessesService {
     this.allBusinesses = allBusinesses;
   }
   
-  public List<Listing> getBusinessesFromPlacesApi(MapLocation mapLocation) {
+  public List<Listing> 
+        getBusinessesFromTextSearch(MapLocation mapLocation, String product) {
+    latLng = new LatLng(mapLocation.lat, mapLocation.lng);
+    final GeoApiContext context = new GeoApiContext.Builder()
+            .apiKey(KEY)
+            .build();
+    TextSearchRequest request = PlacesApi.textSearchQuery(context, product);
+    
+    try {
+      PlacesSearchResponse response = request.location(latLng)
+              .radius(TEXT_SEARCH_RADIUS)
+              .await();
+      
+      for (int i=0; i<ALLOWED_SEARCH_REQUESTS; i++) {
+        for(PlacesSearchResult place : response.results) {
+          String url = getUrlFromPlaceDetails(context, place.placeId);
+          addListingToBusinesses(place, url);
+        }
+        //Maximum of 2 next token requests allowed
+        if (i < 2) {
+          Thread.sleep(2000); // Required delay before next API request
+          response = PlacesApi
+                .textSearchNextPage(context, response.nextPageToken).await();
+        }
+      }
+    } catch(Exception e) {
+      LOGGER.warning(e.getMessage());
+    }  
+    return allBusinesses;
+  }
+
+  public List<Listing> getBusinessesFromNearbySearch(MapLocation mapLocation) {
     latLng = new LatLng(mapLocation.lat, mapLocation.lng);
     final GeoApiContext context = new GeoApiContext.Builder()
             .apiKey(KEY)
@@ -114,7 +148,13 @@ public class BusinessesService {
 
   private void addListingToBusinesses(PlacesSearchResult place, String url) {
     String name = place.name;
-    String formattedAddress = place.vicinity;
+    String formattedAddress;
+    if (place.vicinity != null) {
+      formattedAddress = place.vicinity;
+    }
+    else {
+      formattedAddress = place.formattedAddress;
+    }
     Geometry geometry = place.geometry;
     MapLocation placeLocation = 
           new MapLocation(geometry.location.lat, geometry.location.lng);
