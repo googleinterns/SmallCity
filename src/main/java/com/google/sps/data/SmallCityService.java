@@ -1,27 +1,8 @@
 package com.google.sps.data;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedList;
-import java.util.Arrays;
-import java.io.Serializable;
-import java.net.URL;
 import java.util.logging.Logger;
-import com.google.maps.GeoApiContext;
-import com.google.maps.PlacesApi;
-import com.google.maps.NearbySearchRequest;
-import com.google.maps.model.LatLng;
-import com.google.maps.model.LocationType;
-import com.google.maps.model.Photo;
-import com.google.maps.model.PlaceType;
-import com.google.maps.model.RankBy;
-import com.google.maps.model.Geometry;
-import com.google.maps.model.PlacesSearchResponse;
-import com.google.maps.model.PlacesSearchResult;
-import java.util.Iterator;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
 
 /** SmallCityService object representing all components of the webapp **/
 public class SmallCityService {
@@ -67,11 +48,6 @@ public class SmallCityService {
   public void filterBySmallBusinesses() {
     businesses = businessesService.removeBigBusinessesFromResults();
   }
-  
-  public void findBigBusinessInList () {
-    businessesService.checkIfBusinessesAreBig();
-    filterBySmallBusinesses();     
-  }
 
   // To be used for unit testing file to be able to get list 
   // of businesses
@@ -84,7 +60,6 @@ public class SmallCityService {
     businessesService = new BusinessesService(businesses);
     findAllBusinesses();
     filterBySmallBusinesses();
-    findBigBusinessInList();
     return businesses;
   }
 }
