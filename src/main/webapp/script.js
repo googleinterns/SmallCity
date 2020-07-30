@@ -45,9 +45,14 @@ function getZipCode() {
   hideEntryContainer();
   initiateLoaderCircle();
   zip = document.getElementById('entryZipCode').value;
-  document.getElementById('zipCode').value = zip;
-  locationQuery = '/data?zipCode=' + zip;
-  fetchByQueryString();
+  if (isValidInput(zip)) {
+    document.getElementById('zipCode').value = zip;
+    locationQuery = '/data?zipCode=' + zip;
+    fetchByQueryString();
+  }
+  else {
+    window.alert('Invalid input. Try again.'); 
+  }
 }
 
 function getProduct() {
@@ -75,6 +80,26 @@ function hideEntryContainer() {
   document.getElementById('entry-container').className = 'element-hide';
   document.getElementById('options-container').className = 'element-hide';
   mapElement.className = 'map-opaque';
+}
+
+function isValidInput(zip) {
+  let len = zip.length;
+  if (len === 0) {  
+    return false; 
+  }
+  
+  for (let i=0; i<len; i++) {
+    let charCode = zip.charCodeAt(i);
+    if (!(charCode >= 48 && charCode <= 57) &&      // digits
+          !(charCode >= 65 && charCode <= 90) &&    // uppercase letters
+          !(charCode >= 97 && charCode <= 122) &&   // lowercase letters
+          !(charCode === 44) &&                     // comma
+          !(charCode === 32)) {                     // space
+      return false;
+    }
+  }
+  
+  return true;
 }
 
 //Array of the (currently 6 for this demo build) 15 listings gathered from the fetch request

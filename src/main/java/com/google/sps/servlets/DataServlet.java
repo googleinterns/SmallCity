@@ -19,7 +19,6 @@ import com.google.sps.data.Listing;
 import com.google.sps.data.MapLocation;
 import com.google.sps.data.SearchObject;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedList;
 import com.google.gson.Gson;
