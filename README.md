@@ -26,12 +26,11 @@ Right now, many small local businesses get lost in the shadow of large businesse
 Run all tests
 ```
 mvn test
-
 ```
 
 Run one test class file 
 ```
-mvn -Dtest=FileNameOfTestFile test
+mvn -Dtest=FileNameOfTestClass test
 ```
 
 # Run App Locally Instruction
