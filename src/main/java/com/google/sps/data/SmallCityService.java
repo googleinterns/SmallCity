@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.logging.Logger;
 
-
 /** SmallCityService object representing all components of the webapp **/
 public class SmallCityService {
 
