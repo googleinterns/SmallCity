@@ -39,27 +39,34 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String latString = ""; 
+    String lngString = "";
+    String product = "";
+    
     try {
-    String latString = request.getParameter("lat");
-    String lngString = request.getParameter("lng");
-    double lat = convertToDouble(latString);
-    double lng = convertToDouble(lngString);
-    MapLocation userLocation = new MapLocation(lat, lng);
-    String product = request.getParameter("product");
-    SearchObject searchObject = new SearchObject(product);
-    smallCityService.createUserServiceWithGeolocation(userLocation, searchObject);
+      latString = request.getParameter("lat");
+      lngString = request.getParameter("lng");
+      product = request.getParameter("product");
     } catch (NullPointerException e) {
-      String zip = request.getParameter("zipCode");
-      String product = request.getParameter("product");
-      SearchObject searchObject = new SearchObject(product);
-      smallCityService.createUserServiceWithZip(zip, searchObject);
       LOGGER.warning(e.getMessage() 
            + "Unable to geolocate user, zipCode entered instead.");
+    } finally {
+      SearchObject searchObject = new SearchObject(product);
+      if (latString != null && lngString != null) {
+        double lat = convertToDouble(latString);
+        double lng = convertToDouble(lngString);
+        MapLocation userLocation = new MapLocation(lat, lng);
+        smallCityService.createUserServiceWithGeolocation(userLocation, searchObject);
+      }
+      else {
+        String zip = request.getParameter("zipCode");
+        smallCityService.createUserServiceWithZip(zip, searchObject);
+      }
+      
+      response.setContentType("application/json;");
+      response.setCharacterEncoding("UTF-8");
+      response.getWriter().println(convertToJson(smallCityService.getSmallBusinesses()));
     }
-  
-    response.setContentType("application/json;");
-    response.setCharacterEncoding("UTF-8");
-    response.getWriter().println(convertToJson(smallCityService.getSmallBusinesses()));
   }
 
   private String convertToJson(List<Listing> businesses) {
