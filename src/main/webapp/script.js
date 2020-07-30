@@ -74,13 +74,22 @@ let resultsCardsArray = [];
 let totalCardCount = 0;
 let bounds = 0;
 
+let listingsSessionStorage = [];
+
 function fetchList(queryString) {
   initiateLoaderCircle();
   bounds = new google.maps.LatLngBounds();
   fetch(queryString).then(response => response.json()).then((listings) => {
     resultsCardsArray = [];
     totalCardCount = 0;
-    initMap(listings[0].mapLocation);
+    listingsSessionStorage = listings;
+    addResultCardsAndMapToTheScreen(listings);
+    removeLoaderCircle();
+  });
+}
+
+function addResultCardsAndMapToTheScreen(listings){
+  initMap(listings[0].mapLocation);
     listings.forEach((listing) => {
       resultsCardsArray.push(createResultCard(listing.name, listing.formattedAddress, 
             listing.photos, listing.rating, listing.url, totalCardCount));
@@ -89,10 +98,8 @@ function fetchList(queryString) {
       totalCardCount++;
     }); 
     initialDisplay();
-    map.fitBounds(bounds);  
-    removeLoaderCircle();
-  });
-}
+    map.fitBounds(bounds); 
+} 
 
 // Style elements being alterned by loader
 let loaderCircleElement = document.getElementById('loader-circle');
@@ -210,4 +217,16 @@ function createRating(rating) {
   ratingDiv.innerText += (' ' + rating.toFixed(1));
   
   return ratingDiv;
+}
+
+window.onbeforeunload = function() {
+  sessionStorage.setItem("listings", JSON.stringify(listingsSessionStorage));
+}
+
+window.onload = function() {
+  listingsSessionStorage = JSON.parse(sessionStorage.getItem("listings"));
+  bounds = new google.maps.LatLngBounds();
+  if(listingsSessionStorage != null){
+    addResultCardsAndMapToTheScreen(listingsSessionStorage);
+  }
 }
