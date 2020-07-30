@@ -25,7 +25,6 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.PlacesSearchResult;
-import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -33,8 +32,6 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Arrays;
 import java.util.ArrayList;
-import java.io.Serializable;
-import java.net.URL;
 import java.util.logging.Logger;
 import java.security.GeneralSecurityException;
 import java.io.IOException;
@@ -141,7 +138,7 @@ public class BusinessesService {
       if (determineIfTheCurrentBusinessIsBig(currentBusiness)) {
         businesses.remove();
       } else {
-          numberOfSmallBusinesses++;
+        numberOfSmallBusinesses++;
       }  
     }
     return allBusinesses;
@@ -179,8 +176,9 @@ public class BusinessesService {
         // Sometimes the small or big business will be in the database,
         // but if not additional checks will follow to determine it's size.
         LOGGER.warning(e.getMessage());
-        return false;
     }
+
+    return false;    
   }
 
   private boolean checkNumberOfSimilarBusinesses(Listing currentBusiness) {
@@ -189,7 +187,7 @@ public class BusinessesService {
     TextSearchRequest request = 
         new TextSearchRequest(context).query(currentBusiness.getName())
           .location(latLng).radius(50000);
-    PlacesSearchResult[] similarBusinessesInTheArea = null;
+    PlacesSearchResult[] similarBusinessesInTheArea = {};
 
     try {                                       
          similarBusinessesInTheArea = request.await().results;
