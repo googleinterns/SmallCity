@@ -81,7 +81,7 @@ function locateImageElement(card) {
     child++;
   }
 
-  return cardChildren[child].children[0];
+  return cardChildren[child].getElementsByTagName('img')[0];
 }
 
 function loadImage(listingImage, photoReference) {
