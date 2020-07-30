@@ -49,23 +49,24 @@ public class DataServlet extends HttpServlet {
     } catch (NullPointerException e) {
       LOGGER.warning(e.getMessage() 
            + "Unable to geolocate user, zipCode entered instead.");
-    } finally {
-      SearchObject searchObject = new SearchObject(product);
-      if (latString != null && lngString != null) {
-        double lat = convertToDouble(latString);
-        double lng = convertToDouble(lngString);
-        MapLocation userLocation = new MapLocation(lat, lng);
-        smallCityService.createUserServiceWithGeolocation(userLocation, searchObject);
-      }
-      else {
-        String zip = request.getParameter("zipCode");
-        smallCityService.createUserServiceWithZip(zip, searchObject);
-      }
-      
-      response.setContentType("application/json;");
-      response.setCharacterEncoding("UTF-8");
-      response.getWriter().println(convertToJson(smallCityService.getSmallBusinesses()));
     }
+      
+    SearchObject searchObject = new SearchObject(product);
+    if (latString != null && !latString.isEmpty() 
+          && lngString != null && !lngString.isEmpty()) {
+      double lat = convertToDouble(latString);
+      double lng = convertToDouble(lngString);
+      MapLocation userLocation = new MapLocation(lat, lng);
+      smallCityService.createUserServiceWithGeolocation(userLocation, searchObject);
+    }
+    else {
+      String zip = request.getParameter("zipCode");
+      smallCityService.createUserServiceWithZip(zip, searchObject);
+    }
+      
+    response.setContentType("application/json;");
+    response.setCharacterEncoding("UTF-8");
+    response.getWriter().println(convertToJson(smallCityService.getSmallBusinesses()));
   }
 
   private String convertToJson(List<Listing> businesses) {
