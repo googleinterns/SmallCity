@@ -44,6 +44,6 @@ mvn package appengine:run
 ```
 1. Open pom.xml file
 2. Find <deploy.projectId>Name_Of_App_Engine_Project_ID</deploy.projectId> 
-3. Change the "Name_Of_App_Engine_ID" to your app engine ID for your project
+3. Change the "Name_Of_App_Engine_ID" to your project app engine ID
 4. Run the command mvn package appengine:deploy
 ```
