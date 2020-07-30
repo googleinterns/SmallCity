@@ -61,10 +61,11 @@ function displayCards(listAugment) {
       //Card being appended to the resultsContent div
       let cardToAppend = resultsCardsArray[i];
 
+      //The actual image element to which the image src will be applied
+      let resultsImageElement = locateImageElement(cardToAppend.card);
+
       if (cardToAppend.photoReference != 'none') {
-        //The actual image element to which the image src will be applied
-        let imageElement = cardToAppend.card.children[0].children[0];
-        loadImage(imageElement, cardToAppend.photoReference);
+        loadImage(resultsImageElement, cardToAppend.photoReference);
       }
 
       resultsContent.appendChild(cardToAppend.card);
@@ -72,10 +73,21 @@ function displayCards(listAugment) {
   }
 }  
 
+function locateImageElement(card) {
+  let cardChildren = card.childNodes;
+  let child = 0;
+
+  while (cardChildren[child].className != 'results-image') {
+    child++;
+  }
+
+  return cardChildren[child].getElementsByTagName('img')[0];
+}
+
 function loadImage(listingImage, photoReference) {
   const KEY = 'REDACTED';
   let maxwidth = 400;
 
-  listingImage.src = "https://maps.googleapis.com/maps/api/place/photo?photoreference=" 
-        + photoReference + "&key=" + KEY + "&maxwidth=" + maxwidth;
+  listingImage.src = 'https://maps.googleapis.com/maps/api/place/photo?photoreference=' 
+        + photoReference + '&key=' + KEY + '&maxwidth=' + maxwidth;
 }
