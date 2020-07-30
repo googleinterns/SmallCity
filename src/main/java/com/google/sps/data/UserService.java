@@ -1,14 +1,8 @@
 package com.google.sps.data;
 
 import com.google.maps.GeocodingApi;
-import com.google.maps.model.AddressComponentType;
-import com.google.maps.model.AddressType;
-import com.google.maps.model.ComponentFilter;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.GeoApiContext;
-import com.google.maps.model.LatLng;
-import com.google.maps.model.LocationType;
-import java.util.Arrays;
 import java.util.logging.Logger;
 import io.github.cdimascio.dotenv.Dotenv;
 
@@ -40,6 +34,7 @@ public class UserService {
     try {
         results = GeocodingApi.geocode(context, zipCode).await();
         MapLocation geolocation = new MapLocation(results[0].geometry.location.lat, results[0].geometry.location.lng);
+        LOGGER.info("Location type: " + results[0].geometry.locationType);
         return geolocation;
     } catch (final Exception e) {
         LOGGER.warning(e.getMessage());
