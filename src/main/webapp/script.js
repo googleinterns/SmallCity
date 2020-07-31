@@ -32,6 +32,7 @@ function getGeolocation() {
 function displayLocation(position) {
   let lat = position.coords.latitude;
   let lng = position.coords.longitude;
+  reverseGeocodeGeolocation(lat, lng);
   locationQuery = '/data?lat=' + lat + '&lng=' + lng;
   fetchByQueryString();
 }
@@ -74,6 +75,8 @@ function displayEntryContainer() {
   document.getElementById('entry-container').className = 'element-display';
   document.getElementById('options-container').className = 'element-display';
   mapElement.className = 'map-transparent';
+  document.getElementById('entryZipCode').value 
+        = document.getElementById('zipCode').value;
 }
 
 function hideEntryContainer() {
