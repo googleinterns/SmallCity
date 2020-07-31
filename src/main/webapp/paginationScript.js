@@ -21,8 +21,6 @@ const resultsChildren = resultsContent.childNodes;
 const TOTAL_CARDS_TO_DISPLAY = 3;
 const MAX_LIST_VIEW_NUMBER = 15;
 
-let websiteButtonElement;
-
 //Display the initial 3 cards in the list
 function initialDisplay() {
   resultsContent.innerHTML = '';
