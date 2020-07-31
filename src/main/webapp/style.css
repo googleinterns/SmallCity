@@ -21,7 +21,7 @@ header {
   background-color: var(--main-color);
   display: flex;
   justify-content: space-between;
-  padding: 50px 5%;
+  padding: 50px 0 50px 0;
 }
 
 h2 {
@@ -30,10 +30,9 @@ h2 {
 
 .logo {
   background-color: var(--white);
-  border-radius: 50px;
+  border-radius: 0 50px 50px 0;
   padding: 20px;
 }
-
 
 .geolocate-button {
   background-color: var(--white);
@@ -64,20 +63,26 @@ h2 {
   border-radius: 50px;
   display: inherit;
   font-weight: bold;
-  left: 50%;
   padding: 15px 20px 15px 20px;
+  width: 65%;
 }
 
 .zipcode-container {
   align-items: center;
   background-color: var(--white);
-  border-radius: 50px;
+  border-radius: 50px 0 0 50px;
   display: inherit;
   font-weight: bold;
-  padding: 15px 20px 15px 20px;
+  padding: 15px 40px;
 }
 
-input.zipcode-display, input.product-entry  {
+.zipcode-container:hover {
+  background-color: var(--dark-gray);
+  color: var(--white);
+  cursor: pointer;
+}
+
+input.product-entry {
   border: none;
   border-radius: 30px;
   background-color: var(--light-gray);
@@ -85,12 +90,12 @@ input.zipcode-display, input.product-entry  {
   font-family: 'Raleway', sans-serif;
   font-weight: bold;
   font-size: 16pt;
-  margin: 0 5px 0 10px;
+  margin: 0 5px 0 0;
   padding: 5px 10px 5px 10px;
-  
+  width: 100%;
 }
 
-input.zipcode-display:focus, input.product-entry:focus {
+input.product-entry:focus {
   outline: 0;
 }
 
