@@ -110,7 +110,7 @@ let totalCardCount = 0;
 let bounds = 0;
 
 // Storing the current listin
-let listingsSessionStorage = [];
+let listingsLocalStorage = [];
 
 function fetchList(queryString) {
   bounds = new google.maps.LatLngBounds();
@@ -256,17 +256,17 @@ function createRating(rating) {
 }
 
 window.onbeforeunload = function() {
-  localStorage.setItem("listings", JSON.stringify(listingsSessionStorage));
+  localStorage.setItem("listings", JSON.stringify(listingsLocalStorage));
   localStorage.setItem("location", locationQuery);
 }
 
 window.onload = function() {
-  listingsSessionStorage = JSON.parse(localStorage.getItem("listings"));
+  listingsLocalStorage = JSON.parse(localStorage.getItem("listings"));
   locationQuery = localStorage.getItem("location");
   bounds = new google.maps.LatLngBounds();
-  
-  if(listingsSessionStorage != null && locationQuery != null){
+
+  if(listingsLocalStorage != null && locationQuery != null){
     hideEntryContainer();
-    addResultCardsAndMapToTheScreen(listingsSessionStorage);
+    addResultCardsAndMapToTheScreen(listingsLocalStorage);
   }
 }
