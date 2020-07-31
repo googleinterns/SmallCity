@@ -52,6 +52,8 @@ public class BusinessesService {
   
   private final int ALLOWED_SEARCH_REQUESTS = 3;
   private final int MAX_ALLOWED_TEXT_SEARCH_RADIUS = 50000;
+  private final int RADIUS_MULTIPLIAR = 4;
+  private final int MAX_NUMBER_OF_RESULTS_PER_REQUEST = 20;
   private final int MIN_FOLLOWERS = 50000;
   private final int SMALL_BUSINESSES_DISPLAYED = 15;
   private final String START_SUBSTRING = "| ";
@@ -84,9 +86,9 @@ public class BusinessesService {
               .radius(radius)
               .await();
 
-      while (response.results.length < 20 && 
+      while (response.results.length < MAX_NUMBER_OF_RESULTS_PER_REQUEST && 
              radius < MAX_ALLOWED_TEXT_SEARCH_RADIUS) {
-        radius *= 4;
+        radius *= RADIUS_MULTIPLIAR;
         response = request.location(latLng).radius(radius).await();
       }
 
