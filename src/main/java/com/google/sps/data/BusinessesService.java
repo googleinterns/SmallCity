@@ -88,6 +88,8 @@ public class BusinessesService {
 
       while (response.results.length < MAX_NUMBER_OF_RESULTS_PER_REQUEST && 
              radius < MAX_ALLOWED_TEXT_SEARCH_RADIUS) {
+        // If the list of businesses are not enough, the radius is increased
+        // in hopes to get more results for that product search      
         radius *= RADIUS_MULTIPLIAR;
         response = request.location(latLng).radius(radius).await();
       }
