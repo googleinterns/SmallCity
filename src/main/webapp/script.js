@@ -112,7 +112,7 @@ let resultsCardsArray = [];
 let totalCardCount = 0;
 let bounds = 0;
 
-// Storing the current listin
+// Storing the most recent listings from the latest fetch to get the list of businesses
 let listingsLocalStorage = [];
 
 function fetchList(queryString) {
