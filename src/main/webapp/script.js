@@ -272,11 +272,11 @@ window.onload = function() {
   let zipcode = localStorage.getItem("zipcode");
   let product = localStorage.getItem("product");
 
-  if(listingsLocalStorage != null && locationQuery != null && zipcode != null){
+  if (listingsLocalStorage != null && locationQuery != null && zipcode != null) {
     hideEntryContainer();
     document.getElementById('zipCode').value = zipcode;
     addResultCardsAndMapToTheScreen(listingsLocalStorage);
-    
+
     if (product !== "") {
       document.getElementById('product').value = product;
     }
