@@ -70,16 +70,35 @@ product = document.getElementById('product').value;
   }
 }
 
+/* Background blur, loader, and popup control */
+
+let backgroundBlurDiv = document.getElementById('background-blur-div');
+let popupFormCenterWrapper = document.getElementById('popup-form-center-wrapper');
+let loaderCircleElement = document.getElementById('loader-circle-center-wrapper');
+let mapElement = document.getElementById('map');
+
 function displayEntryContainer() {
-  document.getElementById('entry-container').className = 'element-display';
-  document.getElementById('options-container').className = 'element-display';
-  mapElement.className = 'map-transparent';
+  backgroundBlurDiv.className = 'blurred-element-display';
+  popupFormCenterWrapper.className = 'centered-element-display';
+  mapElement.className = 'map-to-back';
 }
 
 function hideEntryContainer() {
-  document.getElementById('entry-container').className = 'element-hide';
-  document.getElementById('options-container').className = 'element-hide';
-  mapElement.className = 'map-opaque';
+  backgroundBlurDiv.className = 'element-hide';
+  popupFormCenterWrapper.className = 'element-hide';
+  mapElement.className = 'map-to-front';
+}
+
+function initiateLoaderCircle() {
+  backgroundBlurDiv.className = 'blurred-element-display';
+  loaderCircleElement.className = 'centered-element-display';
+  mapElement.className = 'map-to-back';
+}
+
+function removeLoaderCircle() {
+  backgroundBlurDiv.className = 'element-hide';
+  loaderCircleElement.className = 'element-hide';
+  mapElement.className = 'map-to-front';
 }
 
 function isValidInput(zip) {
@@ -126,23 +145,6 @@ function fetchList(queryString) {
     map.fitBounds(bounds);  
     removeLoaderCircle();
   });
-}
-
-// Style elements being alterned by loader
-let loaderCircleElement = document.getElementById('loader-circle');
-let loaderCircleContainerElement = document.getElementById('loader-circle-container');
-let mapElement = document.getElementById('map');
-
-function initiateLoaderCircle() {
-  loaderCircleElement.className = 'element-display';
-  loaderCircleContainerElement.className = 'element-display';
-  mapElement.className = 'map-transparent';
-}
-
-function removeLoaderCircle() {
-  loaderCircleElement.className = 'element-hide';
-  loaderCircleContainerElement.className = 'element-hide';
-  mapElement.className = 'map-opaque';
 }
 
 /**
@@ -203,7 +205,6 @@ function createResultCard(name, address, photos, rating, websiteUrl, totalCardCo
     linkWebsite(websiteUrl, websiteButton);
   }
     
-
   resultsCard.appendChild(imageDiv);
   resultsCard.appendChild(nameAndAddressDiv);
   resultsCard.appendChild(ratingDiv);

@@ -1,4 +1,4 @@
-<!--Font Awesome Free License
+<!-- Font Awesome Free License
 -------------------------
 
 Font Awesome Free is free, open source, and GPL friendly. You can use it for
@@ -43,33 +43,39 @@ to represent the company, product, or service to which they refer. -->
     <title>smallcity</title>
   </head>
   <body>
-    <div id="entry-container"></div>
-    <div id="options-container">
-      <button class="geolocate-button" onclick="getGeolocation()"><i class="fas fa-location-arrow"></i> locate me</button>
-      <div class="zipcode-container">
-        city, state, or zip:
-        <input type="text" id="entryZipCode" name="entryZipCode" value="">
-        <button type="submit" onclick="getZipCode()" class="zipCode-submit-btn"><i class="fas fa-search"></i></button>
+    <div id="background-blur-div"></div>
+    <div id="popup-form-center-wrapper">
+      <div id="popup-form-container">
+        <h1>Welcome to SmallCity!</h1>
+        <p>To use SmallCity, accept location services or enter your location yourself!</p>
+        <button class="popup-geolocate-button" onclick="getGeolocation()"><i class="fas fa-location-arrow"></i> locate me</button>
+        <div class="popup-zipcode-container">
+          <input type="text" id="entryZipCode" class="popup-zipcode-entry" name="entryZipCode" value="" placeholder="city, state, or zip">
+          <button type="submit" onclick="getZipCode()" class="popup-search-button"><i class="fas fa-search"></i></button>
+        </div>
       </div>
     </div>
 
-    <div id="loader-circle-container"></div>
-    <div id="loader-circle"></div>
+    <div id="loader-circle-center-wrapper">
+      <div id="loader-circle"></div>
+    </div>
+
     <header>
       <h1 class="logo">smallcity</h1>
       <div class="product-search-container">
         product:
-        <input type="text" id="product" name="product" value="">
-        <button type="submit" onclick="getProduct()" class="zipCode-submit-btn"><i class="fas fa-search"></i></button>
+        <input type="text" id="product" class="product-entry" name="product" value="">
+        <button type="submit" onclick="getProduct()" class="search-button"><i class="fas fa-search"></i></button>
       </div>
       <div class="zipcode-container" onclick="displayEntryContainer()">
         your location:
-        <input type="text" id="zipCode" name="zipCode" value="">
+        <input type="text" id="zipCode" class="zipcode-display" name="zipCode" value="">
       </div>
     </header>
 
     <div class="main-container">
       <div id="map"></div>
+      
       <div class="results-container" id="results-container">
        <div class="results-content" id="results-content"></div>
         <div class="pagination-container">
@@ -78,12 +84,14 @@ to represent the company, product, or service to which they refer. -->
         </div>
       </div>
     </div>
+
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=REDACTED">
     </script>
     <script type="text/javascript" src="script.js" charset="utf-8"></script>
     <script type="text/javascript" src="paginationScript.js" charset="utf-8"></script>
     <script type="text/javascript" src="mapScript.js" charset="utf-8"></script>
+
      <!--Script for FontAwesome Icons-->
     <script src="https://kit.fontawesome.com/75dadd3f2b.js" crossorigin="anonymous"></script>
   </body>
