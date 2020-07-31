@@ -77,7 +77,7 @@ public class BusinessesService {
             .apiKey(KEY)
             .build();
     TextSearchRequest request = PlacesApi.textSearchQuery(context, product);
-    int radius = 500;
+    int radius = 1500;
 
     try {
       PlacesSearchResponse response = request.location(latLng)
