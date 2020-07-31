@@ -120,7 +120,7 @@ function fetchList(queryString) {
   fetch(queryString).then(response => response.json()).then((listings) => {
     resultsCardsArray = [];
     totalCardCount = 0;
-    listingsSessionStorage = listings;
+    listingsLocalStorage = listings;
     addResultCardsAndMapToTheScreen(listings);
     removeLoaderCircle();
   });
@@ -262,16 +262,22 @@ window.onbeforeunload = function() {
   localStorage.setItem("listings", JSON.stringify(listingsLocalStorage));
   localStorage.setItem("location", locationQuery);
   localStorage.setItem("zipcode", document.getElementById('zipCode').value);
+  localStorage.setItem("product", document.getElementById('product').value);
 }
 
 window.onload = function() {
   listingsLocalStorage = JSON.parse(localStorage.getItem("listings"));
   locationQuery = localStorage.getItem("location");
   bounds = new google.maps.LatLngBounds();
-  let zipcode = localStorage.getItem("zipcode"); 
+  let zipcode = localStorage.getItem("zipcode");
+  let product = localStorage.getItem("product");
+
   if(listingsLocalStorage != null && locationQuery != null && zipcode != null){
     hideEntryContainer();
     document.getElementById('zipCode').value = zipcode;
     addResultCardsAndMapToTheScreen(listingsLocalStorage);
+    if (product !== "") {
+      document.getElementById('product').value = product;
+    }
   }
 }
