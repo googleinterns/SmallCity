@@ -46,3 +46,18 @@ function createMarker(listing, cardNumber) {
   });
   marker.setMap(map);
 }
+
+function reverseGeocodeGeolocation(lat, lng) {
+  let latLng = {lat: lat, lng: lng};
+  let geocoder = new google.maps.Geocoder;
+  geocoder.geocode({'location': latLng}, function(results, status) {
+    if (results[0] && status == 'OK') {
+      // Address component at index 7 is postal code
+      let zipCode = results[0].address_components[7].long_name;
+      document.getElementById('zipCode').value = zipCode;
+    }
+    else {
+      console.log('Unable to identify geolocation');
+    }
+  });
+}
