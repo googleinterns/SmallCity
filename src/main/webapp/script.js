@@ -276,6 +276,7 @@ window.onload = function() {
     hideEntryContainer();
     document.getElementById('zipCode').value = zipcode;
     addResultCardsAndMapToTheScreen(listingsLocalStorage);
+    
     if (product !== "") {
       document.getElementById('product').value = product;
     }
