@@ -261,15 +261,17 @@ function createRating(rating) {
 window.onbeforeunload = function() {
   localStorage.setItem("listings", JSON.stringify(listingsLocalStorage));
   localStorage.setItem("location", locationQuery);
+  localStorage.setItem("zipcode", document.getElementById('zipCode').value);
 }
 
 window.onload = function() {
   listingsLocalStorage = JSON.parse(localStorage.getItem("listings"));
   locationQuery = localStorage.getItem("location");
   bounds = new google.maps.LatLngBounds();
-
-  if(listingsLocalStorage != null && locationQuery != null){
+  let zipcode = localStorage.getItem("zipcode"); 
+  if(listingsLocalStorage != null && locationQuery != null && zipcode != null){
     hideEntryContainer();
+    document.getElementById('zipCode').value = zipcode;
     addResultCardsAndMapToTheScreen(listingsLocalStorage);
   }
 }
