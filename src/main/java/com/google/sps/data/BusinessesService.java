@@ -51,7 +51,7 @@ public class BusinessesService {
         Logger.getLogger(BusinessesService.class.getName());
   
   private final int ALLOWED_SEARCH_REQUESTS = 3;
-  private final int TEXT_SEARCH_RADIUS = 10000;
+  private final int MAX_ALLOWED_TEXT_SEARCH_RADIUS = 50000;
   private final int MIN_FOLLOWERS = 50000;
   private final int SMALL_BUSINESSES_DISPLAYED = 15;
   private final String START_SUBSTRING = "| ";
@@ -77,12 +77,19 @@ public class BusinessesService {
             .apiKey(KEY)
             .build();
     TextSearchRequest request = PlacesApi.textSearchQuery(context, product);
-    
+    int radius = 500;
+
     try {
       PlacesSearchResponse response = request.location(latLng)
-              .radius(TEXT_SEARCH_RADIUS)
+              .radius(radius)
               .await();
-      
+
+      while (response.results.length < 20 && 
+             radius < MAX_ALLOWED_TEXT_SEARCH_RADIUS) {
+        radius *= 4;
+        response = request.location(latLng).radius(radius).await();
+      }
+
       for (int i=0; i<ALLOWED_SEARCH_REQUESTS; i++) {
         for(PlacesSearchResult place : response.results) {
           String url = getUrlFromPlaceDetails(context, place.placeId);
