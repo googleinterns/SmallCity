@@ -21,7 +21,7 @@ const resultsChildren = resultsContent.childNodes;
 const TOTAL_CARDS_TO_DISPLAY = 3;
 const MAX_LIST_VIEW_NUMBER = 15;
 
-
+let websiteButtonElement;
 
 //Display the initial 3 cards in the list
 function initialDisplay() {
@@ -61,12 +61,15 @@ function displayCards(listAugment) {
       //Card being appended to the resultsContent div
       let cardToAppend = resultsCardsArray[i];
 
-      
+      //The actual image element to which the image src will be applied
+      let resultsImageElement = locateImageElement(cardToAppend.card);
+
       if (cardToAppend.photoReference != 'none') {
-        //The actual image element to which the image src will be applied
-        let imageElement = cardToAppend.card.children[0].children[0];
-        loadImage(imageElement, cardToAppend.photoReference);
+        loadImage(resultsImageElement, cardToAppend.photoReference);
       }
+
+      let websiteButtonElement = locateWebsiteUrlElement(cardToAppend.card);
+      loadWebsiteUrl(websiteButtonElement, cardToAppend.placeId);
 
       resultsContent.appendChild(cardToAppend.card);
     }
@@ -75,9 +78,59 @@ function displayCards(listAugment) {
 
 const KEY = 'REDACTED';
 
+function locateImageElement(card) {
+  let cardChildren = card.childNodes;
+  let child = 0;
+
+  while (cardChildren[child].className != 'results-image') {
+    child++;
+  }
+
+  return cardChildren[child].getElementsByTagName('img')[0];
+}
+
 function loadImage(listingImage, photoReference) {
   let maxwidth = 400;
 
-  listingImage.src = "https://maps.googleapis.com/maps/api/place/photo?photoreference=" 
-        + photoReference + "&key=" + KEY + "&maxwidth=" + maxwidth;
+  listingImage.src = 'https://maps.googleapis.com/maps/api/place/photo?photoreference=' 
+        + photoReference + '&key=' + KEY + '&maxwidth=' + maxwidth;
+}
+
+function locateWebsiteUrlElement(card) {
+  return card.getElementsByTagName('button')[0];
+}
+
+function loadWebsiteUrl(websiteButtonElement, passedPlaceId) {
+  let request = {
+    placeId: passedPlaceId,
+    fields: ['website', 'url']
+  };
+  
+  service = new google.maps.places.PlacesService(map);
+  service.getDetails(request, function(place, status) {
+  
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+      if (place.website != null) {
+        websiteUrl = place.website;
+        websiteButtonElement.innerText = 'Visit Website';
+        linkWebsite(websiteUrl, websiteButtonElement);
+      }
+      else {
+        websiteUrl = place.url;
+        websiteButtonElement.innerText = 'Visit Location on Google Maps';
+        linkWebsite(websiteUrl, websiteButtonElement);
+      }
+    }
+    else {
+      websiteButtonElement.innerText = 'Website Unavailable';
+      websiteButtonElement.className = 'unavailable-website';
+    }
+  });
+}
+
+function linkWebsite(websiteUrl, websiteButton) {
+  // Equivalent to HTML's 'onClick'
+  websiteButton.addEventListener('click', function() {
+    window.open(websiteUrl);
+  });
 }

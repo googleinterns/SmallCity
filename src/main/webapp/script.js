@@ -14,9 +14,12 @@
 
 const alertMessage = 'Sorry! We cannot geolocate you. Please enter a zipcode';
 let map;
+let locationQuery = '';
+let product = '';
 
 function getGeolocation() {
-
+  hideEntryContainer();
+  initiateLoaderCircle();
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(displayLocation, displayError);
   }
@@ -29,7 +32,8 @@ function getGeolocation() {
 function displayLocation(position) {
   let lat = position.coords.latitude;
   let lng = position.coords.longitude;
-  fetchList('/data?lat=' + lat + "&lng=" + lng);
+  locationQuery = '/data?lat=' + lat + '&lng=' + lng;
+  fetchByQueryString();
 }
 
 function displayError() {
@@ -38,13 +42,44 @@ function displayError() {
 }
 
 function getZipCode() {
-  let zip = document.getElementById('zipCode').value;
+  hideEntryContainer();
+  initiateLoaderCircle();
+  zip = document.getElementById('entryZipCode').value;
   if (isValidInput(zip)) {
-    fetchList('/data?zipCode=' + zip);
+    document.getElementById('zipCode').value = zip;
+    locationQuery = '/data?zipCode=' + zip;
+    fetchByQueryString();
   }
   else {
     window.alert('Invalid input. Try again.'); 
   }
+}
+
+function getProduct() {
+  initiateLoaderCircle();
+  fetchByQueryString();
+}
+
+function fetchByQueryString() {
+product = document.getElementById('product').value;
+  if (product === '') {
+    fetchList(locationQuery + '&product=');
+  }
+  else {
+    fetchList(locationQuery + '&product=' + product);
+  }
+}
+
+function displayEntryContainer() {
+  document.getElementById('entry-container').className = 'element-display';
+  document.getElementById('options-container').className = 'element-display';
+  mapElement.className = 'map-transparent';
+}
+
+function hideEntryContainer() {
+  document.getElementById('entry-container').className = 'element-hide';
+  document.getElementById('options-container').className = 'element-hide';
+  mapElement.className = 'map-opaque';
 }
 
 function isValidInput(zip) {
@@ -75,7 +110,6 @@ let totalCardCount = 0;
 let bounds = 0;
 
 function fetchList(queryString) {
-  initiateLoaderCircle();
   bounds = new google.maps.LatLngBounds();
   fetch(queryString).then(response => response.json()).then((listings) => {
     resultsCardsArray = [];
@@ -100,14 +134,14 @@ let loaderCircleContainerElement = document.getElementById('loader-circle-contai
 let mapElement = document.getElementById('map');
 
 function initiateLoaderCircle() {
-  loaderCircleElement.className = 'loader-circle-display';
-  loaderCircleContainerElement.className = 'loader-circle-display';
+  loaderCircleElement.className = 'element-display';
+  loaderCircleContainerElement.className = 'element-display';
   mapElement.className = 'map-transparent';
 }
 
 function removeLoaderCircle() {
-  loaderCircleElement.className = 'loader-circle-hide';
-  loaderCircleContainerElement.className = 'loader-circle-hide';
+  loaderCircleElement.className = 'element-hide';
+  loaderCircleContainerElement.className = 'element-hide';
   mapElement.className = 'map-opaque';
 }
 
@@ -119,7 +153,8 @@ function removeLoaderCircle() {
  * @param {string} websiteUrl The url of the business' website
  * @param {int} totalCardCount The number of businesses in the list, used to set a specific id to each card
  */
-function createResultCard(name, address, photos, rating, placeId, totalCardCount) {
+function createResultCard(name, address, photos, rating, passedPlaceId, totalCardCount) {
+
   const resultsCard = document.createElement('div');
   resultsCard.className = 'results-card';
   resultsCard.id = totalCardCount;
@@ -129,6 +164,7 @@ function createResultCard(name, address, photos, rating, placeId, totalCardCount
 
   const imageElement = document.createElement('img');
   imageElement.id = 'results-image-element';
+  imageElement.src = '/images/image_not_found_two.png';
 
   let resultPhotoReference = '';
   if ((photos != null) && (photos.length > 0)) {
@@ -152,26 +188,9 @@ function createResultCard(name, address, photos, rating, placeId, totalCardCount
   nameAndAddressDiv.appendChild(addressParagraph);
 
   const ratingDiv = createRating(rating);
-  console.log(placeId);
-  const KEY = 'AIzaSyDDIsG-SJAZ69ZoOecmfbXOB7ZIS4pZkAw';
-  let url = 'https://maps.googleapis.com/maps/api/place/details/json?place_id=' + placeId + '&fields=website,url&key=' + KEY;
-  console.log(url);
-  console.log(url.result);
+  
   const websiteButton = document.createElement('button');
   websiteButton.className = 'results-website-button';
-  if (websiteUrl.includes('maps.google.com')) {
-    websiteButton.innerText = 'Visit Location on Google Maps';
-    linkWebsite(websiteUrl, websiteButton);
-  }
-  else if (websiteUrl === '') {
-    websiteButton.innerText = 'Website Unavailable';
-    websiteButton.className = 'unavailable-website';
-  }
-  else {
-    websiteButton.innerText = 'Visit Website';
-    linkWebsite(websiteUrl, websiteButton);
-  }
-    
 
   resultsCard.appendChild(imageDiv);
   resultsCard.appendChild(nameAndAddressDiv);
@@ -181,17 +200,11 @@ function createResultCard(name, address, photos, rating, placeId, totalCardCount
   //Creates object that contains the resultCard and photoReference to append to array
   let resultsCardObject = {
     card: resultsCard,
-    photoReference: resultPhotoReference
+    photoReference: resultPhotoReference,
+    placeId: passedPlaceId
   };
 
   return resultsCardObject;
-}
-
-function linkWebsite(websiteUrl, websiteButton) {
-  // Equivalent to HTML's 'onClick'
-  websiteButton.addEventListener('click', function() {
-    window.open(websiteUrl);
-  });
 }
 
 /**

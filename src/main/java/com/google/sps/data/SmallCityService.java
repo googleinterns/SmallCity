@@ -11,6 +11,7 @@ public class SmallCityService {
   private BusinessesService businessesService;
   private List<Listing> businesses;
   private final static Logger LOGGER = Logger.getLogger(SmallCityService.class.getName());
+  public SearchObject searchObject;
 
   public SmallCityService() { }
   
@@ -18,23 +19,30 @@ public class SmallCityService {
   * Create UserService instance from zipCode and get businesses list
   * @param zipCode inputted zipcode of user
   **/
-  public void createUserServiceWithZip(String zipCode) {
+  public void createUserServiceWithZip(String zipCode, SearchObject searchObject) {
     this.userService = new UserService();
     userService.createUserWithZipCode(zipCode);
+    this.searchObject = searchObject;
   }
   
   /** 
   * Create UserService instance from geolocation and get businesses list
   * @param mapLocation found geolocation of user
   **/
-  public void createUserServiceWithGeolocation(MapLocation mapLocation) {
+  public void createUserServiceWithGeolocation(MapLocation mapLocation, SearchObject searchObject) {
     this.userService = new UserService();
     userService.createUserWithGeolocation(mapLocation);
+    this.searchObject = searchObject;
   }
   
   public void findAllBusinesses() {
-    businesses = businessesService
-          .getBusinessesFromPlacesApi(userService.user.geolocation);
+    if ((searchObject.product).equals("")) {
+      businesses = businessesService.getBusinessesFromNearbySearch(userService.user.geolocation);
+    }
+    else {
+      businesses = businessesService
+            .getBusinessesFromTextSearch(userService.user.geolocation, searchObject.product);
+    }        
   }
   
   // To be used for unit testing file to be able to 

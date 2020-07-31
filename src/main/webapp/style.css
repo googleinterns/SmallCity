@@ -34,6 +34,7 @@ h2 {
   padding: 20px;
 }
 
+
 .geolocate-button {
   background-color: var(--white);
   border: none;
@@ -55,6 +56,16 @@ h2 {
   font-family: 'Raleway', sans-serif;
   font-weight: bold;
   padding: 20px;
+}
+
+.product-search-container {
+  align-items: center;
+  background-color: var(--white);
+  border-radius: 50px;
+  display: inherit;
+  font-weight: bold;
+  left: 50%;
+  padding: 15px 20px 15px 20px;
 }
 
 .zipcode-container {
@@ -120,6 +131,25 @@ Main Content Container Styling
   -webkit-border-radius: 30px;
 }
 
+#entry-container {
+  background-color: var(--dark-gray);
+  display: block;
+  height: 100%;
+  opacity: 0.5;
+  position: absolute;
+  width: 100%;
+}
+
+#options-container {
+  background-color: var(--light-gray) !important;
+  border-radius: 30px;
+  display: block;
+  left: 50%;
+  top: 50%;
+  padding: 30px;
+  position: absolute;
+}
+
 /*
   Loader Content Container Styling
 */
@@ -154,11 +184,11 @@ Main Content Container Styling
   100% { transform: rotate(360deg); }
 }
 
-.loader-circle-display {
+.element-display {
   display: block !important;
 }
 
-.loader-circle-hide {
+.element-hide {
   display: none !important;
 }
 

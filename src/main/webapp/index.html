@@ -43,17 +43,28 @@ to represent the company, product, or service to which they refer. -->
     <title>smallcity</title>
   </head>
   <body>
-    <div id="loader-circle-container">
-      <div id="loader-circle"></div>
-    </div>
-    <header>
-      <h1 class="logo">smallcity</h1>
+    <div id="entry-container"></div>
+    <div id="options-container">
       <button class="geolocate-button" onclick="getGeolocation()"><i class="fas fa-location-arrow"></i> locate me</button>
       <div class="zipcode-container">
         city, state, or zip:
-        <input type="text" id="zipCode" name="zipCode" value="">
+        <input type="text" id="entryZipCode" name="entryZipCode" value="">
         <button type="submit" onclick="getZipCode()" class="zipCode-submit-btn"><i class="fas fa-search"></i></button>
+      </div>
+    </div>
 
+    <div id="loader-circle-container"></div>
+    <div id="loader-circle"></div>
+    <header>
+      <h1 class="logo">smallcity</h1>
+      <div class="product-search-container">
+        product:
+        <input type="text" id="product" name="product" value="">
+        <button type="submit" onclick="getProduct()" class="zipCode-submit-btn"><i class="fas fa-search"></i></button>
+      </div>
+      <div class="zipcode-container" onclick="displayEntryContainer()">
+        your location:
+        <input type="text" id="zipCode" name="zipCode" value="">
       </div>
     </header>
 
@@ -68,7 +79,7 @@ to represent the company, product, or service to which they refer. -->
       </div>
     </div>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=REDACTED">
+    src="https://maps.googleapis.com/maps/api/js?key=REDACTED&libraries=places">
     </script>
     <script type="text/javascript" src="script.js" charset="utf-8"></script>
     <script type="text/javascript" src="paginationScript.js" charset="utf-8"></script>
