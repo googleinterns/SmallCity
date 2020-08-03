@@ -1,7 +1,6 @@
 # SmallCity
 
-| Created by Abakir Hanna, Ethan Mooney, and Lindsey Weiskopf
-
+| Created by Abakir Hanna, Ethan Mooney, and Lindsey Weiskopf [SmallCity Live Demo](https://step2020-smallcity.appspot.com/)
 
 ### Objective
 
@@ -40,6 +39,9 @@ mvn install
 6. After the search engine is created, click on the Control Panel button
 7. Copy the Search Engine ID which is the CX creditional you need in your env file
 
+<img src='https://imgur.com/axyAU2J.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 # Test Instructions
 
