@@ -21,10 +21,14 @@ mvn install
 
 # Making the env file instructions
 ```
-1. Make a env file that is the same format as the envSample file with your correct creditionals in the same directory
-2. Find your Google's API Key creditional and paste it next to the APIKEY field 
-3. Follow the steps "Set up search engine that searches within linkedin for the CX creditional" to get your CX Key
-4. To make this file seen by Google's app engine for local and deployement services copy this file in the target/SmallCity-1/ folder
+1. Make a env file that is the same format as the envSample file with 
+   your correct creditionals in the same directory
+2. Find your Google's API Key creditional and paste it next to the 
+   APIKEY field 
+3. Follow the steps "Set up search engine that searches within linkedin
+   for the CX creditional" to get your CX Key
+4. To make this file seen by Google's app engine for local and deployement 
+   services copy this file in the target/SmallCity-1/ folder
   - The targe directory is created after you follow the build instructions
 ```
 
