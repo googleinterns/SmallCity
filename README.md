@@ -14,11 +14,29 @@ The U.S Small Business Administration Office of Advocacy defines a small busines
 
 Right now, many small local businesses get lost in the shadow of large businesses on online shopping platforms. But, as buyers continue to purchase more products from the comfort of their own homes, we want to give them an option to support the businesses in their community with ease. In a 2020 survey by Salesforce, 86% of consumers reported that they would pay more to support a small local business. Giving users the ability to filter for small local businesses on an already trusted platform like Google Shopping would allow users to shop locally from wherever they are while boosting local economies. 
 
-# Build Instructions
-
+# Build Instruction
 ```
-1. npm install
-2. mvn install
+mvn install
+```
+
+# Making the env file instructions
+```
+1. Make a env file that is the same format as the envSample file with your correct creditionals in the same directory
+2. Find your Google's API Key creditional and paste it next to the APIKEY field 
+3. Follow the steps "Set up search engine that searches within linkedin for the CX creditional" to get your CX Key
+4. To make this file seen by Google's app engine for local and deployement services copy this file in the target/SmallCity-1/ folder
+  - The targe directory is created after you follow the build instructions
+```
+
+# Set up search engine that searches within linkedin for the CX creditional
+```
+1. Go to the Google's programmable search console https://cse.google.com/all
+2. Press the add button 
+3. Under Sites to search, type https://www.linkedin.com/company/
+4. Name the search engine, or keep the default Name
+5. Press the create button
+6. After the search engine is created, click on the Control Panel button
+7. Copy the Search Engine ID which is the CX creditional you need in your env file
 ```
 
 # Test Instructions
