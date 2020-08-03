@@ -19,21 +19,19 @@ public class Listing {
   * @param mapLocation Location of business (lat/long coordinate)
   * @param rating Numerical rating of business (1-5)
   * @param photos Array of Google Photo objects
-  * @param businessType specifies business type from Places API
+  * @param businessTypes specifies business type from Places API
+  * @param placeId Unique placeId returned from PlacesAPI 
   * @return Listing object
   **/
 
   public Listing(String name, String formattedAddress, MapLocation mapLocation,
-        double rating, Photo photos[], String businessTypes[]) {
+        double rating, Photo photos[], String businessTypes[], String placeId) {
     this.name = name;
     this.formattedAddress = formattedAddress;
     this.mapLocation = mapLocation;
     this.rating = rating;
     this.photos = photos;
     this.businessTypes = businessTypes;
-  }
-
-  public void addPlaceId(String placeId) {
     this.placeId = placeId;
   }
 
@@ -59,5 +57,9 @@ public class Listing {
 
   public String[] getBusinessTypes() {
     return businessTypes;
+  }
+
+  public String getPlaceId() {
+    return placeId;
   }
 }

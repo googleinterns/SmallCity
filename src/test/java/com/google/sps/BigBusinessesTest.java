@@ -50,6 +50,7 @@ public final class BigBusinessesTest {
   private String[] sampleBusinessTypes = new String[0];
   private MapLocation testLocation = new MapLocation(40.457177, -79.916696);
   private DatastoreService datastore;
+  private String TEST_PLACE_ID = "placeId";
   
   private List<Listing> sampleListOfBusinesses = new LinkedList<Listing>(
               Arrays.asList(
@@ -58,37 +59,43 @@ public final class BigBusinessesTest {
                   new MapLocation(40.457091, -79.915331), 
                   3.9,
                   samplePhotos, 
-                  sampleBusinessTypes),
+                  sampleBusinessTypes,
+                  TEST_PLACE_ID),
                 new Listing("west elm", 
                   "110 Bakery Square Blvd, Pittsburgh",
                   new MapLocation(40.456279, -79.915015), 
                   3.6, 
                   samplePhotos,
-                  sampleBusinessTypes),
+                  sampleBusinessTypes,
+                  TEST_PLACE_ID),
                 new Listing("McDonald's",
                   "801 Allegheny Ave, Pittsburgh, PA 15233", 
                   new MapLocation(40.459450, -79.918479), 
                   2.6, 
                   samplePhotos,
-                  sampleBusinessTypes),
+                  sampleBusinessTypes,
+                  TEST_PLACE_ID),
                 new Listing("East End Brewing Company", 
                   "147 Julius St, Pittsburgh",
                   new MapLocation(40.459391, -79.911782), 
                   4.7,
                   samplePhotos, 
-                  sampleBusinessTypes),
+                  sampleBusinessTypes,
+                  TEST_PLACE_ID),
                 new Listing("The Shiny Bean Coffee & Tea", 
                   "333 Butler St, Etna",
                   new MapLocation(40.496328, -79.944862), 
                   4.9, 
                   samplePhotos,
-                  sampleBusinessTypes),
+                  sampleBusinessTypes,
+                  TEST_PLACE_ID),
                 new Listing("Weisshouse", 
                   "324 S Highland Ave, Pittsburgh",
                   new MapLocation(40.456684, -79.925499), 
                   4.3,
                   samplePhotos, 
-                  sampleBusinessTypes)
+                  sampleBusinessTypes,
+                  TEST_PLACE_ID)
   ));  
 
   private List<Listing> sampleDatabaseOfBigBusinesses = new LinkedList<Listing>(
@@ -98,19 +105,22 @@ public final class BigBusinessesTest {
                   new MapLocation(40.457091, -79.915331), 
                   3.9,
                   samplePhotos, 
-                  sampleBusinessTypes),
+                  sampleBusinessTypes,
+                  TEST_PLACE_ID),
                 new Listing("west elm", 
                   "110 Bakery Square Blvd, Pittsburgh",
                   new MapLocation(40.456279, -79.915015), 
                   3.6, 
                   samplePhotos,
-                  sampleBusinessTypes),
+                  sampleBusinessTypes,
+                  TEST_PLACE_ID),
                 new Listing("McDonald's",
                   "801 Allegheny Ave, Pittsburgh", 
                   new MapLocation(40.459450, -79.918479), 
                   2.6, 
                   samplePhotos,
-                  sampleBusinessTypes)
+                  sampleBusinessTypes,
+                  TEST_PLACE_ID)
   ));
 
   private List<Listing> expectedListOfBusinesses = new LinkedList<>();  

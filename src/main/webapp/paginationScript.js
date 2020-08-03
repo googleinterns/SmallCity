@@ -21,6 +21,10 @@ const resultsChildren = resultsContent.childNodes;
 const TOTAL_CARDS_TO_DISPLAY = 3;
 const MAX_LIST_VIEW_NUMBER = 15;
 
+const WEBSITE_BUTTON_TEXT = 'Visit Website';
+const MAPS_BUTTON_TEXT = 'Visit Location on Google Maps';
+const UNAVAILABLE_BUTTON_TEXT = 'Website Unavailable';
+
 //Display the initial 3 cards in the list
 function initialDisplay() {
   resultsContent.innerHTML = '';
@@ -95,7 +99,7 @@ function loadImage(listingImage, photoReference) {
 }
 
 function locateWebsiteUrlElement(card) {
-  return card.getElementsByTagName('button')[0];
+  return card.getElementsByClassName('results-website-button')[0];
 }
 
 function loadWebsiteUrl(websiteButtonElement, passedPlaceId) {
@@ -110,17 +114,17 @@ function loadWebsiteUrl(websiteButtonElement, passedPlaceId) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
       if (place.website != null) {
         websiteUrl = place.website;
-        websiteButtonElement.innerText = 'Visit Website';
+        websiteButtonElement.innerText = WEBSITE_BUTTON_TEXT;
         linkWebsite(websiteUrl, websiteButtonElement);
       }
       else {
         websiteUrl = place.url;
-        websiteButtonElement.innerText = 'Visit Location on Google Maps';
+        websiteButtonElement.innerText = MAPS_BUTTON_TEXT;
         linkWebsite(websiteUrl, websiteButtonElement);
       }
     }
     else {
-      websiteButtonElement.innerText = 'Website Unavailable';
+      websiteButtonElement.innerText = UNAVAILABLE_BUTTON_TEXT;
       websiteButtonElement.className = 'unavailable-website';
     }
   });

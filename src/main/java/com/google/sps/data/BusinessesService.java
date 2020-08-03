@@ -142,9 +142,9 @@ public class BusinessesService {
     double rating = place.rating;
     Photo photos[] = place.photos;
     String types[] = place.types;
+    String placeId = place.placeId;
     Listing listing = new Listing(name, formattedAddress, 
-          placeLocation, rating, photos, types);
-    listing.addPlaceId(place.placeId);
+          placeLocation, rating, photos, types, placeId);
     allBusinesses.add(listing);
   }
 
