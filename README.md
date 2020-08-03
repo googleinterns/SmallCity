@@ -39,7 +39,8 @@ mvn install
 7. Copy the Search Engine ID which is the CX credential you need in your env file
 
 <img src='https://imgur.com/axyAU2J.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-GIF created with [LiceCap](http://www.cockos.com/licecap/).
+
+GIF created with [LICEcap](http://www.cockos.com/licecap/)
 
 # Test Instructions
 
