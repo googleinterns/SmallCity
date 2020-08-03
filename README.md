@@ -29,7 +29,7 @@ mvn install
    services copy this file in the target/SmallCity-1/ folder
    - The target directory is created after you follow the build instructions
 
-# Set up search engine that searches within linkedin for the CX creditional
+# Set up CX creditional
 
 1. Go to the Google's programmable [search console](https://cse.google.com/all)
 2. Press the add button 
