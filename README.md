@@ -6,7 +6,6 @@
 
 We aim to create a web platform for users to find products from local small businesses. Our web app will increase exposure to local businesses of interest in their community. 
 
-
 ### Background
 
 The U.S Small Business Administration Office of Advocacy defines a small business as a company with fewer than 500 employees. These small businesses are an integral part of the world’s economy and are often overlooked. Making up 44% of economic activity in the US, small businesses often struggle to keep up with the growing demand for instant delivery via online shopping. Only amplified during crises like the Covid-19 pandemic, the uphill battle that these businesses face poses a real threat to their stability and, in turn, the US economy.
@@ -61,9 +60,14 @@ mvn -Dtest=FileNameOfTestClass test
 mvn package appengine:run
 ```
 
-# Deploy Instructions 
-
-1. Open pom.xml file
-2. Find <deploy.projectId>Name_Of_App_Engine_Project_ID</deploy.projectId> 
-3. Change the "Name_Of_App_Engine_ID" to your project app engine ID
-4. Run the command `mvn package appengine:deploy`
+# Live Server Instructions 
+To deploy to a live server:
+  1. Navigate to https://console.cloud.google.com/home/dashboard.
+  2. Make sure your project is selected in the dropdown at the top.
+  3. Find the Project ID on that page.
+  4. Open pom.xml file
+  5. Find <deploy.projectId>YOUR_PROJECT_ID_HERE</deploy.projectId> 
+  6. Change "YOUR_PROJECT_ID_HERE" to your project app engine ID
+  7. Enable Cloud Build on your project by visiting https://console.developers.google.com/apis/api/cloudbuild.googleapis.com/overview?project=YOUR_PROJECT_ID_HERE
+      - Will require enabling billing.
+  8. Run the command `mvn package appengine:deploy`
