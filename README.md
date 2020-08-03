@@ -19,13 +19,14 @@ mvn install
 ```
 
 # Making the env file instructions
+
 1. Make an env file that is the same format as the envSample file with 
    your correct credentials in the same directory
 2. Find your Google's API Key credential and paste it next to the 
    APIKEY field 
 3. Follow the steps "Set up CX credential" to get your CX Key
 4. To make this file seen by Google's app engine for local and deployment 
-   services copy this file in the target/SmallCity-1/ folder
+   services copy this file in the target/SmallCity-1/ folder `cp env target/SmallCity-1/`
    - The target directory is created after you follow the build instructions
 
 # Get CX Credential
