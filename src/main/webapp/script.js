@@ -19,7 +19,7 @@ let product = '';
 
 function getGeolocation() {
   hideEntryContainer();
-  initiateLoaderCircle();
+  displayInformationDiv();
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(displayLocation, displayError);
   }
@@ -44,7 +44,7 @@ function displayError() {
 
 function getZipCode() {
   hideEntryContainer();
-  initiateLoaderCircle();
+  displayInformationDiv();
   zip = document.getElementById('entryZipCode').value;
   if (isValidInput(zip)) {
     document.getElementById('zipCode').innerText = zip;
@@ -71,10 +71,11 @@ product = document.getElementById('product').value;
   }
 }
 
-/* Background blur, loader, and popup control */
+/* Background blur, loader, information div, and popup control */
 
 let backgroundBlurDiv = document.getElementById('background-blur-div');
 let popupFormCenterWrapper = document.getElementById('popup-form-center-wrapper');
+let informationDivCenterWrapper = document.getElementById('information-div-center-wrapper');
 let loaderCircleElement = document.getElementById('loader-circle-center-wrapper');
 let mapElement = document.getElementById('map');
 
@@ -101,6 +102,18 @@ function initiateLoaderCircle() {
 function removeLoaderCircle() {
   backgroundBlurDiv.className = 'element-hide';
   loaderCircleElement.className = 'element-hide';
+  mapElement.className = 'map-to-front';
+}
+
+function displayInformationDiv() {
+  backgroundBlurDiv.className = 'blurred-element-display';
+  informationDivCenterWrapper.className = 'centered-element-display';
+  mapElement.className = 'map-to-back';
+}
+
+function hideInformationDiv() {
+  backgroundBlurDiv.className = 'element-hide';
+  informationDivCenterWrapper.className = 'element-hide';
   mapElement.className = 'map-to-front';
 }
 
@@ -141,6 +154,7 @@ function fetchList(queryString) {
     totalCardCount = 0;
     listingsLocalStorage = listings;
     addResultCardsAndMapToTheScreen(listings);
+    hideInformationDiv();
     removeLoaderCircle();
   });
 }
@@ -170,6 +184,9 @@ function createResultCard(name, address, photos, rating, websiteUrl, totalCardCo
   const resultsCard = document.createElement('div');
   resultsCard.className = 'results-card';
   resultsCard.id = totalCardCount;
+
+  const resultsCardRight = document.createElement('div');
+  resultsCardRight.className = 'results-card-right';
 
   const imageDiv = document.createElement('div');
   imageDiv.className = 'results-image';
@@ -216,10 +233,13 @@ function createResultCard(name, address, photos, rating, websiteUrl, totalCardCo
     linkWebsite(websiteUrl, websiteButton);
   }
     
+  resultsCardRight.appendChild(nameAndAddressDiv);
+  resultsCardRight.appendChild(ratingDiv);
+  resultsCardRight.appendChild(websiteButton);
+
   resultsCard.appendChild(imageDiv);
-  resultsCard.appendChild(nameAndAddressDiv);
-  resultsCard.appendChild(ratingDiv);
-  resultsCard.appendChild(websiteButton);
+  resultsCard.appendChild(resultsCardRight);
+  
 
   //Creates object that contains the resultCard and photoReference to append to array
   let resultsCardObject = {
@@ -275,6 +295,7 @@ window.onload = function() {
 
   if (listingsLocalStorage != null && locationQuery != null && zipcode != null) {
     hideEntryContainer();
+    hideInformationDiv();
     document.getElementById('zipCode').innerText = zipcode;
     addResultCardsAndMapToTheScreen(listingsLocalStorage);
 

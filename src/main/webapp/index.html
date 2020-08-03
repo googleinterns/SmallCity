@@ -56,18 +56,31 @@ to represent the company, product, or service to which they refer. -->
       </div>
     </div>
 
+    <div id="information-div-center-wrapper">
+      <div id="information-div">
+        <h1>Welcome to SmallCity!</h1>
+        <h3>Finding small buisnesses...</h3>
+        <p>
+        </br>
+          SmallCity allows you to find and search for local small businesses in your area.
+          Whether you're looking for a great pizza place or a new pair of shoes, SmallCity can help you find it - 
+          all while supporting your local economy.
+        </p>
+      </div>
+    </div>
+
     <div id="loader-circle-center-wrapper">
       <div id="loader-circle"></div>
     </div>
 
-    <header>
+    <div class="header">
       <h1 class="logo">smallcity</h1>
       <div class="product-search-container">
         <input type="text" id="product" class="product-entry" name="product" value="" placeholder="search for a product, business, etc.">
         <button type="submit" onclick="getProduct()" class="search-button"><i class="fas fa-search"></i></button>
       </div>
       <div id="zipCode" class="zipcode-container" onclick="displayEntryContainer()"></div>
-    </header>
+    </div>
 
     <div class="main-container">
       <div id="map"></div>
