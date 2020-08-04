@@ -45,7 +45,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
 @RunWith(JUnit4.class)
-public final class BigBusinessesTest {
+public final class SmallCityServiceTest {
   private Photo[] samplePhotos = new Photo[0];
   private String[] sampleBusinessTypes = new String[0];
   private MapLocation testLocation = new MapLocation(40.457177, -79.916696);
