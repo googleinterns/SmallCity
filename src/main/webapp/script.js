@@ -295,7 +295,6 @@ window.onload = function() {
 
   if (listingsLocalStorage != null && locationQuery != null && zipcode != null) {
     hideEntryContainer();
-    hideInformationDiv();
     document.getElementById('zipCode').innerText = zipcode;
     addResultCardsAndMapToTheScreen(listingsLocalStorage);
 
