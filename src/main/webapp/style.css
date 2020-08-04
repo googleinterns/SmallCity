@@ -50,6 +50,7 @@ h3 {
   border: none;
   border-radius: 50px;
   color: var(--dark-gray);
+  cursor: pointer;
   font-family: 'Raleway', sans-serif;
   font-weight: bold;
   font-size: 16pt;
@@ -78,10 +79,20 @@ h3 {
   width: 65%;
 }
 
-.zipcode-container {
+.zipcode-container-wrapper {
   align-items: center;
   background-color: var(--white);
   border-radius: 50px 0 0 50px;
+  display: inherit;
+  font-weight: bold;
+  padding: 15px 0 15px 20px;
+}
+
+.zipcode-container {
+  align-items: center;
+  background-color: var(--light-gray);
+  border-radius: 50px 0 0 50px;
+  color: var(--dark-gray);
   display: inherit;
   font-weight: bold;
   padding: 15px 40px;
@@ -162,6 +173,7 @@ input.product-entry:focus {
   border: none;
   border-radius: 50px;
   color: var(--white);
+  cursor: pointer;
   font-family: 'Raleway', sans-serif;
   font-weight: bold;
   font-size: .85vw;
@@ -195,6 +207,7 @@ input.product-entry:focus {
   border-radius: 100px;
   color: var(--white);
   font-size: 1vw;
+  cursor: pointer;
   padding: 0px 5px 0px 5px;
 }
 
@@ -253,6 +266,7 @@ input.popup-zipcode-entry:focus {
   border: none;
   border-radius: 100px;
   color: var(--dark-gray);
+  cursor: pointer;
   font-size: 16pt;
   padding: 0px 5px 0px 5px;
 }
@@ -407,6 +421,7 @@ Main Content Container Styling
   background-color: var(--main-color);
   border: none;
   border-radius: 30px;
+  cursor: pointer;
   font-family: 'Raleway', sans-serif;
   font-size: large;
   font-weight: bold;
@@ -440,6 +455,7 @@ Main Content Container Styling
   border: none;
   border-radius: 30px;
   color: var(--white);
+  cursor: pointer;
   font-family: 'Raleway', sans-serif;
   font-size: large;
   font-weight: bold;
