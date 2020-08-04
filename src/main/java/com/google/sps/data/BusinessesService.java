@@ -51,7 +51,10 @@ public class BusinessesService {
         Logger.getLogger(BusinessesService.class.getName());
   
   private final int ALLOWED_SEARCH_REQUESTS = 3;
-  private final int TEXT_SEARCH_RADIUS = 10000;
+  private final int MAX_ALLOWED_TEXT_SEARCH_RADIUS = 50000;
+  private final int INITIAL_RADIUS = 1500;
+  private final int RADIUS_MULTIPLIER = 4;
+  private final int MAX_NUMBER_OF_RESULTS_PER_REQUEST = 20;
   private final int MIN_FOLLOWERS = 50000;
   private final int SMALL_BUSINESSES_DISPLAYED = 15;
   private final String START_SUBSTRING = "| ";
@@ -77,12 +80,20 @@ public class BusinessesService {
             .apiKey(KEY)
             .build();
     TextSearchRequest request = PlacesApi.textSearchQuery(context, product);
-    
+    int radius = INITIAL_RADIUS;
+
     try {
       PlacesSearchResponse response = request.location(latLng)
-              .radius(TEXT_SEARCH_RADIUS)
+              .radius(radius)
               .await();
-      
+
+      while (response.results.length < MAX_NUMBER_OF_RESULTS_PER_REQUEST && 
+             radius < MAX_ALLOWED_TEXT_SEARCH_RADIUS) {
+        // Increase radius if there are less than 20 results 
+        radius *= RADIUS_MULTIPLIER;
+        response = request.location(latLng).radius(radius).await();
+      }
+
       for (int i=0; i<ALLOWED_SEARCH_REQUESTS; i++) {
         for(PlacesSearchResult place : response.results) {
           addListingToBusinesses(place);
