@@ -25,7 +25,10 @@ function getGeolocation() {
   }
   else {
     console.log('Browser does not support geolocation');
+    hideInformationDiv();
+    displayEntryContainer();
     alert(alertMessage);
+    
   }
 }
 
@@ -39,6 +42,8 @@ function displayLocation(position) {
 
 function displayError() {
   console.log('Geolocation not enabled');
+  hideInformationDiv();
+  displayEntryContainer();
   alert(alertMessage);
 }
 
