@@ -163,7 +163,7 @@ function addResultCardsAndMapToTheScreen(listings){
   initMap(listings[0].mapLocation);
     listings.forEach((listing) => {
       resultsCardsArray.push(createResultCard(listing.name, listing.formattedAddress, 
-            listing.photos, listing.rating, listing.url, totalCardCount));
+            listing.photos, listing.rating, listing.placeId, totalCardCount));
 
       if (totalCardCount < 15) createMarker(listing, totalCardCount);
       totalCardCount++;
@@ -180,7 +180,8 @@ function addResultCardsAndMapToTheScreen(listings){
  * @param {string} websiteUrl The url of the business' website
  * @param {int} totalCardCount The number of businesses in the list, used to set a specific id to each card
  */
-function createResultCard(name, address, photos, rating, websiteUrl, totalCardCount) {
+function createResultCard(name, address, photos, rating, passedPlaceId, totalCardCount) {
+
   const resultsCard = document.createElement('div');
   resultsCard.className = 'results-card';
   resultsCard.id = totalCardCount;
@@ -217,21 +218,9 @@ function createResultCard(name, address, photos, rating, websiteUrl, totalCardCo
   nameAndAddressDiv.appendChild(addressParagraph);
 
   const ratingDiv = createRating(rating);
-
+  
   const websiteButton = document.createElement('button');
   websiteButton.className = 'results-website-button';
-  if (websiteUrl.includes('maps.google.com')) {
-    websiteButton.innerText = 'Visit Location on Google Maps';
-    linkWebsite(websiteUrl, websiteButton);
-  }
-  else if (websiteUrl === '') {
-    websiteButton.innerText = 'Website Unavailable';
-    websiteButton.className = 'unavailable-website';
-  }
-  else {
-    websiteButton.innerText = 'Visit Website';
-    linkWebsite(websiteUrl, websiteButton);
-  }
     
   resultsCardRight.appendChild(nameAndAddressDiv);
   resultsCardRight.appendChild(ratingDiv);
@@ -240,21 +229,14 @@ function createResultCard(name, address, photos, rating, websiteUrl, totalCardCo
   resultsCard.appendChild(imageDiv);
   resultsCard.appendChild(resultsCardRight);
   
-
   //Creates object that contains the resultCard and photoReference to append to array
   let resultsCardObject = {
     card: resultsCard,
-    photoReference: resultPhotoReference
+    photoReference: resultPhotoReference,
+    placeId: passedPlaceId
   };
 
   return resultsCardObject;
-}
-
-function linkWebsite(websiteUrl, websiteButton) {
-  // Equivalent to HTML's 'onClick'
-  websiteButton.addEventListener('click', function() {
-    window.open(websiteUrl);
-  });
 }
 
 /**

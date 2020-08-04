@@ -85,8 +85,7 @@ public class BusinessesService {
       
       for (int i=0; i<ALLOWED_SEARCH_REQUESTS; i++) {
         for(PlacesSearchResult place : response.results) {
-          String url = getUrlFromPlaceDetails(context, place.placeId);
-          addListingToBusinesses(place, url);
+          addListingToBusinesses(place);
         }
         //Maximum of 2 next token requests allowed
         if (i < 2) {
@@ -113,8 +112,7 @@ public class BusinessesService {
               .await();
       for (int i=0; i<ALLOWED_SEARCH_REQUESTS; i++) {
         for(PlacesSearchResult place : response.results) {
-          String url = getUrlFromPlaceDetails(context, place.placeId);
-          addListingToBusinesses(place, url);
+          addListingToBusinesses(place);
         }
         //Maximum of 2 next token requests allowed
         if (i < 2) {
@@ -128,25 +126,8 @@ public class BusinessesService {
     }  
     return allBusinesses;
   }
-  
-  private String getUrlFromPlaceDetails(GeoApiContext context, String placeId) {
-    try {
-      PlaceDetails result = 
-            new PlaceDetailsRequest(context).placeId(placeId).await();
-      if (result.website != null) {
-        return (result.website.toString());
-      }
-      else {
-        return (result.url.toString());
-      }
-    } catch(Exception e) {
-      LOGGER.warning(e.getMessage());
-    }
-    // Place Details failure
-    return "";
-  }
 
-  private void addListingToBusinesses(PlacesSearchResult place, String url) {
+  private void addListingToBusinesses(PlacesSearchResult place) {
     String name = place.name;
     String formattedAddress;
     if (place.vicinity != null) {
@@ -161,8 +142,10 @@ public class BusinessesService {
     double rating = place.rating;
     Photo photos[] = place.photos;
     String types[] = place.types;
-    allBusinesses.add(new Listing(name, formattedAddress, 
-          placeLocation, rating, photos, types, url));
+    String placeId = place.placeId;
+    Listing listing = new Listing(name, formattedAddress, 
+          placeLocation, rating, photos, types, placeId);
+    allBusinesses.add(listing);
   }
 
   public List<Listing> removeBigBusinessesFromResults() {

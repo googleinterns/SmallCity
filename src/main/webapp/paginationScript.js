@@ -21,6 +21,11 @@ const resultsChildren = resultsContent.childNodes;
 const TOTAL_CARDS_TO_DISPLAY = 3;
 const MAX_LIST_VIEW_NUMBER = 15;
 
+const WEBSITE_BUTTON_TEXT = 'Visit Website';
+const MAPS_BUTTON_TEXT = 'Visit Location on Google Maps';
+const UNAVAILABLE_BUTTON_TEXT = 'Website Unavailable';
+
+const KEY = 'AIzaSyDDIsG-SJAZ69ZoOecmfbXOB7ZIS4pZkAw';
 
 //Display the initial 3 cards in the list
 function initialDisplay() {
@@ -67,6 +72,9 @@ function displayCards(listAugment) {
         loadImage(resultsImageElement, cardToAppend.photoReference);
       }
 
+      let websiteButtonElement = locateWebsiteUrlElement(cardToAppend.card);
+      loadWebsiteUrl(websiteButtonElement, cardToAppend.placeId);
+
       resultsContent.appendChild(cardToAppend.card);
     }
   }
@@ -84,9 +92,47 @@ function locateImageElement(card) {
 }
 
 function loadImage(listingImage, photoReference) {
-  const KEY = 'REDACTED';
   let maxwidth = 400;
 
   listingImage.src = 'https://maps.googleapis.com/maps/api/place/photo?photoreference=' 
         + photoReference + '&key=' + KEY + '&maxwidth=' + maxwidth;
+}
+
+function locateWebsiteUrlElement(card) {
+  return card.getElementsByClassName('results-website-button')[0];
+}
+
+function loadWebsiteUrl(websiteButtonElement, passedPlaceId) {
+  let request = {
+    placeId: passedPlaceId,
+    fields: ['website', 'url']
+  };
+  
+  service = new google.maps.places.PlacesService(map);
+  service.getDetails(request, function(place, status) {
+  
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+      if (place.website != null) {
+        websiteUrl = place.website;
+        websiteButtonElement.innerText = WEBSITE_BUTTON_TEXT;
+        linkWebsite(websiteUrl, websiteButtonElement);
+      }
+      else {
+        websiteUrl = place.url;
+        websiteButtonElement.innerText = MAPS_BUTTON_TEXT;
+        linkWebsite(websiteUrl, websiteButtonElement);
+      }
+    }
+    else {
+      websiteButtonElement.innerText = UNAVAILABLE_BUTTON_TEXT;
+      websiteButtonElement.className = 'unavailable-website';
+    }
+  });
+}
+
+function linkWebsite(websiteUrl, websiteButton) {
+  // Equivalent to HTML's 'onClick'
+  websiteButton.addEventListener('click', function() {
+    window.open(websiteUrl);
+  });
 }
