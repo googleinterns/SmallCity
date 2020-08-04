@@ -52,6 +52,7 @@ public class BusinessesService {
   
   private final int ALLOWED_SEARCH_REQUESTS = 3;
   private final int MAX_ALLOWED_TEXT_SEARCH_RADIUS = 50000;
+  private final int INITIAL_RADIUS = 1500;
   private final int RADIUS_MULTIPLIER = 4;
   private final int MAX_NUMBER_OF_RESULTS_PER_REQUEST = 20;
   private final int MIN_FOLLOWERS = 50000;
@@ -79,7 +80,7 @@ public class BusinessesService {
             .apiKey(KEY)
             .build();
     TextSearchRequest request = PlacesApi.textSearchQuery(context, product);
-    int radius = 1500;
+    int radius = INITIAL_RADIUS;
 
     try {
       PlacesSearchResponse response = request.location(latLng)
@@ -88,9 +89,8 @@ public class BusinessesService {
 
       while (response.results.length < MAX_NUMBER_OF_RESULTS_PER_REQUEST && 
              radius < MAX_ALLOWED_TEXT_SEARCH_RADIUS) {
-        // If the list of businesses are not enough, the radius is increased
-        // in hopes to get more results for that product search      
-        radius *= RADIUS_MULTIPLIER;
+        // Increase radius if there are less than 20 results 
+        radius = INITIAL_RADIUS * RADIUS_MULTIPLIER;
         response = request.location(latLng).radius(radius).await();
       }
 
