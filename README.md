@@ -1,5 +1,6 @@
 # SmallCity
 | Created by Abakir Hanna, Ethan Mooney, and Lindsey Weiskopf 
+
 | [SmallCity Live Demo](https://step2020-smallcity.appspot.com/)
 
 ### Objective
@@ -58,7 +59,7 @@ mvn package appengine:run
 1. Navigate to https://console.cloud.google.com/home/dashboard.
 2. Make sure your project is selected in the dropdown at the top.
 3. Find the Project ID on that page.
-4. Open pom.xml file
+4. Open the pom.xml file
 5. Find <deploy.projectId>YOUR_PROJECT_ID_HERE</deploy.projectId> 
 6. Change "YOUR_PROJECT_ID_HERE" to your project app engine ID
 7. Enable Cloud Build on your project by visiting https://console.developers.google.com/apis/api/cloudbuild.googleapis.com/overview?project=YOUR_PROJECT_ID_HERE
