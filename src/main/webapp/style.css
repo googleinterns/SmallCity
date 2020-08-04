@@ -225,7 +225,7 @@ input.popup-zipcode-entry:focus {
 
 #information-div-center-wrapper {
   align-items: center;
-  display: flex;
+  display: none;
   height: 100%;
   justify-content: center;
   position: absolute;
