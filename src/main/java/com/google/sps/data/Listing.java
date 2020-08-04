@@ -10,7 +10,7 @@ public class Listing {
     private double rating;
     private Photo photos[];
     private String businessTypes[];
-    private String url;
+    public String placeId;
 
   /**
   * Creates a new Listing
@@ -19,20 +19,20 @@ public class Listing {
   * @param mapLocation Location of business (lat/long coordinate)
   * @param rating Numerical rating of business (1-5)
   * @param photos Array of Google Photo objects
-  * @param businessType specifies business type from Places API
-  * @param url Website of listing
+  * @param businessTypes specifies business type from Places API
+  * @param placeId Unique placeId returned from PlacesAPI 
   * @return Listing object
   **/
 
   public Listing(String name, String formattedAddress, MapLocation mapLocation,
-        double rating, Photo photos[], String businessTypes[], String url) {
+        double rating, Photo photos[], String businessTypes[], String placeId) {
     this.name = name;
     this.formattedAddress = formattedAddress;
     this.mapLocation = mapLocation;
     this.rating = rating;
     this.photos = photos;
     this.businessTypes = businessTypes;
-    this.url = url;
+    this.placeId = placeId;
   }
 
   public String getName() {
@@ -59,7 +59,7 @@ public class Listing {
     return businessTypes;
   }
 
-  public String getUrl() {
-    return url;
+  public String getPlaceId() {
+    return placeId;
   }
 }
