@@ -25,6 +25,8 @@ const WEBSITE_BUTTON_TEXT = 'Visit Website';
 const MAPS_BUTTON_TEXT = 'Visit Location on Google Maps';
 const UNAVAILABLE_BUTTON_TEXT = 'Website Unavailable';
 
+const KEY = 'REDACTED';
+
 //Display the initial 3 cards in the list
 function initialDisplay() {
   resultsContent.innerHTML = '';
@@ -77,8 +79,6 @@ function displayCards(listAugment) {
     }
   }
 }  
-
-const KEY = 'REDACTED';
 
 function locateImageElement(card) {
   let cardChildren = card.childNodes;
