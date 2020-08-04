@@ -117,6 +117,14 @@ function hideInformationDiv() {
   mapElement.className = 'map-to-front';
 }
 
+// Allows user to close information div if they've already read it before
+informationDivCenterWrapper.addEventListener('click', function() {
+  if(informationDivCenterWrapper.className === 'centered-element-display') {
+    hideInformationDiv();
+    initiateLoaderCircle();
+  }
+});
+
 function isValidInput(zip) {
   let len = zip.length;
   if (len === 0) {  
@@ -285,3 +293,4 @@ window.onload = function() {
     }
   }
 }
+

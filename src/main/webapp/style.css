@@ -348,6 +348,18 @@ Main Content Container Styling
   100% { transform: rotate(360deg); }
 }
 
+/* Mini Loader Circle */
+#mini-loader-circle {
+  animation: spin 2s linear infinite;
+  border: 5px solid var(--dark-gray); 
+  border-radius: 50%;
+  border-top: 5px solid var(--main-color); 
+  height: 20px;
+  margin: 0 0 10px 0;
+  opacity: 1;
+  width: 20px;
+}
+
 /*
   Results Content Container Styling
 */
@@ -435,7 +447,14 @@ Main Content Container Styling
 }
 
 .unavailable-website {
+  align-items: center;
   background-color: var(--dark-gray);
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: 'Raleway', sans-serif;
+  font-size: large;
+  font-weight: bold;
   pointer-events: none;
 }
 
