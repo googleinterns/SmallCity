@@ -125,6 +125,13 @@ informationDivCenterWrapper.addEventListener('click', function() {
   }
 });
 
+// Allows user to close popup div if they're changing their location (but not when they first come to the site)
+popupFormCenterWrapper.addEventListener('click', function() {
+  if(popupFormCenterWrapper.className === 'centered-element-display' && (document.getElementById('zipCode').innerText != null)) {
+    hideEntryContainer();
+  }
+});
+
 function isValidInput(zip) {
   let len = zip.length;
   if (len === 0) {  
@@ -293,4 +300,3 @@ window.onload = function() {
     }
   }
 }
-
