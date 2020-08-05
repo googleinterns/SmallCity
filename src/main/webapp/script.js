@@ -19,13 +19,16 @@ let product = '';
 
 function getGeolocation() {
   hideEntryContainer();
-  initiateLoaderCircle();
+  displayInformationDiv();
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(displayLocation, displayError);
   }
   else {
     console.log('Browser does not support geolocation');
+    hideInformationDiv();
+    displayEntryContainer();
     alert(alertMessage);
+    
   }
 }
 
@@ -39,15 +42,17 @@ function displayLocation(position) {
 
 function displayError() {
   console.log('Geolocation not enabled');
+  hideInformationDiv();
+  displayEntryContainer();
   alert(alertMessage);
 }
 
 function getZipCode() {
   hideEntryContainer();
-  initiateLoaderCircle();
+  displayInformationDiv();
   zip = document.getElementById('entryZipCode').value;
   if (isValidInput(zip)) {
-    document.getElementById('zipCode').value = zip;
+    document.getElementById('zipCode').innerText = zip;
     locationQuery = '/data?zipCode=' + zip;
     fetchByQueryString();
   }
@@ -71,18 +76,50 @@ product = document.getElementById('product').value;
   }
 }
 
+/* Background blur, loader, information div, and popup control */
+
+let backgroundBlurDiv = document.getElementById('background-blur-div');
+let popupFormCenterWrapper = document.getElementById('popup-form-center-wrapper');
+let informationDivCenterWrapper = document.getElementById('information-div-center-wrapper');
+let loaderCircleElement = document.getElementById('loader-circle-center-wrapper');
+let mapElement = document.getElementById('map');
+
 function displayEntryContainer() {
-  document.getElementById('entry-container').className = 'element-display';
-  document.getElementById('options-container').className = 'element-display';
-  mapElement.className = 'map-transparent';
+  backgroundBlurDiv.className = 'blurred-element-display';
+  popupFormCenterWrapper.className = 'centered-element-display';
+  mapElement.className = 'map-to-back';
   document.getElementById('entryZipCode').value 
-        = document.getElementById('zipCode').value;
+        = document.getElementById('zipCode').innerText;
 }
 
 function hideEntryContainer() {
-  document.getElementById('entry-container').className = 'element-hide';
-  document.getElementById('options-container').className = 'element-hide';
-  mapElement.className = 'map-opaque';
+  backgroundBlurDiv.className = 'element-hide';
+  popupFormCenterWrapper.className = 'element-hide';
+  mapElement.className = 'map-to-front';
+}
+
+function initiateLoaderCircle() {
+  backgroundBlurDiv.className = 'blurred-element-display';
+  loaderCircleElement.className = 'centered-element-display';
+  mapElement.className = 'map-to-back';
+}
+
+function removeLoaderCircle() {
+  backgroundBlurDiv.className = 'element-hide';
+  loaderCircleElement.className = 'element-hide';
+  mapElement.className = 'map-to-front';
+}
+
+function displayInformationDiv() {
+  backgroundBlurDiv.className = 'blurred-element-display';
+  informationDivCenterWrapper.className = 'centered-element-display';
+  mapElement.className = 'map-to-back';
+}
+
+function hideInformationDiv() {
+  backgroundBlurDiv.className = 'element-hide';
+  informationDivCenterWrapper.className = 'element-hide';
+  mapElement.className = 'map-to-front';
 }
 
 function isValidInput(zip) {
@@ -122,6 +159,7 @@ function fetchList(queryString) {
     totalCardCount = 0;
     listingsSessionStorage = listings;
     addResultCardsAndMapToTheScreen(listings);
+    hideInformationDiv();
     removeLoaderCircle();
   });
 }
@@ -139,23 +177,6 @@ function addResultCardsAndMapToTheScreen(listings){
     map.fitBounds(bounds); 
 } 
 
-// Style elements being alterned by loader
-let loaderCircleElement = document.getElementById('loader-circle');
-let loaderCircleContainerElement = document.getElementById('loader-circle-container');
-let mapElement = document.getElementById('map');
-
-function initiateLoaderCircle() {
-  loaderCircleElement.className = 'element-display';
-  loaderCircleContainerElement.className = 'element-display';
-  mapElement.className = 'map-transparent';
-}
-
-function removeLoaderCircle() {
-  loaderCircleElement.className = 'element-hide';
-  loaderCircleContainerElement.className = 'element-hide';
-  mapElement.className = 'map-opaque';
-}
-
 /**
  * @param {string} name The name of the business
  * @param {string} address The address of the business
@@ -169,6 +190,9 @@ function createResultCard(name, address, photos, rating, passedPlaceId, totalCar
   const resultsCard = document.createElement('div');
   resultsCard.className = 'results-card';
   resultsCard.id = totalCardCount;
+
+  const resultsCardRight = document.createElement('div');
+  resultsCardRight.className = 'results-card-right';
 
   const imageDiv = document.createElement('div');
   imageDiv.className = 'results-image';
@@ -202,12 +226,14 @@ function createResultCard(name, address, photos, rating, passedPlaceId, totalCar
   
   const websiteButton = document.createElement('button');
   websiteButton.className = 'results-website-button';
+    
+  resultsCardRight.appendChild(nameAndAddressDiv);
+  resultsCardRight.appendChild(ratingDiv);
+  resultsCardRight.appendChild(websiteButton);
 
   resultsCard.appendChild(imageDiv);
-  resultsCard.appendChild(nameAndAddressDiv);
-  resultsCard.appendChild(ratingDiv);
-  resultsCard.appendChild(websiteButton);
-
+  resultsCard.appendChild(resultsCardRight);
+  
   //Creates object that contains the resultCard and photoReference to append to array
   let resultsCardObject = {
     card: resultsCard,
@@ -243,7 +269,7 @@ function createRating(rating) {
 window.onbeforeunload = function() {
   sessionStorage.setItem("listings", JSON.stringify(listingsSessionStorage));
   sessionStorage.setItem("location", locationQuery);
-  sessionStorage.setItem("zipcode", document.getElementById('zipCode').value);
+  sessionStorage.setItem("zipcode", document.getElementById('zipCode').innerText);
   sessionStorage.setItem("product", document.getElementById('product').value);
 }
 
@@ -256,7 +282,7 @@ window.onload = function() {
 
   if (listingsSessionStorage != null && locationQuery != null && zipcode != null) {
     hideEntryContainer();
-    document.getElementById('zipCode').value = zipcode;
+    document.getElementById('zipCode').innerText = zipcode;
     addResultCardsAndMapToTheScreen(listingsSessionStorage);
 
     if (product !== "") {
