@@ -52,8 +52,9 @@ function reverseGeocodeGeolocation(lat, lng) {
   let geocoder = new google.maps.Geocoder;
   geocoder.geocode({'location': latLng}, function(results, status) {
     if (results[0] && status == 'OK') {
-      // Address component at index 7 is postal code
-      let zipCode = results[0].address_components[7].long_name;
+      // Gets the last 5 digit number in the address 
+      let zipCode = results[0].formatted_address
+                  .match(/\s([0-9]{5})/)[0].replace(/\s+/g, "");
       document.getElementById('zipCode').innerText = zipCode;
     }
     else {
