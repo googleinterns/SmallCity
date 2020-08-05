@@ -491,7 +491,7 @@ Main Content Container Styling
 }
 
 @media screen 
-  and (max-device-width: 768px) 
+  and (max-width: 768px) 
   and (-webkit-min-device-pixel-ratio: 1) { 
 
     h1 {
@@ -538,8 +538,8 @@ Main Content Container Styling
 }
 
 @media screen 
-  and (min-device-width: 768px) 
-  and (max-device-width: 1200px) 
+  and (min-width: 768px) 
+  and (max-width: 1200px) 
   and (-webkit-min-device-pixel-ratio: 1) { 
 
     h1 {
@@ -577,8 +577,8 @@ Main Content Container Styling
 }
 
 @media screen 
-  and (min-device-width: 1200px) 
-  and (max-device-width: 1500px) 
+  and (min-width: 1200px) 
+  and (max-width: 1500px) 
   and (-webkit-min-device-pixel-ratio: 1) { 
 
     h1 {
@@ -612,8 +612,8 @@ Main Content Container Styling
 }
 
 @media screen 
-  and (min-device-width: 1500px) 
-  and (max-device-width: 1600px) 
+  and (min-width: 1500px) 
+  and (max-width: 1600px) 
   and (-webkit-min-device-pixel-ratio: 1) { 
 
     h1 {
@@ -649,7 +649,7 @@ Main Content Container Styling
 }
 
 @media screen 
-  and (min-device-width: 1600px)  
+  and (min-width: 1600px)  
   and (-webkit-min-device-pixel-ratio: 1) { 
 
     h1 {
@@ -684,7 +684,7 @@ Main Content Container Styling
 }
 
 @media screen 
-  and (max-device-height: 900px) {
+  and (max-height: 900px) {
 
     #popup-form-container {
       height: 40%;
@@ -697,7 +697,7 @@ Main Content Container Styling
   }
 
 @media screen 
-and (max-device-height: 800px) {
+and (max-height: 800px) {
 
   #popup-form-container {
     height: 50%;
@@ -706,5 +706,5 @@ and (max-device-height: 800px) {
 
   .results-website-button {
     font-size: medium;
-  
+  }
 }
