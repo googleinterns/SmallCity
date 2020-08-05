@@ -69,6 +69,11 @@ public class BusinessesService {
   public BusinessesService(List<Listing> allBusinesses) {
     this.allBusinesses = allBusinesses;
   }
+
+  // Accessor method for testing purposes
+  public List<Listing> getAllBusinesses() {
+    return allBusinesses;
+  }
   
   public List<Listing> 
         getBusinessesFromTextSearch(MapLocation mapLocation, String product) {
