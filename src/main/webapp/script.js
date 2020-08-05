@@ -88,7 +88,7 @@ function displayEntryContainer() {
   backgroundBlurDiv.className = 'blurred-element-display';
   popupFormCenterWrapper.className = 'centered-element-display';
   mapElement.className = 'map-to-back';
-  document.getElementById('entryZipCode').value 
+  document.getElementById('entryZipCode').placeholder 
         = document.getElementById('zipCode').innerText;
 }
 
