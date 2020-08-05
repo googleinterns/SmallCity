@@ -10,36 +10,47 @@
   padding: 0;
 }
 
+html {
+  height: 100%;
+  width: auto;
+}
+
 body {
   font-family: 'Raleway', sans-serif;
   color: var(--dark-gray);
   font-size: .85vw;
+  height: 100%;
+  width: auto;
 }
 
-header {
+.header {
   align-items: center;
   background-color: var(--main-color);
   display: flex;
   justify-content: space-between;
-  padding: 50px 5%;
+  padding: 50px 0 50px 0;
 }
 
 h2 {
   font-size: 1.25vw;
 }
 
-.logo {
-  background-color: var(--white);
-  border-radius: 50px;
-  padding: 20px;
+h3 {
+  color: var(--light-gray);
 }
 
+.logo {
+  background-color: var(--white);
+  border-radius: 0 50px 50px 0;
+  padding: 20px;
+}
 
 .geolocate-button {
   background-color: var(--white);
   border: none;
   border-radius: 50px;
   color: var(--dark-gray);
+  cursor: pointer;
   font-family: 'Raleway', sans-serif;
   font-weight: bold;
   font-size: 16pt;
@@ -64,20 +75,36 @@ h2 {
   border-radius: 50px;
   display: inherit;
   font-weight: bold;
-  left: 50%;
   padding: 15px 20px 15px 20px;
+  width: 65%;
+}
+
+.zipcode-container-wrapper {
+  align-items: center;
+  background-color: var(--white);
+  border-radius: 50px 0 0 50px;
+  display: inherit;
+  font-weight: bold;
+  padding: 15px 0 15px 20px;
 }
 
 .zipcode-container {
   align-items: center;
-  background-color: var(--white);
-  border-radius: 50px;
+  background-color: var(--light-gray);
+  border-radius: 50px 0 0 50px;
+  color: var(--dark-gray);
   display: inherit;
   font-weight: bold;
-  padding: 15px 20px 15px 20px;
+  padding: 15px 40px;
 }
 
-input[type=text]{
+.zipcode-container:hover {
+  background-color: var(--dark-gray);
+  color: var(--white);
+  cursor: pointer;
+}
+
+input.product-entry {
   border: none;
   border-radius: 30px;
   background-color: var(--light-gray);
@@ -85,25 +112,166 @@ input[type=text]{
   font-family: 'Raleway', sans-serif;
   font-weight: bold;
   font-size: 16pt;
-  margin: 0 5px 0 10px;
+  margin: 0 5px 0 0;
   padding: 5px 10px 5px 10px;
-  
+  width: 100%;
 }
 
-input[type=text]:focus {
+input.product-entry:focus {
   outline: 0;
 }
 
-.zipCode-submit-btn{
+/* Popup Div Styling */
+
+#background-blur-div {
+  background-color: var(--dark-gray);
+  display: block;
+  height: 100%;
+  opacity: 0.5;
+  position: absolute;
+  width: 100%;
+}
+
+#popup-form-center-wrapper {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+}
+
+#popup-form-container {
+  align-content: space-around;
+  align-items: flex-start;
+  background-color: var(--white);
+  border-radius: 30px;
+  display: flex;
+  flex-flow: column wrap;
+  height: 40%;
+  width: 15%;
+  justify-content: center;
+  padding: 30px;
+  position: absolute;
+}
+
+.centered-element-display {
+  display: flex !important;
+  position: absolute !important;
+}
+
+.blurred-element-display {
+  display: block !important;
+}
+
+.element-hide {
+  display: none !important;
+}
+
+.popup-geolocate-button {
+  background-color: var(--dark-gray);
+  border: none;
+  border-radius: 50px;
+  color: var(--white);
+  cursor: pointer;
+  font-family: 'Raleway', sans-serif;
+  font-weight: bold;
+  font-size: .85vw;
+  margin: 10px 0 10px 0;
+  padding: 20px;
+}
+
+.popup-geolocate-button:hover {
+  background-color: var(--main-color);
+  border: none;
+  border-radius: 50px;
+  color: var(--dark-gray);
+  font-family: 'Raleway', sans-serif;
+  font-weight: bold;
+  padding: 20px;
+}
+
+.popup-zipcode-container {
+  align-items: center;
+  background-color: var(--dark-gray);
+  border-radius: 50px;
+  display: inherit;
+  font-size: .85vw;
+  font-weight: bold;
+  padding: 15px 20px 15px 20px;
+}
+
+.popup-search-button{
+  background-color: var(--dark-gray);
+  border: none;
+  border-radius: 100px;
+  color: var(--white);
+  font-size: 1vw;
+  cursor: pointer;
+  padding: 0px 5px 0px 5px;
+}
+
+.popup-search-button:hover{
+  background-color: var(--dark-gray);
+  border: none;
+  color: var(--main-color);
+}
+
+input.popup-zipcode-entry {
+  border: none;
+  border-radius: 30px;
+  background-color: var(--white);
+  color: var(--dark-gray);
+  font-family: 'Raleway', sans-serif;
+  font-weight: bold;
+  font-size: .85vw;
+  margin: 0 5px 0 0px;
+  padding: 5px 10px 5px 10px;
+  width: 100%;
+}
+
+input.popup-zipcode-entry:focus {
+  outline: 0;
+}
+
+/* Information Div Styling */
+
+#information-div-center-wrapper {
+  align-items: center;
+  display: none;
+  height: 100%;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+}
+
+#information-div {
+  align-content: space-around;
+  align-items: flex-start;
+  background-color: var(--white);
+  border-radius: 30px;
+  display: flex;
+  flex-flow: column wrap;
+  height: 30%;
+  width: 15%;
+  justify-content: center;
+  padding: 30px;
+  position: absolute;
+}
+
+/* Search Button Icon Styling */
+
+.search-button{
   background-color: var(--white);
   border: none;
   border-radius: 100px;
   color: var(--dark-gray);
+  cursor: pointer;
   font-size: 16pt;
   padding: 0px 5px 0px 5px;
 }
 
-.zipCode-submit-btn:hover{
+.search-button:hover{
   background-color: var(--white);
   border: none;
   color: var(--main-color);
@@ -129,25 +297,15 @@ Main Content Container Styling
   border-radius: 30px;
   -moz-border-radius: 30px;
   -webkit-border-radius: 30px;
+  z-index: -1;
 }
 
-#entry-container {
-  background-color: var(--dark-gray);
-  display: block;
-  height: 100%;
-  opacity: 0.5;
-  position: absolute;
-  width: 100%;
+.map-transparent {
+  z-index: -1 !important;
 }
 
-#options-container {
-  background-color: var(--light-gray) !important;
-  border-radius: 30px;
-  display: block;
-  left: 50%;
-  top: 50%;
-  padding: 30px;
-  position: absolute;
+.map-to-front {
+  z-index: 0 !important;
 }
 
 /*
@@ -162,17 +320,23 @@ Main Content Container Styling
   width: 100%;
 }
 
+#loader-circle-center-wrapper {
+  align-items: center;
+  display: none;
+  height: 100%;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+}
+
 #loader-circle {
   animation: spin 2s linear infinite;
   border: 16px solid white; 
   border-radius: 50%;
   border-top: 16px solid var(--main-color); 
-  display: none;
   height: 200px;
-  left: 50%;
   opacity: 1;
   position: absolute;
-  top: 50%;  
   width: 200px;
 }
 
@@ -184,20 +348,16 @@ Main Content Container Styling
   100% { transform: rotate(360deg); }
 }
 
-.element-display {
-  display: block !important;
-}
-
-.element-hide {
-  display: none !important;
-}
-
-.map-transparent {
-  opacity: 0.5;
-}
-
-.map-opaque {
+/* Mini Loader Circle */
+#mini-loader-circle {
+  animation: spin 2s linear infinite;
+  border: 5px solid var(--dark-gray); 
+  border-radius: 50%;
+  border-top: 5px solid var(--main-color); 
+  height: 20px;
+  margin: 0 0 10px 0;
   opacity: 1;
+  width: 20px;
 }
 
 /*
@@ -232,7 +392,7 @@ Main Content Container Styling
   column-gap: 15px;
   display: grid;
   grid-template-columns: [left] .5fr [right] .5fr;
-  grid-template-rows: [top] .85fr [bottom] .15fr;
+  grid-template-rows: auto;
   padding: 15px;
   row-gap: 15px;
 }
@@ -252,6 +412,13 @@ Main Content Container Styling
   object-fit: cover;
 }
 
+.results-card-right {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+  row-gap: 15px;
+}
+
 .results-rating {
   align-items: center;
   background-color: var(--light-gray);
@@ -266,6 +433,7 @@ Main Content Container Styling
   background-color: var(--main-color);
   border: none;
   border-radius: 30px;
+  cursor: pointer;
   font-family: 'Raleway', sans-serif;
   font-size: large;
   font-weight: bold;
@@ -279,7 +447,14 @@ Main Content Container Styling
 }
 
 .unavailable-website {
+  align-items: center;
   background-color: var(--dark-gray);
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: 'Raleway', sans-serif;
+  font-size: large;
+  font-weight: bold;
   pointer-events: none;
 }
 
@@ -299,6 +474,7 @@ Main Content Container Styling
   border: none;
   border-radius: 30px;
   color: var(--white);
+  cursor: pointer;
   font-family: 'Raleway', sans-serif;
   font-size: large;
   font-weight: bold;
@@ -315,7 +491,7 @@ Main Content Container Styling
 }
 
 @media screen 
-  and (max-device-width: 768px) 
+  and (max-width: 768px) 
   and (-webkit-min-device-pixel-ratio: 1) { 
 
     h1 {
@@ -334,7 +510,7 @@ Main Content Container Styling
       font-size: 12pt;
     }
 
-    .zipCode-submit-btn {
+    .search-button {
       font-size: 12pt;
     }
     
@@ -362,8 +538,8 @@ Main Content Container Styling
 }
 
 @media screen 
-  and (min-device-width: 768px) 
-  and (max-device-width: 1200px) 
+  and (min-width: 768px) 
+  and (max-width: 1200px) 
   and (-webkit-min-device-pixel-ratio: 1) { 
 
     h1 {
@@ -382,7 +558,7 @@ Main Content Container Styling
       font-size: 12pt;
     }
 
-    .zipCode-submit-btn {
+    .search-button {
       font-size: 12pt;
     }
     
@@ -401,8 +577,8 @@ Main Content Container Styling
 }
 
 @media screen 
-  and (min-device-width: 1200px) 
-  and (max-device-width: 1500px) 
+  and (min-width: 1200px) 
+  and (max-width: 1500px) 
   and (-webkit-min-device-pixel-ratio: 1) { 
 
     h1 {
@@ -421,7 +597,7 @@ Main Content Container Styling
       font-size: 12pt;
     }
 
-    .zipCode-submit-btn {
+    .search-button {
       font-size: 12pt;
     }
     
@@ -436,8 +612,8 @@ Main Content Container Styling
 }
 
 @media screen 
-  and (min-device-width: 1500px) 
-  and (max-device-width: 1600px) 
+  and (min-width: 1500px) 
+  and (max-width: 1600px) 
   and (-webkit-min-device-pixel-ratio: 1) { 
 
     h1 {
@@ -456,7 +632,7 @@ Main Content Container Styling
       font-size: 12pt;
     }
 
-    .zipCode-submit-btn {
+    .search-button {
       font-size: 12pt;
     }
 
@@ -465,10 +641,15 @@ Main Content Container Styling
       row-gap: 10px;
     }
 
+    #popup-form-container {
+      height: 40%;
+      width: 15%;
+    }
+
 }
 
 @media screen 
-  and (min-device-width: 1600px)  
+  and (min-width: 1600px)  
   and (-webkit-min-device-pixel-ratio: 1) { 
 
     h1 {
@@ -487,7 +668,7 @@ Main Content Container Styling
       font-size: 16pt;
     }
 
-    .zipCode-submit-btn {
+    .search-button {
       font-size: 16pt;
     }
 
@@ -495,4 +676,35 @@ Main Content Container Styling
       column-gap: 15px;
       row-gap: 15px;
     }
+
+    #popup-form-container {
+      height: 40%;
+      width: 15%;
+    }
+}
+
+@media screen 
+  and (max-height: 900px) {
+
+    #popup-form-container {
+      height: 40%;
+      width: 15%;
+    }
+
+    .results-website-button {
+      font-size: medium;
+    }
+  }
+
+@media screen 
+and (max-height: 800px) {
+
+  #popup-form-container {
+    height: 50%;
+    width: 15%;
+  }
+
+  .results-website-button {
+    font-size: medium;
+  }
 }
