@@ -150,14 +150,14 @@ let totalCardCount = 0;
 let bounds = 0;
 
 // Storing the most recent listings from the latest fetch to get the list of businesses
-let listingsLocalStorage = [];
+let listingsSessionStorage = [];
 
 function fetchList(queryString) {
   bounds = new google.maps.LatLngBounds();
   fetch(queryString).then(response => response.json()).then((listings) => {
     resultsCardsArray = [];
     totalCardCount = 0;
-    listingsLocalStorage = listings;
+    listingsSessionStorage = listings;
     addResultCardsAndMapToTheScreen(listings);
     hideInformationDiv();
     removeLoaderCircle();
@@ -267,23 +267,23 @@ function createRating(rating) {
 }
 
 window.onbeforeunload = function() {
-  localStorage.setItem("listings", JSON.stringify(listingsLocalStorage));
-  localStorage.setItem("location", locationQuery);
-  localStorage.setItem("zipcode", document.getElementById('zipCode').innerText);
-  localStorage.setItem("product", document.getElementById('product').value);
+  sessionStorage.setItem("listings", JSON.stringify(listingsSessionStorage));
+  sessionStorage.setItem("location", locationQuery);
+  sessionStorage.setItem("zipcode", document.getElementById('zipCode').innerText);
+  sessionStorage.setItem("product", document.getElementById('product').value);
 }
 
 window.onload = function() {
-  listingsLocalStorage = JSON.parse(localStorage.getItem("listings"));
-  locationQuery = localStorage.getItem("location");
+  listingsSessionStorage = JSON.parse(sessionStorage.getItem("listings"));
+  locationQuery = sessionStorage.getItem("location");
   bounds = new google.maps.LatLngBounds();
-  let zipcode = localStorage.getItem("zipcode");
-  let product = localStorage.getItem("product");
+  let zipcode = sessionStorage.getItem("zipcode");
+  let product = sessionStorage.getItem("product");
 
-  if (listingsLocalStorage != null && locationQuery != null && zipcode != null) {
+  if (listingsSessionStorage != null && locationQuery != null && zipcode != null) {
     hideEntryContainer();
     document.getElementById('zipCode').innerText = zipcode;
-    addResultCardsAndMapToTheScreen(listingsLocalStorage);
+    addResultCardsAndMapToTheScreen(listingsSessionStorage);
 
     if (product !== "") {
       document.getElementById('product').value = product;
