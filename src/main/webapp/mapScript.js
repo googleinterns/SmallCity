@@ -54,7 +54,7 @@ function reverseGeocodeGeolocation(lat, lng) {
     if (results[0] && status == 'OK') {
       // Gets the last 5 digit number in the address 
       let zipCode = results[0].formatted_address
-                              .match(/[0-9]{5}(-[0-9]{4})?/)[this.length - 1];
+                  .match(/\s([0-9]{5}(-[0-9]{4})?)/)[0].replace(/\s+/g, "");
       document.getElementById('zipCode').innerText = zipCode;
     }
     else {
