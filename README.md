@@ -11,22 +11,23 @@ The U.S Small Business Administration Office of Advocacy defines a small busines
 
 Right now, many small local businesses get lost in the shadow of large businesses on online shopping platforms. But, as buyers continue to purchase more products from the comfort of their own homes, we want to give them an option to support the businesses in their community with ease. In a 2020 survey by Salesforce, 86% of consumers reported that they would pay more to support a small local business. Giving users the ability to filter for small local businesses on an already trusted platform like Google Shopping would allow users to shop locally from wherever they are while boosting local economies. 
 
-# Install Maven
+# SmallCity Development Setup
+## Install Maven
 ```
 mvn install
 ```
 
-# Configuring the Environment Variables
+## Configuring the Environment Variables
 1. Make an env file that is the same format as the envSample file with 
    your correct credentials in the same directory
 2. Find your Google's API Key credential and paste it next to the 
    APIKEY field 
 3. Follow the steps "Set up CX credential" to get your CX Key
 4. To make this file seen by Google's app engine for local and deployment 
-   services copy this file in the target/SmallCity-1/ folder `cp env target/SmallCity-1/`
+   services copy this file to the target/SmallCity-1/ folder `cp env target/SmallCity-1/`
    - The target directory is created after you follow the build instructions
 
-# Get CX (Search Engine ID) Credential
+## Get CX (Search Engine ID) Credential
 1. Go to Google's programmable [search console](https://cse.google.com/all)
 2. Press the add button 
 3. Under Sites to search, type https://www.linkedin.com/company/
@@ -39,7 +40,7 @@ mvn install
 
 GIF created with [LICEcap](http://www.cockos.com/licecap/)
 
-# Test Instructions
+## Test Instructions
 Run all tests
 ```
 mvn test
@@ -50,12 +51,12 @@ Run one test class file
 mvn -Dtest=FileNameOfTestClass test
 ```
 
-# Run The Application Locally
+## Run The Application Locally
 ```
 mvn package appengine:run
 ```
 
-# Deploying The Application Instructions
+## Deploying The Application Instructions
 1. Navigate to https://console.cloud.google.com/home/dashboard.
 2. Make sure your project is selected in the dropdown at the top.
 3. Find the Project ID on that page.
