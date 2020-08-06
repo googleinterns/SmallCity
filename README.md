@@ -40,6 +40,12 @@ mvn install
 
 GIF created with [LICEcap](http://www.cockos.com/licecap/)
 
+## API Key Setup in the paginationScript.js and index.html file
+1. In the paginationScript.js file find the variable key and paste 
+   your Google's API Key credetional 
+2. Finde the script tag on line 70 and where the src link says REDACTED 
+   change that to your Google's API Key credetional 
+   
 ## Test Instructions
 Run all tests
 ```
