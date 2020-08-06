@@ -27,6 +27,8 @@ const UNAVAILABLE_BUTTON_TEXT = 'Website Unavailable';
 
 const KEY = 'REDACTED';
 
+let currentFirstCardIndex = 0;
+
 //Display the initial 3 cards in the list
 function initialDisplay() {
   resultsContent.innerHTML = '';
@@ -35,49 +37,64 @@ function initialDisplay() {
 
 //Navigate back one page (3 results) in the list view
 function navigatePrevious() {
-  displayCards((-TOTAL_CARDS_TO_DISPLAY));
+  currentFirstCardIndex = parseInt(resultsChildren[0].id);
+  displayCards(calculateListAugment(-TOTAL_CARDS_TO_DISPLAY));
 }
 
 //Move forward one page (3 results) in the list view
 function moveNext() {
-  displayCards(TOTAL_CARDS_TO_DISPLAY);
+  currentFirstCardIndex = parseInt(resultsChildren[0].id);
+  displayCards(calculateListAugment(TOTAL_CARDS_TO_DISPLAY));
 }
+
+function calculateListAugment(intendedAugment) {
+  let listAugment = intendedAugment;
+
+  if ((currentFirstCardIndex == 0) && (listAugment < 0)) {
+    listAugment = 0;
+  }
+  else if (currentFirstCardIndex == (MAX_LIST_VIEW_NUMBER - TOTAL_CARDS_TO_DISPLAY) && (listAugment > 0)) {
+    listAugment = 0;
+  }
+
+  return listAugment;
+}
+
+
 
 //Handles the actual loop through array and display of cards
 function displayCards(listAugment) {
-  let currentFirstCardIndex = 0;
 
-  if (resultsChildren.length != 0) {
-    currentFirstCardIndex = parseInt(resultsChildren[0].id);
-  }
-
-  if ((currentFirstCardIndex == 0) && (listAugment < 0)) {
-    alert('Already at beginning of list!');
-  }
-  else if (currentFirstCardIndex == (MAX_LIST_VIEW_NUMBER - TOTAL_CARDS_TO_DISPLAY) && (listAugment > 0)) {
-    alert('Already at end of list!');
-  }
-  else {
-    currentFirstCardIndex += listAugment; 
-
-    resultsContent.innerHTML = '';
-    for (let i = currentFirstCardIndex; i < (currentFirstCardIndex + TOTAL_CARDS_TO_DISPLAY); i++) {
-      //Card being appended to the resultsContent div
-      let cardToAppend = resultsCardsArray[i];
-
-      //The actual image element to which the image src will be applied
-      let resultsImageElement = locateImageElement(cardToAppend.card);
-
-      if (cardToAppend.photoReference != 'none') {
-        loadImage(resultsImageElement, cardToAppend.photoReference);
-      }
-
-      let websiteButtonElement = locateWebsiteUrlElement(cardToAppend.card);
-      loadWebsiteUrl(websiteButtonElement, cardToAppend.placeId);
-
-      resultsContent.appendChild(cardToAppend.card);
+  if ((resultsChildren.length != 0) && (listAugment == 0)) {
+    if (currentFirstCardIndex == 0) {
+      alert('Already at beginning of list!');
     }
+    else if (currentFirstCardIndex == (MAX_LIST_VIEW_NUMBER - TOTAL_CARDS_TO_DISPLAY)) {
+      alert('Already at end of list!');
+    }
+    return;
   }
+
+  currentFirstCardIndex += listAugment; 
+
+  resultsContent.innerHTML = '';
+  for (let i = currentFirstCardIndex; i < (currentFirstCardIndex + TOTAL_CARDS_TO_DISPLAY); i++) {
+    //Card being appended to the resultsContent div
+    let cardToAppend = resultsCardsArray[i];
+
+    //The actual image element to which the image src will be applied
+    let resultsImageElement = locateImageElement(cardToAppend.card);
+
+    if (cardToAppend.photoReference != 'none') {
+      loadImage(resultsImageElement, cardToAppend.photoReference);
+    }
+
+    let websiteButtonElement = locateWebsiteUrlElement(cardToAppend.card);
+    loadWebsiteUrl(websiteButtonElement, cardToAppend.placeId);
+
+    resultsContent.appendChild(cardToAppend.card);
+  }
+  
 }  
 
 function locateImageElement(card) {
@@ -136,3 +153,5 @@ function linkWebsite(websiteUrl, websiteButton) {
     window.open(websiteUrl);
   });
 }
+
+module.exports = paginationScript;
