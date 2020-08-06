@@ -3,6 +3,7 @@ package com.google.sps.data;
 import com.google.maps.GeoApiContext;
 import com.google.maps.PlacesApi;
 import com.google.maps.NearbySearchRequest;
+import com.google.maps.TextSearchRequest;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.LocationType;
 import com.google.maps.model.Photo;
@@ -48,7 +49,12 @@ public class BusinessesService {
   private final String KEY = dotenv.get("APIKEY");
   private final static Logger LOGGER = 
         Logger.getLogger(BusinessesService.class.getName());
+  
   private final int ALLOWED_SEARCH_REQUESTS = 3;
+  private final int MAX_ALLOWED_TEXT_SEARCH_RADIUS = 50000;
+  private final int INITIAL_RADIUS = 1500;
+  private final int RADIUS_MULTIPLIER = 4;
+  private final int MAX_NUMBER_OF_RESULTS_PER_REQUEST = 20;
   private final int MIN_FOLLOWERS = 50000;
   private final int SMALL_BUSINESSES_DISPLAYED = 15;
   private final String START_SUBSTRING = "| ";
@@ -67,7 +73,45 @@ public class BusinessesService {
     this.allBusinesses = allBusinesses;
   }
   
-  public List<Listing> getBusinessesFromPlacesApi(MapLocation mapLocation) {
+  public List<Listing> 
+        getBusinessesFromTextSearch(MapLocation mapLocation, String product) {
+    latLng = new LatLng(mapLocation.lat, mapLocation.lng);
+    final GeoApiContext context = new GeoApiContext.Builder()
+            .apiKey(KEY)
+            .build();
+    TextSearchRequest request = PlacesApi.textSearchQuery(context, product);
+    int radius = INITIAL_RADIUS;
+
+    try {
+      PlacesSearchResponse response = request.location(latLng)
+              .radius(radius)
+              .await();
+
+      while (response.results.length < MAX_NUMBER_OF_RESULTS_PER_REQUEST && 
+             radius < MAX_ALLOWED_TEXT_SEARCH_RADIUS) {
+        // Increase radius if there are less than 20 results 
+        radius *= RADIUS_MULTIPLIER;
+        response = request.location(latLng).radius(radius).await();
+      }
+
+      for (int i=0; i<ALLOWED_SEARCH_REQUESTS; i++) {
+        for(PlacesSearchResult place : response.results) {
+          addListingToBusinesses(place);
+        }
+        //Maximum of 2 next token requests allowed
+        if (i < 2) {
+          Thread.sleep(2000); // Required delay before next API request
+          response = PlacesApi
+                .textSearchNextPage(context, response.nextPageToken).await();
+        }
+      }
+    } catch(Exception e) {
+      LOGGER.warning(e.getMessage());
+    }  
+    return allBusinesses;
+  }
+
+  public List<Listing> getBusinessesFromNearbySearch(MapLocation mapLocation) {
     latLng = new LatLng(mapLocation.lat, mapLocation.lng);
     final GeoApiContext context = new GeoApiContext.Builder()
             .apiKey(KEY)
@@ -79,8 +123,7 @@ public class BusinessesService {
               .await();
       for (int i=0; i<ALLOWED_SEARCH_REQUESTS; i++) {
         for(PlacesSearchResult place : response.results) {
-          String url = getUrlFromPlaceDetails(context, place.placeId);
-          addListingToBusinesses(place, url);
+          addListingToBusinesses(place);
         }
         //Maximum of 2 next token requests allowed
         if (i < 2) {
@@ -94,35 +137,26 @@ public class BusinessesService {
     }  
     return allBusinesses;
   }
-  
-  private String getUrlFromPlaceDetails(GeoApiContext context, String placeId) {
-    try {
-      PlaceDetails result = 
-            new PlaceDetailsRequest(context).placeId(placeId).await();
-      if (result.website != null) {
-        return (result.website.toString());
-      }
-      else {
-        return (result.url.toString());
-      }
-    } catch(Exception e) {
-      LOGGER.warning(e.getMessage());
-    }
-    // Place Details failure
-    return "";
-  }
 
-  private void addListingToBusinesses(PlacesSearchResult place, String url) {
+  private void addListingToBusinesses(PlacesSearchResult place) {
     String name = place.name;
-    String formattedAddress = place.vicinity;
+    String formattedAddress;
+    if (place.vicinity != null) {
+      formattedAddress = place.vicinity;
+    }
+    else {
+      formattedAddress = place.formattedAddress;
+    }
     Geometry geometry = place.geometry;
     MapLocation placeLocation = 
           new MapLocation(geometry.location.lat, geometry.location.lng);
     double rating = place.rating;
     Photo photos[] = place.photos;
     String types[] = place.types;
-    allBusinesses.add(new Listing(name, formattedAddress, 
-          placeLocation, rating, photos, types, url));
+    String placeId = place.placeId;
+    Listing listing = new Listing(name, formattedAddress, 
+          placeLocation, rating, photos, types, placeId);
+    allBusinesses.add(listing);
   }
 
   public List<Listing> removeBigBusinessesFromResults() {
