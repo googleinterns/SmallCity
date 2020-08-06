@@ -14,32 +14,132 @@
 
 const alertMessage = 'Sorry! We cannot geolocate you. Please enter a zipcode';
 let map;
+let locationQuery = '';
+let product = '';
 
 function getGeolocation() {
-
+  hideEntryContainer();
+  displayInformationDiv();
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(displayLocation, displayError);
   }
   else {
     console.log('Browser does not support geolocation');
+    hideInformationDiv();
+    displayEntryContainer();
     alert(alertMessage);
+    
   }
 }
 
 function displayLocation(position) {
   let lat = position.coords.latitude;
   let lng = position.coords.longitude;
-  fetchList('/data?lat=' + lat + "&lng=" + lng);
+  reverseGeocodeGeolocation(lat, lng);
+  locationQuery = '/data?lat=' + lat + '&lng=' + lng;
+  fetchByQueryString();
 }
 
 function displayError() {
   console.log('Geolocation not enabled');
+  hideInformationDiv();
+  displayEntryContainer();
   alert(alertMessage);
 }
 
 function getZipCode() {
-  let zip = document.getElementById('zipCode').value;
-  fetchList('/data?zipCode=' + zip);
+  hideEntryContainer();
+  displayInformationDiv();
+  zip = document.getElementById('entryZipCode').value;
+  if (isValidInput(zip)) {
+    document.getElementById('zipCode').innerText = zip;
+    locationQuery = '/data?zipCode=' + zip;
+    fetchByQueryString();
+  }
+  else {
+    window.alert('Invalid input. Try again.'); 
+  }
+}
+
+function getProduct() {
+  initiateLoaderCircle();
+  fetchByQueryString();
+}
+
+function fetchByQueryString() {
+product = document.getElementById('product').value;
+  if (product === '') {
+    fetchList(locationQuery + '&product=');
+  }
+  else {
+    fetchList(locationQuery + '&product=' + product);
+  }
+}
+
+/* Background blur, loader, information div, and popup control */
+
+let backgroundBlurDiv = document.getElementById('background-blur-div');
+let popupFormCenterWrapper = document.getElementById('popup-form-center-wrapper');
+let informationDivCenterWrapper = document.getElementById('information-div-center-wrapper');
+let loaderCircleElement = document.getElementById('loader-circle-center-wrapper');
+let mapElement = document.getElementById('map');
+
+function displayEntryContainer() {
+  backgroundBlurDiv.className = 'blurred-element-display';
+  popupFormCenterWrapper.className = 'centered-element-display';
+  mapElement.className = 'map-to-back';
+  document.getElementById('entryZipCode').placeholder 
+        = document.getElementById('zipCode').innerText;
+}
+
+function hideEntryContainer() {
+  backgroundBlurDiv.className = 'element-hide';
+  popupFormCenterWrapper.className = 'element-hide';
+  mapElement.className = 'map-to-front';
+}
+
+function initiateLoaderCircle() {
+  backgroundBlurDiv.className = 'blurred-element-display';
+  loaderCircleElement.className = 'centered-element-display';
+  mapElement.className = 'map-to-back';
+}
+
+function removeLoaderCircle() {
+  backgroundBlurDiv.className = 'element-hide';
+  loaderCircleElement.className = 'element-hide';
+  mapElement.className = 'map-to-front';
+}
+
+function displayInformationDiv() {
+  backgroundBlurDiv.className = 'blurred-element-display';
+  informationDivCenterWrapper.className = 'centered-element-display';
+  mapElement.className = 'map-to-back';
+}
+
+function hideInformationDiv() {
+  backgroundBlurDiv.className = 'element-hide';
+  informationDivCenterWrapper.className = 'element-hide';
+  mapElement.className = 'map-to-front';
+}
+
+function isValidInput(zip) {
+  let len = zip.length;
+  if (len === 0) {  
+    return false; 
+  }
+  
+  for (let i=0; i<len; i++) {
+    let charCode = zip.charCodeAt(i);
+    if (!(charCode >= 48 && charCode <= 57) &&      // digits
+          !(charCode >= 65 && charCode <= 90) &&    // uppercase letters
+          !(charCode >= 97 && charCode <= 122) &&   // lowercase letters
+          !(charCode === 44) &&                     // comma
+          !(charCode === 32)) {                     // space
+      return false;
+    }
+  }
+  
+  return true;
 }
 
 //Array of the (currently 6 for this demo build) 15 listings gathered from the fetch request
@@ -49,42 +149,33 @@ let resultsCardsArray = [];
 let totalCardCount = 0;
 let bounds = 0;
 
+// Storing the most recent listings from the latest fetch to get the list of businesses
+let listingsSessionStorage = [];
+
 function fetchList(queryString) {
-  initiateLoaderCircle();
   bounds = new google.maps.LatLngBounds();
   fetch(queryString).then(response => response.json()).then((listings) => {
     resultsCardsArray = [];
     totalCardCount = 0;
-    initMap(listings[0].mapLocation);
+    listingsSessionStorage = listings;
+    addResultCardsAndMapToTheScreen(listings);
+    hideInformationDiv();
+    removeLoaderCircle();
+  });
+}
+
+function addResultCardsAndMapToTheScreen(listings){
+  initMap(listings[0].mapLocation);
     listings.forEach((listing) => {
       resultsCardsArray.push(createResultCard(listing.name, listing.formattedAddress, 
-            listing.photos, listing.rating, listing.url, totalCardCount));
+            listing.photos, listing.rating, listing.placeId, totalCardCount));
 
       if (totalCardCount < 15) createMarker(listing, totalCardCount);
       totalCardCount++;
     }); 
     initialDisplay();
-    map.fitBounds(bounds);  
-    removeLoaderCircle();
-  });
-}
-
-// Style elements being alterned by loader
-let loaderCircleElement = document.getElementById('loader-circle');
-let loaderCircleContainerElement = document.getElementById('loader-circle-container');
-let mapElement = document.getElementById('map');
-
-function initiateLoaderCircle() {
-  loaderCircleElement.className = 'loader-circle-display';
-  loaderCircleContainerElement.className = 'loader-circle-display';
-  mapElement.className = 'map-transparent';
-}
-
-function removeLoaderCircle() {
-  loaderCircleElement.className = 'loader-circle-hide';
-  loaderCircleContainerElement.className = 'loader-circle-hide';
-  mapElement.className = 'map-opaque';
-}
+    map.fitBounds(bounds); 
+} 
 
 /**
  * @param {string} name The name of the business
@@ -94,16 +185,21 @@ function removeLoaderCircle() {
  * @param {string} websiteUrl The url of the business' website
  * @param {int} totalCardCount The number of businesses in the list, used to set a specific id to each card
  */
-function createResultCard(name, address, photos, rating, websiteUrl, totalCardCount) {
+function createResultCard(name, address, photos, rating, passedPlaceId, totalCardCount) {
+
   const resultsCard = document.createElement('div');
   resultsCard.className = 'results-card';
   resultsCard.id = totalCardCount;
+
+  const resultsCardRight = document.createElement('div');
+  resultsCardRight.className = 'results-card-right';
 
   const imageDiv = document.createElement('div');
   imageDiv.className = 'results-image';
 
   const imageElement = document.createElement('img');
   imageElement.id = 'results-image-element';
+  imageElement.src = '/images/image_not_found_two.png';
 
   let resultPhotoReference = '';
   if ((photos != null) && (photos.length > 0)) {
@@ -127,42 +223,25 @@ function createResultCard(name, address, photos, rating, websiteUrl, totalCardCo
   nameAndAddressDiv.appendChild(addressParagraph);
 
   const ratingDiv = createRating(rating);
-
+  
   const websiteButton = document.createElement('button');
   websiteButton.className = 'results-website-button';
-  if (websiteUrl.includes('maps.google.com')) {
-    websiteButton.innerText = 'Visit Location on Google Maps';
-    linkWebsite(websiteUrl, websiteButton);
-  }
-  else if (websiteUrl === '') {
-    websiteButton.innerText = 'Website Unavailable';
-    websiteButton.className = 'unavailable-website';
-  }
-  else {
-    websiteButton.innerText = 'Visit Website';
-    linkWebsite(websiteUrl, websiteButton);
-  }
     
+  resultsCardRight.appendChild(nameAndAddressDiv);
+  resultsCardRight.appendChild(ratingDiv);
+  resultsCardRight.appendChild(websiteButton);
 
   resultsCard.appendChild(imageDiv);
-  resultsCard.appendChild(nameAndAddressDiv);
-  resultsCard.appendChild(ratingDiv);
-  resultsCard.appendChild(websiteButton);
-
+  resultsCard.appendChild(resultsCardRight);
+  
   //Creates object that contains the resultCard and photoReference to append to array
   let resultsCardObject = {
     card: resultsCard,
-    photoReference: resultPhotoReference
+    photoReference: resultPhotoReference,
+    placeId: passedPlaceId
   };
 
   return resultsCardObject;
-}
-
-function linkWebsite(websiteUrl, websiteButton) {
-  // Equivalent to HTML's 'onClick'
-  websiteButton.addEventListener('click', function() {
-    window.open(websiteUrl);
-  });
 }
 
 /**
@@ -185,4 +264,29 @@ function createRating(rating) {
   ratingDiv.innerText += (' ' + rating.toFixed(1));
   
   return ratingDiv;
+}
+
+window.onbeforeunload = function() {
+  sessionStorage.setItem("listings", JSON.stringify(listingsSessionStorage));
+  sessionStorage.setItem("location", locationQuery);
+  sessionStorage.setItem("zipcode", document.getElementById('zipCode').innerText);
+  sessionStorage.setItem("product", document.getElementById('product').value);
+}
+
+window.onload = function() {
+  listingsSessionStorage = JSON.parse(sessionStorage.getItem("listings"));
+  locationQuery = sessionStorage.getItem("location");
+  bounds = new google.maps.LatLngBounds();
+  let zipcode = sessionStorage.getItem("zipcode");
+  let product = sessionStorage.getItem("product");
+
+  if (listingsSessionStorage != null && locationQuery != null && zipcode != null) {
+    hideEntryContainer();
+    document.getElementById('zipCode').innerText = zipcode;
+    addResultCardsAndMapToTheScreen(listingsSessionStorage);
+
+    if (product !== "") {
+      document.getElementById('product').value = product;
+    }
+  }
 }
