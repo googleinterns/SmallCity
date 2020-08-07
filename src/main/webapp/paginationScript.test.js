@@ -17,22 +17,22 @@ const calculateListAugment = require('./paginationScript');
 const TOTAL_CARDS_TO_DISPLAY = 3;
 const MAX_LIST_VIEW_NUMBER = 15;
 
-test('It calculateListAugment performs as expected when at beginning of list', () => {
+test('If calculateListAugment performs as expected when at beginning of list', () => {
   currentFirstCardIndex = 0;
   expect(calculateListAugment(-TOTAL_CARDS_TO_DISPLAY)).toEqual(0);
 });
 
-test('It calculateListAugment performs as expected when at end of list', () => {
+test('If calculateListAugment performs as expected when at end of list', () => {
   currentFirstCardIndex = MAX_LIST_VIEW_NUMBER - TOTAL_CARDS_TO_DISPLAY;
   expect(calculateListAugment(TOTAL_CARDS_TO_DISPLAY)).toEqual(0);
 });
 
-test('It calculateListAugment performs as expeced when not at beginning or end of list, moving next', () => {
+test('If calculateListAugment performs as expeced when not at beginning or end of list, moving next', () => {
   currentFirstCardIndex = 3;
   expect(calculateListAugment(TOTAL_CARDS_TO_DISPLAY)).toEqual(3);
 });
 
-test('It calculateListAugment performs as expeced when not at beginning or end of list, moving previous', () => {
+test('If calculateListAugment performs as expeced when not at beginning or end of list, moving previous', () => {
   currentFirstCardIndex = 3;
   expect(calculateListAugment(-TOTAL_CARDS_TO_DISPLAY)).toEqual(0);
 });
