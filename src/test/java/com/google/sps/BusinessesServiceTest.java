@@ -13,17 +13,17 @@ import static org.mockito.Mockito.*;
 @RunWith(JUnit4.class)
 public final class BusinessesServiceTest {
 
-  private final int MIN_LISTINGS_RETURNED = 20;
-  private final int MAX_LISTINGS_RETURNED = 60;
+  private final int MIN_LISTINGS_ALLOWED = 20;
+  private final int MAX_LISTINGS_ALLOWED = 60;
   
   // Address location in Owings Mills, MD
   private final MapLocation TEST_MAP_LOCATION = new MapLocation(39.459836, -76.742536);
   private final String TEST_PRODUCT = "pizza";
 
-  private final List<Listing> TEST_PASSED_LIST = new LinkedList<>();
+  private final List<Listing> TEST_ALL_BUSINESSES = new LinkedList<>();
 
   private BusinessesService mockedBusinessesService = mock(BusinessesService.class);
-  private BusinessesService testBusinessesService = new BusinessesService(TEST_PASSED_LIST);
+  private BusinessesService testBusinessesService = new BusinessesService(TEST_ALL_BUSINESSES);
   
   // 3 known returned businesses
   private List<Listing> TEST_TEXT_SEARCH_RESULT = 
@@ -59,18 +59,18 @@ public final class BusinessesServiceTest {
     List<Listing> actual = testBusinessesService
           .getBusinessesFromTextSearch(TEST_MAP_LOCATION, TEST_PRODUCT);
 
-    Assert.assertTrue(actual.size() >= MIN_LISTINGS_RETURNED);
-    Assert.assertTrue(actual.size() <= MAX_LISTINGS_RETURNED);
+    Assert.assertTrue(actual.size() >= MIN_LISTINGS_ALLOWED);
+    Assert.assertTrue(actual.size() <= MAX_LISTINGS_ALLOWED);
     
-    int containsCounter = 0;
+    int expectedListingsFound = 0;
     for (Listing expectedListing : expected) {
       for (Listing actualListing : actual) {
         if (expectedListing.getName().equals(actualListing.getName())) {
-          containsCounter++;
+          expectedListingsFound++;
         }
       }
     }
-    Assert.assertEquals(containsCounter, expected.size());
+    Assert.assertEquals(expectedListingsFound, expected.size());
   }
 
   @Test
@@ -82,17 +82,17 @@ public final class BusinessesServiceTest {
     List<Listing> actual = testBusinessesService
           .getBusinessesFromNearbySearch(TEST_MAP_LOCATION);
 
-    Assert.assertTrue(actual.size() >= MIN_LISTINGS_RETURNED);
-    Assert.assertTrue(actual.size() <= MAX_LISTINGS_RETURNED);
+    Assert.assertTrue(actual.size() >= MIN_LISTINGS_ALLOWED);
+    Assert.assertTrue(actual.size() <= MAX_LISTINGS_ALLOWED);
 
-    int containsCounter = 0;
+    int expectedListingsFound = 0;
     for (Listing expectedListing : expected) {
       for (Listing actualListing : actual) {
         if (expectedListing.getName().equals(actualListing.getName())) {
-          containsCounter++;
+          expectedListingsFound++;
         }
       }
     }
-    Assert.assertEquals(containsCounter, expected.size());
+    Assert.assertEquals(expectedListingsFound, expected.size());
   }
 }
