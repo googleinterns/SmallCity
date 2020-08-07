@@ -2,7 +2,9 @@
 | Created by Abakir Hanna, Ethan Mooney, and Lindsey Weiskopf 
 
 | [SmallCity Live Demo](https://step2020-smallcity.appspot.com/)
+
 |[![Watch the video](https://imgur.com/2fpFMD9.png)](https://www.youtube.com/watch?v=8OMsz8AN28M&feature=youtu.be)
+
 ### Objective
 We aim to create a web platform for users to find products from local small businesses. Our web app will increase exposure to local businesses of interest in their community. 
 
