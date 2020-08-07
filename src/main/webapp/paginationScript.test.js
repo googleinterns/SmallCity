@@ -18,25 +18,21 @@ const TOTAL_CARDS_TO_DISPLAY = 3;
 const MAX_LIST_VIEW_NUMER = 15;
 
 test('It calculateListAugment performs as expected when at beginning of list', () => {
-  //Beginning of list
   currentFirstCardIndex = 0;
   expect(calculateListAugment(-TOTAL_CARDS_TO_DISPLAY)).toEqual(0);
 });
 
 test('It calculateListAugment performs as expected when at end of list', () => {
-  //End of list
   currentFirstCardIndex = MAX_LIST_VIEW_NUMER - TOTAL_CARDS_TO_DISPLAY;
   expect(calculateListAugment(TOTAL_CARDS_TO_DISPLAY)).toEqual(0);
 });
 
 test('It calculateListAugment performs as expeced when not at beginning or end of list, moving next', () => {
-  //End of list
   currentFirstCardIndex = MAX_LIST_VIEW_NUMER - TOTAL_CARDS_TO_DISPLAY;
   expect(calculateListAugment(TOTAL_CARDS_TO_DISPLAY)).toEqual(3);
 });
 
 test('It calculateListAugment performs as expeced when not at beginning or end of list, moving previous', () => {
-  //End of list
   currentFirstCardIndex = MAX_LIST_VIEW_NUMER - TOTAL_CARDS_TO_DISPLAY;
   expect(calculateListAugment(-TOTAL_CARDS_TO_DISPLAY)).toEqual(0);
 });
