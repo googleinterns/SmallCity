@@ -28,12 +28,12 @@ test('It calculateListAugment performs as expected when at end of list', () => {
 });
 
 test('It calculateListAugment performs as expeced when not at beginning or end of list, moving next', () => {
-  currentFirstCardIndex = MAX_LIST_VIEW_NUMER - TOTAL_CARDS_TO_DISPLAY;
+  currentFirstCardIndex = 3;
   expect(calculateListAugment(TOTAL_CARDS_TO_DISPLAY)).toEqual(3);
 });
 
 test('It calculateListAugment performs as expeced when not at beginning or end of list, moving previous', () => {
-  currentFirstCardIndex = MAX_LIST_VIEW_NUMER - TOTAL_CARDS_TO_DISPLAY;
+  currentFirstCardIndex = 3;
   expect(calculateListAugment(-TOTAL_CARDS_TO_DISPLAY)).toEqual(0);
 });
 
